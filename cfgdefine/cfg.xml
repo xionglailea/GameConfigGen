@@ -1,0 +1,10 @@
+<cfgDefine>
+    <name>vision</name>
+    <!--all,server,client 从3个group里面选一个-->
+    <group>all</group>
+    <rootPackage>cfg</rootPackage>
+    <includes>
+        <item>test1/item.xml</item>
+        <item>test2/map.xml</item>
+    </includes>
+</cfgDefine>
