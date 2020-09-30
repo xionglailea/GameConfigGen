@@ -4,9 +4,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-/**
- *  2017/5/2.
- */
 
 public class Octets {
 
@@ -487,42 +484,6 @@ public class Octets {
             writeCompactUint(0);
         }
     }
-
-  /*
-      public Binary readBinary() {
-              int n = readCompactUint();
-              sureRead(n);
-              int start = beginPos;
-              beginPos += n;
-              return Binary.wrap(Arrays.copyOfRange(data, start, beginPos));
-      }
-
-      public void writeBinary(Binary x) {
-              byte[] bytes = x.array();
-              int n = bytes.length;
-              writeCompactUint(n);
-              sureWrite(n);
-              System.arraycopy(bytes, 0, data, endPos, n);
-              endPos += n;
-      }
-
-  public byte[] readByteArray() {
-      int n = readCompactUint();
-      sureRead(n);
-      int start = beginPos;
-      beginPos += n;
-      return Arrays.copyOfRange(data, start, beginPos);
-  }
-
-  public void writeByteArray(byte[] x) {
-      int n = x.length;
-      writeCompactUint(n);
-      sureWrite(n);
-      System.arraycopy(x, 0, data, endPos, n);
-      endPos += n;
-  }
-
-      */
 
     public void writeOctets(Octets o) {
         int n = o.size();

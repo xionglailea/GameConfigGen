@@ -1,6 +1,13 @@
 import cn.hutool.core.io.FileUtil;
-import constdef.StringConst;
 import generator.Context;
+import generator.task.AbsTask;
+import generator.task.ExportDataTask;
+import generator.task.GenCodeTask;
+import generator.task.LoadDataTask;
+import generator.task.ParseDefineTask;
+import generator.task.PreProcessTask;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 启动入口
@@ -16,11 +23,16 @@ public class Main {
         FileUtil.del(".temp/data");
 
         Context context = Context.getIns();
-        context.parseDefine(StringConst.CSV_CFG);
-        context.resolve();
-        context.genCode();
-        context.loadData(); //检查数据
-        context.exportData(); //导出数据
 
+        List<AbsTask> tasks = new ArrayList<>();
+        tasks.add(new ParseDefineTask(context));
+        tasks.add(new PreProcessTask(context));
+        tasks.add(new GenCodeTask(context));
+        tasks.add(new LoadDataTask(context));
+        tasks.add(new ExportDataTask(context));
+
+        for (AbsTask task : tasks) {
+            task.run();
+        }
     }
 }
