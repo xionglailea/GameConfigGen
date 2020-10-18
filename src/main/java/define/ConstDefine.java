@@ -1,7 +1,7 @@
 package define;
 
 import define.column.ConstField;
-import generator.JavaGenerator;
+import generator.language.JavaGenerator;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

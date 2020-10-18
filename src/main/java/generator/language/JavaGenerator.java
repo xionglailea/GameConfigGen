@@ -1,4 +1,4 @@
-package generator;
+package generator.language;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ClassLoaderUtil;

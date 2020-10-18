@@ -11,7 +11,7 @@ import define.data.type.IDataList;
 import define.type.IBean;
 import define.type.IType;
 import generator.Context;
-import generator.JavaGenerator;
+import generator.language.JavaGenerator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +44,7 @@ public class BeanDefine extends AbsClassDefine {
     /**
      * 直接孩子
      */
-    private List<BeanDefine> childs = new ArrayList<>();
+    private List<BeanDefine> children = new ArrayList<>();
 
     //定义的进一步解析
     @JsonIgnore
@@ -100,14 +100,14 @@ public class BeanDefine extends AbsClassDefine {
      * 将子bean的父子关系关联上
      */
     private void linkParent(BeanDefine parent, BeanDefine curBean, String packageName) {
-        if (curBean.getChilds().isEmpty()) {
+        if (curBean.getChildren().isEmpty()) {
             if (parent != null) {
                 parent.getLeafChildren().add(curBean);
             }
             return;
         }
         curBean.setDynamic(true);
-        for (var e : curBean.getChilds()) {
+        for (var e : curBean.getChildren()) {
             e.setPackageName(packageName);
             e.setFullName(packageName + "." + e.getName());
             e.setParent(curBean);

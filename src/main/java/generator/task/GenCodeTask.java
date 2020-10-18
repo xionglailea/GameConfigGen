@@ -2,7 +2,7 @@ package generator.task;
 
 import cn.hutool.core.io.FileUtil;
 import generator.Context;
-import generator.JavaGenerator;
+import generator.language.JavaGenerator;
 
 /**
  * 生成代码
