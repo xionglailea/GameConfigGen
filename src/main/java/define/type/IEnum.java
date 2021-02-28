@@ -25,6 +25,11 @@ public class IEnum implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return "enum";
+    }
+
+    @Override
     public String getJavaType() {
         return "int";
     }

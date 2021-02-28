@@ -1,6 +1,7 @@
 package define;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import constdef.StringConst;
 import datastream.Octets;
 import define.column.BeanField;
@@ -44,6 +45,7 @@ public class BeanDefine extends AbsClassDefine {
     /**
      * 直接孩子
      */
+    @JsonProperty(value = "childs")
     private List<BeanDefine> children = new ArrayList<>();
 
     //定义的进一步解析

@@ -28,6 +28,11 @@ public class ILong implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return "long";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin + "L";
     }

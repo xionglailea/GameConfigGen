@@ -28,6 +28,11 @@ public class IInt implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return "int";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin;
     }

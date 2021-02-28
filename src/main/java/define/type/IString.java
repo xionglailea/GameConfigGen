@@ -25,6 +25,11 @@ public class IString implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return "string";
+    }
+
+    @Override
     public String getUnmarshalMethodName() {
         throw new RuntimeException("unsupport method");
     }

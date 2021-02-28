@@ -1,4 +1,4 @@
-package define.visit;
+package define.visit.java;
 
 
 import define.type.IBean;

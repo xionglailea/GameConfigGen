@@ -2,7 +2,8 @@ package define.type;
 
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
-import define.visit.ExtUnmarshal;
+import define.visit.cs.CsExtUnmarshal;
+import define.visit.java.ExtUnmarshal;
 import define.visit.Unmarshal;
 import java.util.function.Consumer;
 
@@ -33,6 +34,10 @@ public interface IType {
         return ExtUnmarshal.INS.accept(this);
     }
 
+    default String getCsExtUnmarshal() {
+        return CsExtUnmarshal.INS.accept(this);
+    }
+
     default String getUnmarshalMethodName() {
         return "unmarshal_" + this.toString();
     }
@@ -46,5 +51,9 @@ public interface IType {
     default boolean canBeIndex() {
         return false;
     }
+
+    //cs 接口
+
+    String getCsType();
 
 }
