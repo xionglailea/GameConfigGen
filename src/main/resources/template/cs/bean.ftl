@@ -1,47 +1,54 @@
-package ${packageName};
-import lombok.Getter;
-
+using System;
 /**
 * ${comment}
 */
-@Getter
+namespace ${packageName}
+{
 <#if hasParent == true && dynamic == true>
-public abstract class ${name} extends ${parent.fullName} {
+    public abstract class ${name} : ${parent.fullName}
+    {
 <#elseif hasParent == false && dynamic == true>
-public abstract class ${name} {
+    public abstract class ${name}
+    {
 <#elseif hasParent == true && dynamic == false>
-public final class ${name} extends ${parent.fullName} {
+    public sealed class ${name} : ${parent.fullName}
+    {
 <#else>
-public final class ${name} {
+    public sealed class ${name}
+    {
 </#if>
 
 <#list fields as field>
     <#if field.canExport() == true>
-    private final ${field.runType.getJavaType()} ${field.name}; //${field.comment}
+        private ${field.runType.getCsType()} ${field.name} {get;}; //${field.comment}
     </#if>
 </#list>
 
-    public ${name}(datastream.Octets os) {
 <#if hasParent == true>
-        super(os);
+        public ${name}(datastream.Octets os) : base(os)
+<#else>
+        public ${name}(datastream.Octets os)
 </#if>
+        {
 <#list fields as field>
         <#if field.canExport() == true>
-        ${field.name} = ${field.runType.getUnmarshal()};
+            ${field.name} = ${field.runType.getUnmarshal()};
         </#if>
 </#list>
-    }
+        }
 <#list fields as field>
     <#if field.canExport() == true>
     <#if field.hasRef()>
         <#assign typeName = field.runType.getTypeName()>
         <#if typeName == "list">
         <#else>
-    public ${field.getRefType()} get${field.name?cap_first}Ref() {
-        return cfg.CfgMgr.ins.get${field.ref?cap_first}Map().get(${field.name});
-    }
+        public ${field.getRefType()} get${field.name?cap_first}Ref()
+        {
+            return cfg.CfgMgr.ins.get${field.ref?cap_first}Map().get(${field.name});
+        }
         </#if>
     </#if>
     </#if>
 </#list>
+}
 }

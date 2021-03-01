@@ -1,57 +1,51 @@
-package ${cfgDefine.rootPackage};
+using System;
 
+namespace ${cfgDefine.rootPackage}
+{
+    public sealed class CfgMgr
+    {
+        private static String _dir {get; set;}= "config";
 
-import lombok.Getter;
+        public static volatile CfgMgr ins;
 
-@Getter
-public final class CfgMgr {
-    private static String _dir = "config";
-
-    public static void setDir(String dir) {
-        _dir = dir;
-    }
-
-    public static volatile CfgMgr ins;
-
-    private datastream.Octets createOctets(String file) {
-        try {
-            return datastream.Octets.wrap(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(_dir + "/" + file)));
-        } catch (java.io.IOException e) {
-              throw new RuntimeException(e);
+        private datastream.Octets createOctets(String file)
+        {
+            return datastream.Octets.wrap(System.IO.File.ReadAllBytes(_dir + "/" + file)));
         }
-    }
 
 <#list tables?values as table>
     <#if table.canExport() == true>
     <#if table.single = true>
-    private ${table.readFileType.getJavaType()} ${table.name?uncap_first};
+        private ${table.readFileType.getCsType()} ${table.name?uncap_first};
     <#else >
-    private ${table.readFileType.getJavaType()} ${table.name?uncap_first}List;
-    private java.util.Map<${table.indexField.runType.getJavaBoxType()}, ${table.fullName}> ${table.name?uncap_first}Map = new java.util.HashMap<>();
+        private ${table.readFileType.getCsType()} ${table.name?uncap_first}List;
+        private System.Collections.Generic.Dictionary<${table.indexField.runType.getCsType()}, ${table.fullName}> ${table.name?uncap_first}Map = new System.Collections.Generic.Dictionary<${table.indexField.runType.getCsType()}, ${table.fullName}>();
     </#if>
     </#if>
 </#list>
+        public static void load()
+        {
+            ins = new CfgMgr();
+        }
 
-    public static void load() {
-        ins = new CfgMgr();
-    }
-
-
-    private CfgMgr() {
-        datastream.Octets os;
+        private CfgMgr()
+        {
+            datastream.Octets os;
 <#list tables?values as table>
     <#if table.canExport() == true>
-        os = createOctets("${table.name?lower_case}.data");
+            os = createOctets("${table.name?lower_case}.data");
     <#if table.single = true>
-        ${table.name?uncap_first} = ${table.readFileType.getUnmarshal()};
+            ${table.name?uncap_first} = ${table.readFileType.getUnmarshal()};
     <#else >
-        ${table.name?uncap_first}List = ${table.readFileType.getUnmarshal()};
-        for (var temp : ${table.name?uncap_first}List) {
-            ${table.name?uncap_first}Map.put(temp.get${table.indexField.name?cap_first}(), temp);
-        }
+            ${table.name?uncap_first}List = ${table.readFileType.getUnmarshal()};
+            foreach (var temp in ${table.name?uncap_first}List)
+            {
+                ${table.name?uncap_first}Map.put(temp.get${table.indexField.name?cap_first}(), temp);
+            }
     </#if>
     </#if>
 </#list>
-    }
+        }
 
+}
 }
