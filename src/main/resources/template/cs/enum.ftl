@@ -1,19 +1,23 @@
-package ${packageName};
-import java.util.*;
+using System;
+using System.Linq;
 
 /**
  * ${comment}
  */
-public final class ${name} {
+namespace ${packageName}
+{
+    public sealed class ${name}
+    {
   <#assign x = "">
   <#list fields as field>
-    public static final int ${field.name} = ${field.value}; //${field.alias};
+        public const int ${field.name} = ${field.value}; //${field.alias};
     <#if field?is_last>
         <#assign  x = x + field.value>
     <#else >
         <#assign  x = x + field.value + ", ">
     </#if>
   </#list>
-    public static final int[] enums = new int[]{${x}};
-    public static final HashSet<Integer> enumSet = new HashSet<>(Arrays.stream(enums).boxed().collect(java.util.stream.Collectors.toList()));
+        public const int[] enums = new int[]{${x}};
+        public const System.Collections.Generic.HashSet<int> enumSet = new System.Collections.Generic.HashSet<int>(enums.ToHashSet());
+    }
 }

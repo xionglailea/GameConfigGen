@@ -2,6 +2,8 @@ package generator.task;
 
 import cn.hutool.core.io.FileUtil;
 import generator.Context;
+import generator.language.AbsGenerator;
+import generator.language.CsGenerator;
 import generator.language.JavaGenerator;
 
 /**
@@ -12,7 +14,7 @@ import generator.language.JavaGenerator;
  */
 public class GenCodeTask extends AbsTask{
 
-    private JavaGenerator javaGenerator = new JavaGenerator();
+    private AbsGenerator codeGenerator = new CsGenerator();
 
 
     public GenCodeTask(Context context) {
@@ -24,15 +26,15 @@ public class GenCodeTask extends AbsTask{
         FileUtil.del(".temp/" + context.getCfgDefine().getRootPackage());
         //生成常量和枚举代码
         for (var e : context.getConstAndEnums().values()) {
-            e.genCode(javaGenerator);
+            e.genCode(codeGenerator);
         }
         //生成bean的定义代码
         for (var e : context.getBeans().values()) {
-            e.genCode(javaGenerator);
+            e.genCode(codeGenerator);
         }
         //生成extension中的代码
-        context.getAllTypeDefine().genCode(javaGenerator);
+        context.getAllTypeDefine().genCode(codeGenerator);
         //生成CfgMgr代码
-        javaGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
+        codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
     }
 }

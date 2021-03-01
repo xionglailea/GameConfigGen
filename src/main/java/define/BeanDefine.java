@@ -12,7 +12,8 @@ import define.data.type.IDataList;
 import define.type.IBean;
 import define.type.IType;
 import generator.Context;
-import generator.language.JavaGenerator;
+import generator.language.AbsGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,7 +168,7 @@ public class BeanDefine extends AbsClassDefine {
     }
 
     @Override
-    public void genCode(JavaGenerator generator) {
+    public void genCode(AbsGenerator generator) {
         if (config && !canExport()) {
             return;
         }

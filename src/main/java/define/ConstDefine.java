@@ -1,7 +1,8 @@
 package define;
 
 import define.column.ConstField;
-import generator.language.JavaGenerator;
+import generator.language.AbsGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class ConstDefine extends AbsClassDefine {
     private List<ConstField> fields = new ArrayList<>();
 
     @Override
-    public void genCode(JavaGenerator generator) {
+    public void genCode(AbsGenerator generator) {
         generator.createConst(getPackageName(), name, this);
     }
 }

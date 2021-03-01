@@ -1,7 +1,7 @@
 package define;
 
 import generator.Context;
-import generator.language.JavaGenerator;
+import generator.language.AbsGenerator;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ public abstract class AbsClassDefine {
 
     private String group;
 
-    public abstract void genCode(JavaGenerator generator);
+    public abstract void genCode(AbsGenerator generator);
 
     public boolean canExport() {
         return Context.getIns().shouldOutPut(group);

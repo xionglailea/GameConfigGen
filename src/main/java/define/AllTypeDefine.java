@@ -1,6 +1,7 @@
 package define;
 
 import define.type.IType;
+import generator.language.AbsGenerator;
 import generator.language.JavaGenerator;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class AllTypeDefine {
         name2Type.put(type.toString(), type);
     }
 
-    public void genCode(JavaGenerator javaGenerator) {
+    public void genCode(AbsGenerator javaGenerator) {
         javaGenerator.createExtensions(rootPackage, extensionFileName, this);
     }
 
