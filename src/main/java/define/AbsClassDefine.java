@@ -1,7 +1,7 @@
 package define;
 
 import generator.Context;
-import generator.JavaGenerator;
+import generator.language.JavaGenerator;
 import lombok.Getter;
 import lombok.Setter;
 

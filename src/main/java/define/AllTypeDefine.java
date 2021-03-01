@@ -1,7 +1,7 @@
 package define;
 
 import define.type.IType;
-import generator.JavaGenerator;
+import generator.language.JavaGenerator;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;

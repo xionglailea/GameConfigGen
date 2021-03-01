@@ -28,6 +28,11 @@ public class IFloat implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return "float";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin + "f";
     }

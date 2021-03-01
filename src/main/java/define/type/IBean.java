@@ -37,6 +37,11 @@ public class IBean implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return beanDefine.getFullName();
+    }
+
+    @Override
     public String toString() {
         return beanDefine.getFullName().replace(".", "_");
     }

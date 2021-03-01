@@ -37,6 +37,11 @@ public class IMap implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return String.format("System.Collections.Generic.Dictionary<%s, %s>", key.getCsType(), value.getCsType());
+    }
+
+    @Override
     public String toString() {
         return "map_" + key + "_" + value;
     }

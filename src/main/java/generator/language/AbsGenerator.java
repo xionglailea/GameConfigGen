@@ -1,60 +1,47 @@
-package generator;
+package generator.language;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ClassLoaderUtil;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
-import java.io.File;
+import lombok.SneakyThrows;
+
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 /**
- * 生产java代码 create by xiongjieqing on 2020-07-25 10:22
+ * 共有方法
+ *
+ * <p>
+ * create by xiongjieqing on 2021-02-28 23:32
  */
-@Slf4j
-public class
-JavaGenerator {
-
+public abstract class AbsGenerator {
 
     public void createConst(String packageName, String javaName, Object data) {
-        createJavaFile(packageName, javaName, data, "const");
+        createFile(packageName, javaName, data, "const");
     }
 
     public void createEnum(String packageName, String javaName, Object data) {
-        createJavaFile(packageName, javaName, data, "enum");
+        createFile(packageName, javaName, data, "enum");
     }
 
     public void createBean(String packageName, String javaName, Object data) {
-        createJavaFile(packageName, javaName, data, "bean");
-    }
-
-    public void createCfgMgr(){
-
+        createFile(packageName, javaName, data, "bean");
     }
 
     public void createExtensions(String packageName, String javaName, Object data) {
-        createJavaFile(packageName, javaName, data, "extensions");
+        createFile(packageName, javaName, data, "extensions");
     }
 
     public void createCfgMgr(String packageName, String javaName, Object data) {
-        createJavaFile(packageName, javaName, data, "cfgMgr");
+        createFile(packageName, javaName, data, "cfgMgr");
     }
 
 
     /**
      * 写java文件
      */
-    private void createJavaFile(String packageName, String javaName, Object data, String template) {
-        String text = generate( template + ".ftl", data);
-        String path = packageName.replace(".", "/") + "/" + javaName + ".java";
-        File file = new File(".temp", path);
-        FileUtil.writeUtf8String(text, file);
-        log.info("write java file :: {}", file);
-    }
-
+    public abstract void createFile(String packageName, String javaName, Object data, String template);
 
     /**
      * 根据freemarker模板生成代码
@@ -64,9 +51,8 @@ JavaGenerator {
      * @return string
      */
     @SneakyThrows
-    public static String generate(String template, Object data) {
-        ClassTemplateLoader loader = new ClassTemplateLoader(ClassLoaderUtil.getClassLoader(),
-            "/template/java");
+    public static String generate(String resourcePath, String template, Object data) {
+        ClassTemplateLoader loader = new ClassTemplateLoader(ClassLoaderUtil.getClassLoader(), resourcePath);
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         configuration.setDefaultEncoding(StandardCharsets.UTF_8.name());
         configuration.setTemplateLoader(loader);
@@ -75,5 +61,6 @@ JavaGenerator {
         configuration.getTemplate(template).process(data, writer);
         return writer.getBuffer().toString();
     }
+
 
 }

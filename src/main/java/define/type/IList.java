@@ -32,6 +32,11 @@ public class IList implements IType {
     }
 
     @Override
+    public String getCsType() {
+        return String.format("System.Collections.Generic.List<%s>", valueType.getCsType());
+    }
+
+    @Override
     public String toString() {
         return "list_" + valueType;
     }
