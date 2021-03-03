@@ -3,8 +3,9 @@ package define.type;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.visit.cs.CsExtUnmarshal;
+import define.visit.cs.CsUnmarshal;
 import define.visit.java.ExtUnmarshal;
-import define.visit.Unmarshal;
+import define.visit.java.Unmarshal;
 import java.util.function.Consumer;
 
 
@@ -30,6 +31,10 @@ public interface IType {
         return Unmarshal.INS.accept(this);
     }
 
+    default String getCsUnmarshal() {
+        return CsUnmarshal.INS.accept(this);
+    }
+
     default String getExtUnmarshal() {
         return ExtUnmarshal.INS.accept(this);
     }
@@ -40,6 +45,10 @@ public interface IType {
 
     default String getUnmarshalMethodName() {
         return "unmarshal_" + this.toString();
+    }
+
+    default String getCsUnmarshalMethodName() {
+        return "Unmarshal_" + this.toString();
     }
 
     //增加扩展类型，就是通过list和map扩展的

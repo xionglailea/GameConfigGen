@@ -29,10 +29,10 @@ public class CsExtUnmarshal {
 
     public String accept(IList listType) {
         var s = new StringBuilder();
-        s.append("var n = Math.min(os.readSize(), os.size() + 1);\n");
+        s.append("var n = Math.Min(os.ReadSize(), os.Size + 1);\n");
         s.append(String.format("            var x = new %s(n);\n", listType.getCsType()));
         s.append("            for (int i = 0 ; i < n ; i++) {\n");
-        s.append("                x.add(").append(listType.getValueType().getUnmarshal()).append(");\n");
+        s.append("                x.Add(").append(listType.getValueType().getCsUnmarshal()).append(");\n");
         s.append("            }\n");
         s.append("            return x;");
         return s.toString();
@@ -40,11 +40,11 @@ public class CsExtUnmarshal {
 
     public String accept(IMap mapType) {
         var s = new StringBuilder();
-        s.append("var n = Math.min(os.readSize(), os.size() + 1);\n");
+        s.append("var n = Math.Min(os.ReadSize(), os.Size + 1);\n");
         s.append(String.format("            var x = new %s(n);\n", mapType.getCsType()));
         s.append("            for (int i = 0 ; i < n ; i++) {\n");
-        s.append("                x.put(").append(mapType.getKey().getUnmarshal()).append(", ")
-                .append(mapType.getValue().getUnmarshal()).append(");\n");
+        s.append("                x.Add(").append(mapType.getKey().getCsUnmarshal()).append(", ")
+                .append(mapType.getValue().getCsUnmarshal()).append(");\n");
         s.append("            }\n");
         s.append("            return x;");
         return s.toString();
@@ -59,7 +59,7 @@ public class CsExtUnmarshal {
         }
 
         var s = new StringBuilder();
-        s.append("var id = os.readInt();\n");
+        s.append("var id = os.ReadInt();\n");
         s.append("            ").append(t.getCsType()).append(" x;\n");
         s.append("            switch(id) {\n");
         s.append("                case 0: return null;\n");

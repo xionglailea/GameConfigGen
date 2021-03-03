@@ -1,4 +1,4 @@
-using System;
+
 /**
 * ${comment}
 */
@@ -20,7 +20,7 @@ namespace ${packageName}
 
 <#list fields as field>
     <#if field.canExport() == true>
-        private ${field.runType.getCsType()} ${field.name} {get;}; //${field.comment}
+        public ${field.runType.getCsType()} ${field.name}; <#if field.comment != ""> //${field.comment} </#if>
     </#if>
 </#list>
 
@@ -32,7 +32,7 @@ namespace ${packageName}
         {
 <#list fields as field>
         <#if field.canExport() == true>
-            ${field.name} = ${field.runType.getUnmarshal()};
+            ${field.name} = ${field.runType.getCsUnmarshal()};
         </#if>
 </#list>
         }
@@ -44,7 +44,7 @@ namespace ${packageName}
         <#else>
         public ${field.getRefType()} get${field.name?cap_first}Ref()
         {
-            return cfg.CfgMgr.ins.get${field.ref?cap_first}Map().get(${field.name});
+            return cfg.CfgMgr.ins.${field.ref?uncap_first}Map[${field.name}];
         }
         </#if>
     </#if>

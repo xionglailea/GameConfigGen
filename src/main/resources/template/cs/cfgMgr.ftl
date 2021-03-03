@@ -10,20 +10,20 @@ namespace ${cfgDefine.rootPackage}
 
         private datastream.Octets createOctets(String file)
         {
-            return datastream.Octets.wrap(System.IO.File.ReadAllBytes(_dir + "/" + file)));
+            return new datastream.Octets(System.IO.File.ReadAllBytes(_dir + "/" + file));
         }
 
 <#list tables?values as table>
     <#if table.canExport() == true>
     <#if table.single = true>
-        private ${table.readFileType.getCsType()} ${table.name?uncap_first};
+        public ${table.readFileType.getCsType()} ${table.name?uncap_first};
     <#else >
-        private ${table.readFileType.getCsType()} ${table.name?uncap_first}List;
-        private System.Collections.Generic.Dictionary<${table.indexField.runType.getCsType()}, ${table.fullName}> ${table.name?uncap_first}Map = new System.Collections.Generic.Dictionary<${table.indexField.runType.getCsType()}, ${table.fullName}>();
+        public ${table.readFileType.getCsType()} ${table.name?uncap_first}List;
+        public System.Collections.Generic.Dictionary<${table.indexField.runType.getCsType()}, ${table.fullName}> ${table.name?uncap_first}Map = new System.Collections.Generic.Dictionary<${table.indexField.runType.getCsType()}, ${table.fullName}>();
     </#if>
     </#if>
 </#list>
-        public static void load()
+        public static void Load()
         {
             ins = new CfgMgr();
         }
@@ -35,12 +35,12 @@ namespace ${cfgDefine.rootPackage}
     <#if table.canExport() == true>
             os = createOctets("${table.name?lower_case}.data");
     <#if table.single = true>
-            ${table.name?uncap_first} = ${table.readFileType.getUnmarshal()};
+            ${table.name?uncap_first} = ${table.readFileType.getCsUnmarshal()};
     <#else >
-            ${table.name?uncap_first}List = ${table.readFileType.getUnmarshal()};
+            ${table.name?uncap_first}List = ${table.readFileType.getCsUnmarshal()};
             foreach (var temp in ${table.name?uncap_first}List)
             {
-                ${table.name?uncap_first}Map.put(temp.get${table.indexField.name?cap_first}(), temp);
+                ${table.name?uncap_first}Map.Add(temp.${table.indexField.name}, temp);
             }
     </#if>
     </#if>
