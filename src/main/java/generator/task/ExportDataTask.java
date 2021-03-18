@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import constdef.StringConst;
 import generator.Context;
 import java.io.File;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 导出数据任务
@@ -11,6 +12,7 @@ import java.io.File;
  * <p>
  * create by xiongjieqing on 2020/9/30 16:07
  */
+@Slf4j
 public class ExportDataTask extends AbsTask {
 
     public ExportDataTask(Context context) {
@@ -22,8 +24,9 @@ public class ExportDataTask extends AbsTask {
         for (var table : context.getTables().values()) {
             var data = table.getExportData();
             if (data != null) {
-                FileUtil.writeBytes(data.copyRemainData(),
-                    new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".data"));
+                File file = new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".data");
+                FileUtil.writeBytes(data.copyRemainData(), file);
+                log.info("导出数据 = {} 成功", file.getName());
             }
         }
     }
