@@ -1,4 +1,3 @@
-import cfg.CfgMgr;
 import org.junit.Test;
 
 /**
@@ -11,8 +10,8 @@ public class TestData {
 
     @Test
     public void testLoadData() {
-        CfgMgr.setDir(".temp/data");
-        CfgMgr.load();
+        //CfgMgr.setDir(".temp/data");
+        //CfgMgr.load();
         System.out.println("ok");
     }
 

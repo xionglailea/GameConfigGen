@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class StringConst {
 
-    public static String CSV_DIR = "cfgdefine";
+    public static String INPUT_DIR = "";
 
-    public static String CSV_CFG = "cfgdefine/cfg.xml";
+    public static String OUTPUT_CODE_DIR = "";
 
-    public static String DATA_DIR = ".temp/data";
+    public static String OUTPUT_DATA_DIR = "";
 
     public static List<String> ALL_GROUPS = Arrays.asList("all", "server", "client");
 

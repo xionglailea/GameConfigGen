@@ -23,7 +23,7 @@ public class ExportDataTask extends AbsTask {
             var data = table.getExportData();
             if (data != null) {
                 FileUtil.writeBytes(data.copyRemainData(),
-                    new File(StringConst.DATA_DIR + "/" + table.getName().toLowerCase() + ".data"));
+                    new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".data"));
             }
         }
     }

@@ -33,7 +33,7 @@ public class ParseDefineTask extends AbsTask {
 
     @Override
     public void run() throws Exception {
-        File cfgFile = new File(StringConst.CSV_CFG);
+        File cfgFile = new File(StringConst.INPUT_DIR + "/cfg.xml");
         context.setCfgDefine(xmlMapper.readValue(FileUtil.readUtf8String(cfgFile), CfgDefine.class));
 
         String parentDir = cfgFile.getParent();

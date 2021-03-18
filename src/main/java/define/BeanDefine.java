@@ -81,7 +81,7 @@ public class BeanDefine extends AbsClassDefine {
             String[] temp = inputFile.split("[;]");
             inputFiles = new String[temp.length];
             for (int i = 0; i < temp.length; i++) {
-                inputFiles[i] = StringConst.CSV_DIR + "/" + moduleName + "/" + temp[i];
+                inputFiles[i] = StringConst.INPUT_DIR + "/" + moduleName + "/" + temp[i];
             }
         }
 

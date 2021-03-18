@@ -1,6 +1,5 @@
 package generator.task;
 
-import cn.hutool.core.io.FileUtil;
 import generator.Context;
 import generator.language.AbsGenerator;
 import generator.language.CsGenerator;
@@ -12,18 +11,24 @@ import generator.language.JavaGenerator;
  * <p>
  * create by xiongjieqing on 2020/9/30 16:05
  */
-public class GenCodeTask extends AbsTask{
+public class GenCodeTask extends AbsTask {
 
-    private AbsGenerator codeGenerator = new CsGenerator();
+    private AbsGenerator codeGenerator;
 
 
-    public GenCodeTask(Context context) {
+    public GenCodeTask(Context context, String lan) {
         super(context);
+        if (lan.equals("java")) {
+            codeGenerator = new JavaGenerator();
+        } else if (lan.equals("cs")) {
+            codeGenerator = new CsGenerator();
+        } else {
+            throw new RuntimeException("unknown lan " + lan);
+        }
     }
 
     @Override
     public void run() {
-        FileUtil.del(".temp/" + context.getCfgDefine().getRootPackage());
         //生成常量和枚举代码
         for (var e : context.getConstAndEnums().values()) {
             e.genCode(codeGenerator);
