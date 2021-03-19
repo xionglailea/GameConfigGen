@@ -18,6 +18,6 @@ namespace ${packageName}
     </#if>
   </#list>
         public static int[] enums = {${x}};
-        public static System.Collections.Generic.HashSet<int> enumSet = new System.Collections.Generic.HashSet<int>(enums.ToHashSet());
+        public static System.Collections.Generic.HashSet<int> enumSet = new System.Collections.Generic.HashSet<int>(enums.ToList());
     }
 }

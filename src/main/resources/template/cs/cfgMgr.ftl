@@ -4,7 +4,7 @@ namespace ${cfgDefine.rootPackage}
 {
     public sealed class CfgMgr
     {
-        private static String _dir {get; set;}= "config";
+        public static String _dir {get; set;}= "config";
 
         public static volatile CfgMgr ins;
 
