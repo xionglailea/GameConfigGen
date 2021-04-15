@@ -1,7 +1,6 @@
 package define;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import constdef.StringConst;
@@ -15,7 +14,6 @@ import define.type.IBean;
 import define.type.IType;
 import generator.Context;
 import generator.language.AbsGenerator;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -196,7 +194,7 @@ public class BeanDefine extends AbsClassDefine {
             records.addAll(data);
         }
         if (single) {
-            if (records.size() != 1){
+            if (records.size() != 1) {
                 throw new RuntimeException(String.format("%s 是一个单键数据表，只应该有一个数据", name));
             }
         } else {
