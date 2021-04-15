@@ -2,6 +2,8 @@ package define;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import constdef.StringConst;
 import datastream.Octets;
 import define.column.BeanField;
@@ -42,11 +44,15 @@ public class BeanDefine extends AbsClassDefine {
     private String inputFile; //多个输入文件用分号；隔离
     private String index;
     private boolean single = false; //标识map还是单个数据
+    @JacksonXmlProperty(localName = "field")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<BeanField> fields = new ArrayList<>(); // 字段列表
     /**
      * 直接孩子
      */
-    @JsonProperty(value = "childs")
+    //@JsonProperty(value = "childs")
+    @JacksonXmlProperty(localName = "child")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<BeanDefine> children = new ArrayList<>();
 
     //定义的进一步解析

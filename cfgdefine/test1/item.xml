@@ -1,74 +1,43 @@
 <module>
     <packageName>test1</packageName>
 
-    <enums>
-        <enum name="ItemColor" comment="物品颜色">
-            <fields>
-                <field name="White" alias="白色" value="1"/>
-                <field name="Black" alias="黑色" value="2"/>
-            </fields>
-        </enum>
-    </enums>
+    <enum name="ItemColor" comment="物品颜色">
+        <field name="White" alias="白色" value="1"/>
+        <field name="Black" alias="黑色" value="2"/>
+    </enum>
 
-    <consts>
-        <const name="ItemConst" comment="物品常量">
-            <fields>
-                <field name="bornEquip" type="int" value="1"/>
-                <field name="bornName" type="string" value="熊"/>
-            </fields>
-        </const>
-    </consts>
+    <const name="ItemConst" comment="物品常量">
+        <field name="bornEquip" type="int" value="1"/>
+        <field name="bornName" type="string" value="熊"/>
+    </const>
 
-    <beans>
-        <bean name="Equip" comment="装备结构">
-            <fields>
-                <field name="id" type="int"/>
-                <field name="attrs" type="list,int"/>
-                <field name="itemId" type="int"/>
-            </fields>
-            <childs>
-                <child name="ShoeEquip" comment="鞋子">
-                    <fields>
-                        <field name="color" type="int" comment="属性1"/>
-                    </fields>
-                </child>
-            </childs>
-        </bean>
+    <bean name="Equip" comment="装备结构">
+        <field name="id" type="int"/>
+        <field name="attrs" type="list,int"/>
+        <field name="itemId" type="int"/>
+        <child name="ShoeEquip" comment="鞋子">
+            <field name="color" type="int" comment="属性1"/>
+        </child>
+    </bean>
 
-        <bean name="Bonus" comment="奖励">
-            <fields>
-                <field name="itemId" type="int" comment="物品id" ref="Item"/>
-                <field name="itemNum" type="int" comment="物品数量"/>
-            </fields>
-        </bean>
-    </beans>
+    <bean name="Bonus" comment="奖励">
+        <field name="itemId" type="int" comment="物品id" ref="Item"/>
+        <field name="itemNum" type="int" comment="物品数量"/>
+    </bean>
 
-    <tables>
-        <table name="Item" comment="物品表" inputFile="item.xlsx">
-            <fields>
-                <field name="id" type="int"/>
-                <field name="itemName" type="string"/>
-                <field name="itemColor" type="ItemColor"/>
-            </fields>
-            <childs>
-                <child name="ItemNormal" comment="普通">
-                    <fields>
-                        <field name="content" type="map,int,list,int"/>
-                    </fields>
-                </child>
+    <table name="Item" comment="物品表" inputFile="item.xlsx">
+        <field name="id" type="int"/>
+        <field name="itemName" type="string"/>
+        <field name="itemColor" type="ItemColor"/>
+        <child name="ItemNormal" comment="普通">
+            <field name="content" type="map,int,list,int"/>
+        </child>
 
-                <child name="ItemPackage" comment="礼包">
-                    <childs>
-                        <child name="ItemPackageCurrency" comment="货币礼包">
-                            <fields>
-                                <field name="content" type="map,int,int"/>
-                            </fields>
-                        </child>
-                    </childs>
-
-                </child>
-            </childs>
-        </table>
-    </tables>
+        <child name="ItemPackage" comment="礼包">
+            <child name="ItemPackageCurrency" comment="货币礼包">
+                <field name="content" type="map,int,int"/>
+            </child>
+        </child>
+    </table>
 
 </module>

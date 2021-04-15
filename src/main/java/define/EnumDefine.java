@@ -1,5 +1,7 @@
 package define;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import define.column.EnumField;
 import generator.language.AbsGenerator;
 
@@ -20,6 +22,8 @@ public class EnumDefine extends AbsClassDefine{
 
     private String name;
     private String comment;
+    @JacksonXmlProperty(localName = "field")
+    @JacksonXmlElementWrapper(useWrapping = false)
     private List<EnumField> fields = new ArrayList<>();
 
     @Override
