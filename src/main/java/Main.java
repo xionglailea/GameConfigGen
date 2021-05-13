@@ -5,6 +5,8 @@ import generator.task.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
 import javafx.application.Platform;
 import ui.UiManager;
 
@@ -15,6 +17,7 @@ import ui.UiManager;
  * create by xiongjieqing on 2020/9/29 15:12
  */
 public class Main {
+
 
     public static void main(String[] args) throws Exception {
 
@@ -60,11 +63,16 @@ public class Main {
         }
         var url = Main.class.getResource("/ui/MainUi.fxml");
         System.out.println(url.getFile().length());
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.startup(() -> {
             Platform.setImplicitExit(false);
+            countDownLatch.countDown();
         });
+        //要等待javafx的线程初始化完毕
+        countDownLatch.await();
         Platform.runLater(() -> {
-            var uiMgr = new UiManager(url);
+            new UiManager(url);
 
         });
 
