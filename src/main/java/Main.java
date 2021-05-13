@@ -5,6 +5,8 @@ import generator.task.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
+import ui.UiManager;
 
 /**
  * 启动入口
@@ -56,5 +58,15 @@ public class Main {
         for (AbsTask task : tasks) {
             task.run();
         }
+        var url = Main.class.getResource("/ui/MainUi.fxml");
+        System.out.println(url.getFile().length());
+        Platform.startup(() -> {
+            Platform.setImplicitExit(false);
+        });
+        Platform.runLater(() -> {
+            var uiMgr = new UiManager(url);
+
+        });
+
     }
 }
