@@ -2,12 +2,10 @@ package ui;
 
 
 import java.net.URL;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import lombok.Setter;
 import lombok.SneakyThrows;
 
 /**
@@ -17,13 +15,13 @@ import lombok.SneakyThrows;
 public class UiManager {
 
 
-    private URL url;
+    private URL baseUrl;
 
     @SneakyThrows
     public UiManager(URL url) {
-        this.url = url;
+        this.baseUrl = url;
         Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(url);
+        Parent root = FXMLLoader.load(baseUrl);
         primaryStage.setTitle("数据编辑器");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
