@@ -43,7 +43,7 @@ public class IEnum implements IType {
     public IData convert(XlsxDataSource dataSource) {
         String value = dataSource.getNextNotEmpty();
         int intValue = enumDefine.getEnumValue(value);
-        return new IDataEnum(enumDefine, intValue);
+        return new IDataEnum(enumDefine, value, intValue);
     }
 
     @Override

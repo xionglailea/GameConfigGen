@@ -48,7 +48,6 @@ public class BeanDefine extends AbsClassDefine {
     /**
      * 直接孩子
      */
-    //@JsonProperty(value = "childs")
     @JacksonXmlProperty(localName = "child")
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<BeanDefine> children = new ArrayList<>();

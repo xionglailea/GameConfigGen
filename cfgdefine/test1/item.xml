@@ -30,12 +30,12 @@
         <field name="itemName" type="string"/>
         <field name="itemColor" type="ItemColor"/>
         <child name="ItemNormal" comment="普通">
-            <field name="content" type="map,int,list,int"/>
+            <field name="normalContent" type="map,int,list,int"/>
         </child>
 
         <child name="ItemPackage" comment="礼包">
             <child name="ItemPackageCurrency" comment="货币礼包">
-                <field name="content" type="map,int,int"/>
+                <field name="packageCurrencyContent" type="map,int,int"/>
             </child>
         </child>
     </table>

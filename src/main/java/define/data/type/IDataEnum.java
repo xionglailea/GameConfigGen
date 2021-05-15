@@ -13,10 +13,12 @@ public class IDataEnum extends IData {
 
     private EnumDefine enumDefine;
     private int value;
+    private String enumName;
 
-    public IDataEnum(EnumDefine enumDefine, int value) {
+    public IDataEnum(EnumDefine enumDefine, String name, int value) {
         this.enumDefine = enumDefine;
         this.value = value;
+        this.enumName = name;
     }
 
 
@@ -33,4 +35,8 @@ public class IDataEnum extends IData {
         log.error("{} 是一个枚举, 不能有引用", enumDefine.getName());
     }
 
+    @Override
+    public String toString() {
+        return value + "-" + enumName;
+    }
 }
