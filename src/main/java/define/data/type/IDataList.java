@@ -1,6 +1,8 @@
 package define.data.type;
 
 import datastream.Octets;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import java.util.List;
  */
 public class IDataList extends IData {
 
+    @Getter
     private List<IData> values;
 
     public IDataList(List<IData> values) {

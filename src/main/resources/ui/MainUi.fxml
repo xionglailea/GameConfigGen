@@ -26,6 +26,6 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="content" layoutX="157.0" layoutY="54.0" prefHeight="366.0" prefWidth="443.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="157.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0" />
+      <TableView fx:id="dataTableView" layoutX="157.0" layoutY="54.0" prefHeight="366.0" prefWidth="443.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="157.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="53.0" />
    </children>
 </AnchorPane>

@@ -1,6 +1,8 @@
 package define.data.type;
 
 import datastream.Octets;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import java.util.Map;
  */
 public class IDataMap extends IData {
 
+    @Getter
     private Map<IData, IData> values;
 
     public IDataMap(Map<IData, IData> values) {

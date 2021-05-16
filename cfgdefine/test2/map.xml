@@ -3,7 +3,7 @@
     <table name="Instance" comment="副本表" inputFile="instance.xlsx">
         <field name="id" type="int" comment="副本id"/>
         <field name="name" type="string" comment="副本名字"/>
-        <field name="bonus" type="test1.Bonus" comment="副本奖励" group="server"/>
+        <field name="bonus" type="map,int,test1.Bonus" comment="副本奖励" group="server"/>
         <field name="posX" type="int" comment="入口x"/>
     </table>
 </module>

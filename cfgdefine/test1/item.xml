@@ -20,9 +20,15 @@
         </child>
     </bean>
 
+    <bean name="ExtraInfo" comment="额外信息">
+        <field name="date" type="string"/>
+        <field name="from" type="int"/>
+    </bean>
+
     <bean name="Bonus" comment="奖励">
         <field name="itemId" type="int" comment="物品id" ref="Item"/>
         <field name="itemNum" type="int" comment="物品数量"/>
+        <field name="extra" type="ExtraInfo"/>
     </bean>
 
     <table name="Item" comment="物品表" inputFile="item.xlsx">
@@ -36,6 +42,7 @@
         <child name="ItemPackage" comment="礼包">
             <child name="ItemPackageCurrency" comment="货币礼包">
                 <field name="packageCurrencyContent" type="map,int,int"/>
+                <field name="bonuses" type="list, Bonus"/>
             </child>
         </child>
     </table>
