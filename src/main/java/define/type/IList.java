@@ -1,5 +1,7 @@
 package define.type;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataList;
@@ -50,5 +52,14 @@ public class IList implements IType {
     @Override
     public IData convert(XlsxDataSource dataSource) {
         return new IDataList(dataSource.readListData(valueType, false));
+    }
+
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        var dataList = new IDataList();
+        for (JsonElement temp : jsonElement.getAsJsonArray()) {
+            dataList.getValues().add(valueType.convert(temp));
+        }
+        return dataList;
     }
 }

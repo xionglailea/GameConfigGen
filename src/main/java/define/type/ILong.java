@@ -1,6 +1,7 @@
 package define.type;
 
 
+import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataLong;
@@ -45,6 +46,11 @@ public class ILong implements IType {
     @Override
     public IData convert(XlsxDataSource dataSource) {
         return new IDataLong(Long.parseLong(dataSource.getNextNotEmpty()));
+    }
+
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        return new IDataLong(jsonElement.getAsLong());
     }
 
     @Override

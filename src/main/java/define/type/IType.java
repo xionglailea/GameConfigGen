@@ -1,5 +1,6 @@
 package define.type;
 
+import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.visit.cs.CsExtUnmarshal;
@@ -56,6 +57,8 @@ public interface IType {
     }
 
     IData convert(XlsxDataSource dataSource);
+
+    IData convert(JsonElement jsonElement);
 
     default boolean canBeIndex() {
         return false;

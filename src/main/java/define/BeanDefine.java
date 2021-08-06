@@ -81,10 +81,10 @@ public class BeanDefine extends AbsClassDefine {
         if (inputFile != null) {
             //如果需要读取表格
             config = true;
-            String[] temp = inputFile.split("[;]");
+            String[] temp = inputFile.split("[,;]");
             inputFiles = new String[temp.length];
             for (int i = 0; i < temp.length; i++) {
-                inputFiles[i] = StringConst.INPUT_DIR + "/" + moduleName + "/" + temp[i];
+                inputFiles[i] = StringConst.INPUT_DIR + "/" + moduleName + "/" + temp[i].trim();
             }
         }
 

@@ -1,5 +1,7 @@
 package define.type;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import define.BeanDefine;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
@@ -57,17 +59,47 @@ public class IBean implements IType {
         var actualType = beanDefine;
         if (beanDefine.isDynamic()) {
             String subTypeName = dataSource.getNextNotEmpty();
-            actualType = Context.getIns().getBean(beanDefine.getPackageName() + "." + subTypeName);
-            if (actualType == null) {
-                throw new RuntimeException(String.format("抽象类%s的子类%s不存在", beanDefine.getName(), subTypeName));
-            }
-            if (actualType.isDynamic()) {
-                throw new RuntimeException(String.format("抽象类%s的子类%s不能作为数据源配置，", beanDefine.getName(), subTypeName));
-            }
+            actualType = getActualBeanDefine(subTypeName);
         }
         for (var field : actualType.getAllFields()) {
             try {
                 IData data = field.getRunType().convert(dataSource);
+                data.setCanExport(field.canExport());
+                fieldData.add(data);
+            } catch (Exception ex) {
+                log.error("解析 {} 的字段 {} 数据失败, 当前记录为 {}, 错误详细信息为", actualType.getName(), field.getName(), fieldData);
+                ex.printStackTrace();
+                //直接退出
+                System.exit(0);
+            }
+        }
+        return new IDataBean(beanDefine, actualType, fieldData);
+    }
+
+    private BeanDefine getActualBeanDefine(String subTypeName) {
+        BeanDefine actualType = Context.getIns().getBean(beanDefine.getPackageName() + "." + subTypeName);
+        if (actualType == null) {
+            throw new RuntimeException(String.format("抽象类%s的子类%s不存在", beanDefine.getName(), subTypeName));
+        }
+        if (actualType.isDynamic()) {
+            throw new RuntimeException(String.format("抽象类%s的子类%s不能作为数据源配置，", beanDefine.getName(), subTypeName));
+        }
+        return actualType;
+    }
+
+
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        var fieldData = new ArrayList<IData>();
+        var actualType = beanDefine;
+        if (beanDefine.isDynamic()) {
+            String subTypeName = jsonElement.getAsJsonObject().get("subType").getAsString();
+            actualType = getActualBeanDefine(subTypeName);
+        }
+        for (var field : actualType.getAllFields()) {
+            try {
+                JsonElement fieldObject = jsonElement.getAsJsonObject().get(field.getName());
+                IData data = field.getRunType().convert(fieldObject);
                 data.setCanExport(field.canExport());
                 fieldData.add(data);
             } catch (Exception ex) {

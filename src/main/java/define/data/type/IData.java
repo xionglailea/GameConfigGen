@@ -1,5 +1,6 @@
 package define.data.type;
 
+import com.google.gson.JsonObject;
 import datastream.Octets;
 import define.BeanDefine;
 import generator.Context;
@@ -60,5 +61,7 @@ public abstract class IData {
             log.error("表 {} 中的数据 {},成员 {} 引用 {} 表失败！", curValidateTable, curValidateData, this, ref);
         }
     }
+
+    public abstract void save(JsonObject jsonObject);
 
 }

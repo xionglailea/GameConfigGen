@@ -1,5 +1,6 @@
 package define.data.type;
 
+import com.google.gson.JsonObject;
 import datastream.Octets;
 import define.BeanDefine;
 import java.util.List;
@@ -82,6 +83,13 @@ public class IDataBean extends IData {
             return;
         }
         log.error("{} 是一个结构体, 不能有引用", actual.getName());
+    }
+
+    @Override
+    public void save(JsonObject jsonObject) {
+        if (define == actual) {
+            
+        }
     }
 
     @Override

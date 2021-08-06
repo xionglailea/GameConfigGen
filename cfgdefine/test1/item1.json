@@ -1,0 +1,34 @@
+{
+  "subType":"ItemPackageCurrency",
+  "id":"5",
+  "itemName":"json测试物品",
+  "itemColor":"白色",
+  "packageCurrencyContent":[
+    {
+      "key":100,
+      "value":101
+    },
+    {
+      "key":200,
+      "value":201
+    }
+  ],
+  "bonuses":[
+    {
+      "itemId":1,
+      "itemNum":10,
+      "extra":{
+        "date":"2021/8/6",
+        "from":3
+      }
+    },
+    {
+      "itemId":2,
+      "itemNum":10,
+      "extra":{
+        "date":"2021/8/6",
+        "from":4
+      }
+    }
+  ]
+}

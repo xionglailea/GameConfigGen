@@ -1,11 +1,14 @@
 package define.data;
 
 import define.data.source.AbsDataSource;
+import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.type.IType;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +26,14 @@ public class DataCreator {
         for (var path : filePaths) {
             File f = new File(path);
             if (f.isDirectory()) {
-                log.warn("path = {} is a directory", path);
-                continue;
+                var sub = f.listFiles();
+                if (sub != null) {
+                    files.addAll(Arrays.asList(sub));
+                }
+                //log.warn("path = {} is a directory", path);
+            } else {
+                files.add(f);
             }
-            files.add(f);
         }
         return files.stream().map(e -> createDataSource(type, e)).collect(Collectors.toList());
     }
@@ -35,6 +42,8 @@ public class DataCreator {
         String fileName = file.getName();
         if (fileName.endsWith("xlsx")) {
             return new XlsxDataSource(file, type);
+        } else if (fileName.endsWith("json")) {
+            return new JsonDataSource(file, type);
         } else {
             throw new RuntimeException("无法识别的文件" + fileName);
         }

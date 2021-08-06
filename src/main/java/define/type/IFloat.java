@@ -1,6 +1,7 @@
 package define.type;
 
 
+import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataFloat;
@@ -45,6 +46,11 @@ public class IFloat implements IType {
     @Override
     public IData convert(XlsxDataSource dataSource) {
         return new IDataFloat(Float.parseFloat(dataSource.getNextNotEmpty()));
+    }
+
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        return new IDataFloat(jsonElement.getAsFloat());
     }
 
     @Override

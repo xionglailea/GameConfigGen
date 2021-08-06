@@ -1,5 +1,8 @@
 package define.type;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataMap;
@@ -65,6 +68,20 @@ public class IMap implements IType {
             }
         }
         dataSource.expectListEnd();
+        return new IDataMap(values);
+    }
+
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        var values = new HashMap<IData, IData>();
+        for (JsonElement temp : jsonElement.getAsJsonArray()) {
+            var tempObject = temp.getAsJsonObject();
+            var keyData = key.convert(tempObject.get("key"));
+            var valueData = value.convert(tempObject.get("value"));
+            if (values.put(keyData, valueData) != null) {
+                throw new RuntimeException(String.format("%s key %s 重复", JsonDataSource.curFileName, keyData));
+            }
+        }
         return new IDataMap(values);
     }
 }

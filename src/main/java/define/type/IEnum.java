@@ -1,5 +1,6 @@
 package define.type;
 
+import com.google.gson.JsonElement;
 import define.EnumDefine;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
@@ -42,6 +43,13 @@ public class IEnum implements IType {
     @Override
     public IData convert(XlsxDataSource dataSource) {
         String value = dataSource.getNextNotEmpty();
+        int intValue = enumDefine.getEnumValue(value);
+        return new IDataEnum(enumDefine, value, intValue);
+    }
+
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        String value = jsonElement.getAsString();
         int intValue = enumDefine.getEnumValue(value);
         return new IDataEnum(enumDefine, value, intValue);
     }

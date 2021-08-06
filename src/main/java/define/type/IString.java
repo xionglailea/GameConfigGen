@@ -1,6 +1,7 @@
 package define.type;
 
 
+import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataString;
@@ -38,7 +39,11 @@ public class IString implements IType {
     public IData convert(XlsxDataSource dataSource) {
         var v = dataSource.getNextNotEmpty();
         return new IDataString(v.equals("null") ? "" : v);
+    }
 
+    @Override
+    public IData convert(JsonElement jsonElement) {
+        return new IDataString(jsonElement.getAsString());
     }
 
     @Override
