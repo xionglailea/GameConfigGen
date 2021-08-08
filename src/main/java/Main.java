@@ -61,20 +61,20 @@ public class Main {
         for (AbsTask task : tasks) {
             task.run();
         }
-        //var url = Main.class.getResource("/ui/MainUi.fxml");
-        //System.out.println(url.getFile().length());
-        //
-        //CountDownLatch countDownLatch = new CountDownLatch(1);
-        //Platform.startup(() -> {
-        //    Platform.setImplicitExit(false);
-        //    countDownLatch.countDown();
-        //});
-        ////要等待javafx的线程初始化完毕
-        //countDownLatch.await();
-        //Platform.runLater(() -> {
-        //    new UiManager(url);
-        //
-        //});
+        var url = Main.class.getResource("/ui/MainUi.fxml");
+        System.out.println(url.getFile().length());
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        Platform.startup(() -> {
+            Platform.setImplicitExit(false);
+            countDownLatch.countDown();
+        });
+        //要等待javafx的线程初始化完毕
+        countDownLatch.await();
+        Platform.runLater(() -> {
+            new UiManager(url);
+
+        });
 
     }
 }

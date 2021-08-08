@@ -36,20 +36,20 @@ public class ExportDataTask extends AbsTask {
             }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            try {
-                if (table.isSingle()) {
-                    Files.writeString(new File(".temp/" + table.getName() + ".json").toPath(), gson.toJson(table.getRecords().get(0)));
-                } else {
-                    for (var recordEntry : table.getRecordsByIndex().entrySet()) {
-                        JsonElement jsonObject = recordEntry.getValue().save();
-                        String text = gson.toJson(jsonObject);
-                        String fileName = table.getName() + "_" + recordEntry.getKey().toString();
-                        Files.writeString(new File(".temp/" + fileName + ".json").toPath(), text);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                if (table.isSingle()) {
+//                    Files.writeString(new File(".temp/" + table.getName() + ".json").toPath(), gson.toJson(table.getRecords().get(0)));
+//                } else {
+//                    for (var recordEntry : table.getRecordsByIndex().entrySet()) {
+//                        JsonElement jsonObject = recordEntry.getValue().save();
+//                        String text = gson.toJson(jsonObject);
+//                        String fileName = table.getName() + "_" + recordEntry.getKey().toString();
+//                        Files.writeString(new File(".temp/" + fileName + ".json").toPath(), text);
+//                    }
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 }

@@ -9,13 +9,16 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,7 +39,12 @@ public class MainUi implements Initializable {
     @FXML
     private TableView<IData> dataTableView;
 
+    @FXML
+    private Button addData;
+
     private Stage oldBeanStage;
+
+    private Stage oldEditStage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,8 +85,28 @@ public class MainUi implements Initializable {
                 }
             });
 
-
             return row;
+        });
+        configList.getSelectionModel().select(0);
+        addData.setOnMouseClicked(event -> {
+            if (oldEditStage != null && oldEditStage.isShowing()) {
+                return;
+            }
+            String tableName = configList.getSelectionModel().getSelectedItem();
+            var tableCfg = Context.getIns().getTables().get(tableName);
+            try {
+                Stage editView = new Stage();
+                FXMLLoader loader = new FXMLLoader(UiManager.class.getResource("/ui/EditUi.fxml"));
+                Parent root = loader.load();
+                editView.setTitle(tableCfg.getName());
+                editView.setScene(new Scene(root));
+                editView.show();
+                EditUi controller = loader.getController();
+                controller.setDataModel(tableCfg);
+                oldEditStage = editView;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -99,6 +127,22 @@ public class MainUi implements Initializable {
     private void addColumn(BeanDefine beanDefine) {
         for (BeanField field : beanDefine.getFields()) {
             TableColumn<IData, String> column = new TableColumn<>(field.getName());
+            column.setMaxWidth(100);
+            column.setCellFactory(new Callback<>() {
+                @Override
+                public TableCell<IData, String> call(TableColumn<IData, String> param) {
+                    return new TableCell<>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            setText(item);
+                            if (item != null && !item.trim().isEmpty()) {
+                                setTooltip(new Tooltip(item));
+                            }
+                        }
+                    };
+                }
+            });
             column.setCellValueFactory(param -> {
                 var data = ((IDataBean) param.getValue()).getDataByFieldName(field.getName());
                 if (data == null) {
@@ -108,6 +152,7 @@ public class MainUi implements Initializable {
                 }
 
             });
+
             dataTableView.getColumns().add(column);
         }
         for (BeanDefine child : beanDefine.getChildren()) {
