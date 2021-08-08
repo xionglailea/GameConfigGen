@@ -2,7 +2,7 @@ package ${packageName};
 import lombok.Getter;
 
 /**
-* ${comment}
+* ${comment!""}
 */
 @Getter
 <#if hasParent == true && dynamic == true>

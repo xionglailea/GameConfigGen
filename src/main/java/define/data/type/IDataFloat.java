@@ -1,5 +1,7 @@
 package define.data.type;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import datastream.Octets;
 import lombok.Getter;
 
@@ -44,4 +46,8 @@ public class IDataFloat extends IData {
         return Float.toString(value);
     }
 
+    @Override
+    public JsonElement save() {
+        return new JsonPrimitive(value);
+    }
 }

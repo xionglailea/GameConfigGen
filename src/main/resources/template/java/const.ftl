@@ -1,7 +1,7 @@
 package ${packageName};
 
 /**
-* ${comment}
+* ${comment!""}
 */
 public final class ${name} {
 

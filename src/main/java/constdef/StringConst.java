@@ -1,7 +1,9 @@
 package constdef;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 一些常量临时配置
@@ -16,6 +18,7 @@ public class StringConst {
 
     public static String OUTPUT_DATA_DIR = ".temp/data";
 
-    public static List<String> ALL_GROUPS = Arrays.asList("all", "server", "client");
+    //导出分组
+    public static Set<String> ALL_GROUPS = new HashSet<>(Arrays.asList("all", "server", "client", "editor"));
 
 }

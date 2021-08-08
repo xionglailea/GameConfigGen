@@ -1,10 +1,12 @@
 package define.data.type;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import datastream.Octets;
 import define.BeanDefine;
 import java.util.List;
 
+import define.column.BeanField;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,10 +88,17 @@ public class IDataBean extends IData {
     }
 
     @Override
-    public void save(JsonObject jsonObject) {
-        if (define == actual) {
-            
+    public JsonElement save() {
+        JsonObject jsonObject = new JsonObject();
+        if (define != actual) {
+            jsonObject.addProperty("subType", actual.getName());
         }
+        for (int i = 0; i < actual.getAllFields().size(); i++) {
+            IData data = values.get(i);
+            var filed = actual.getAllFields().get(i);
+            jsonObject.add(filed.getName(), data.save());
+        }
+        return jsonObject;
     }
 
     @Override

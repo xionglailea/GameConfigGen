@@ -1,5 +1,7 @@
 package define.data.type;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import datastream.Octets;
 import define.EnumDefine;
 import lombok.extern.slf4j.Slf4j;
@@ -38,5 +40,10 @@ public class IDataEnum extends IData {
     @Override
     public String toString() {
         return value + "-" + enumName;
+    }
+
+    @Override
+    public JsonElement save() {
+        return new JsonPrimitive(enumName);
     }
 }

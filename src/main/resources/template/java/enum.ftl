@@ -2,7 +2,7 @@ package ${packageName};
 import java.util.*;
 
 /**
- * ${comment}
+* ${comment!""}
  */
 public final class ${name} {
   <#assign x = "">

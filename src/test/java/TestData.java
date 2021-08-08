@@ -42,6 +42,7 @@ public class TestData {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", 1);
         jsonObject.addProperty("name", "xiong");
+        jsonObject.add("test", new JsonPrimitive(2));
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(2);
         jsonArray.add(3);

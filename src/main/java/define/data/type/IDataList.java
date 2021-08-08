@@ -1,5 +1,8 @@
 package define.data.type;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import datastream.Octets;
 import lombok.Getter;
 
@@ -55,5 +58,14 @@ public class IDataList extends IData {
         }
         builder.append("]");
         return builder.toString();
+    }
+
+    @Override
+    public JsonElement save() {
+        JsonArray jsonArray = new JsonArray();
+        for (IData value : values) {
+            jsonArray.add(value.save());
+        }
+        return jsonArray;
     }
 }

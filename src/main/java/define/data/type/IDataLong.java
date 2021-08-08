@@ -1,6 +1,8 @@
 package define.data.type;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import datastream.Octets;
 
 /**
@@ -41,5 +43,10 @@ public class IDataLong extends IData {
     @Override
     public String toString() {
         return Long.toString(value);
+    }
+
+    @Override
+    public JsonElement save() {
+        return new JsonPrimitive(value);
     }
 }

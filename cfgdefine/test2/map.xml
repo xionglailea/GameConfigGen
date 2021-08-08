@@ -1,9 +1,23 @@
 <module>
     <packageName>test2</packageName>
+
+    <bean name="EventInfo">
+        <field name="name" type="string" comment="名字"/>
+        <child name="RefreshMonster">
+            <field name="monsterId" type="int" comment="怪物id"/>
+            <field name="monsterNum" type="int" comment="怪物数量"/>
+        </child>
+        <child name="Talk">
+            <field name="talkId" type="int" comment="对话id"/>
+            <field name="talkTime" type="int" comment="时间"/>
+        </child>
+    </bean>
+
     <table name="Instance" comment="副本表" inputFile="instance.xlsx">
         <field name="id" type="int" comment="副本id"/>
         <field name="name" type="string" comment="副本名字"/>
         <field name="bonus" type="map,int,test1.Bonus" comment="副本奖励" group="server"/>
         <field name="posX" type="int" comment="入口x"/>
+        <field name="event" type="list, EventInfo" comment="副本内容"/>
     </table>
 </module>

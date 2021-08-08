@@ -1,5 +1,6 @@
 package define.data.type;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import datastream.Octets;
 import define.BeanDefine;
@@ -62,6 +63,6 @@ public abstract class IData {
         }
     }
 
-    public abstract void save(JsonObject jsonObject);
+    public abstract JsonElement save();
 
 }
