@@ -17,6 +17,12 @@ public class IDataEnum extends IData {
     private int value;
     private String enumName;
 
+    public IDataEnum(EnumDefine enumDefine, String name) {
+        this.enumDefine = enumDefine;
+        this.enumName = name;
+        this.value = enumDefine.getEnumValue(name);
+    }
+
     public IDataEnum(EnumDefine enumDefine, String name, int value) {
         this.enumDefine = enumDefine;
         this.value = value;

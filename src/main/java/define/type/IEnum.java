@@ -5,6 +5,7 @@ import define.EnumDefine;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataEnum;
+import lombok.Getter;
 
 
 /**
@@ -14,6 +15,7 @@ import define.data.type.IDataEnum;
  */
 public class IEnum implements IType {
 
+    @Getter
     private EnumDefine enumDefine;
 
     public IEnum(EnumDefine enumDefine) {

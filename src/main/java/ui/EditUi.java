@@ -1,14 +1,13 @@
 package ui;
 
 import cn.hutool.core.lang.Pair;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import define.BeanDefine;
 import define.column.BeanField;
-import define.data.type.IData;
-import define.data.type.IDataBean;
-import define.type.IBean;
-import define.type.IList;
-import define.type.IMap;
-import define.type.IType;
+import define.data.type.*;
+import define.type.*;
 import generator.Context;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,7 +22,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -54,6 +56,14 @@ public class EditUi implements Initializable {
             @Override
             public void handle(MouseEvent event) {
                 IData data = saveBean(rootGridPane, beanDefine);
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonElement jsonObject = data.save();
+                String text = gson.toJson(jsonObject);
+                try {
+                    Files.writeString(new File("test.json").toPath(), text);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -130,6 +140,7 @@ public class EditUi implements Initializable {
         if (child != null) {
             actual = Context.getIns().getBean(parent.getPackageName() + "." + child);
             container.getChildren().removeIf(e -> GridPane.getRowIndex(e) != 0);
+            //记录选择的子类型
             container.getProperties().put("subType", actual);
         }
         for (int i = 0; i < actual.getAllFields().size(); i++) {
@@ -216,60 +227,99 @@ public class EditUi implements Initializable {
 
     private void markField(Node parent, BeanField field, Node child) {
         var lists = parent.getProperties().computeIfAbsent("fields", k -> new ArrayList<Node>());
-        ((ArrayList)lists).add(new Pair<>(field, child));
+        ((ArrayList) lists).add(new Pair<>(field, child));
     }
 
     private void markList(Node parent, Node child) {
         var lists = parent.getProperties().computeIfAbsent("list", k -> new ArrayList<Node>());
-        ((ArrayList)lists).add(child);
+        ((ArrayList) lists).add(child);
     }
 
     private void removeList(Node parent, Node child) {
         var lists = parent.getProperties().get("list");
-        ((ArrayList)lists).remove(child);
+        ((ArrayList) lists).remove(child);
     }
 
     private void markMapEntry(Node parent, Node key, Node value) {
         var map = parent.getProperties().computeIfAbsent("map", k -> new HashMap<Node, Node>());
-        ((Map)map).put(key, value);
+        ((Map) map).put(key, value);
     }
 
     private void removeMapEntry(Node parent, Node key, Node value) {
         var map = parent.getProperties().get("map");
-        ((Map)map).remove(key, value);
+        ((Map) map).remove(key, value);
     }
 
-
+    //保存数据入口
+    //记录每个输入组件对应的字段类型bean field
     private IData saveBean(GridPane gridPane, BeanDefine beanDefine) {
-       ArrayList<Pair<BeanField, Node>> allFields = (ArrayList<Pair<BeanField, Node>>) rootGridPane.getProperties().get("fields");
-       BeanDefine actual = beanDefine;
-       var subType = rootGridPane.getProperties().get("subType");
-       if (beanDefine.isDynamic() && subType == null) {
-           //没有选择具体的数据类型，得报错
-           return null;
-       }
-       if (subType != null) {
-           actual = (BeanDefine) subType;
-       }
-       List<IData> data = new ArrayList<>();
+        ArrayList<Pair<BeanField, Node>> allFields = (ArrayList<Pair<BeanField, Node>>) gridPane.getProperties().get("fields");
+        BeanDefine actual = beanDefine;
+        var subType = gridPane.getProperties().get("subType");
+        if (beanDefine.isDynamic() && subType == null) {
+            //没有选择具体的数据类型，得报错
+            return null;
+        }
+        if (subType != null) {
+            actual = (BeanDefine) subType;
+        }
+        List<IData> data = new ArrayList<>();
         for (Pair<BeanField, Node> entry : allFields) {
             var field = entry.getKey();
             var value = entry.getValue();
-            data.add(saveField(value, field));
+            var temp = saveField(value, field.getRunType());
+            if (temp != null) {
+                data.add(temp);
+            }
         }
         return new IDataBean(beanDefine, actual, data);
     }
 
-    private IData saveField(Node node, BeanField beanField) {
-
-    }
-
-    private void saveList() {
-
-    }
-
-    private void saveMap() {
-
+    private IData saveField(Node node, IType fieldType) {
+        var runType = fieldType;
+        if (runType instanceof IList) {
+            TitledPane titledPane = (TitledPane) node;
+            GridPane gridPane = (GridPane) titledPane.getContent();
+            ArrayList<Node> values = (ArrayList<Node>) gridPane.getProperties().get("list");
+            IDataList iDataList = new IDataList();
+            IList temp = (IList) runType;
+            for (Node value : values) {
+                iDataList.getValues().add(saveField(value, temp.getValueType()));
+            }
+            return iDataList;
+        } else if (runType instanceof IMap) {
+            TitledPane titledPane = (TitledPane) node;
+            GridPane gridPane = (GridPane) titledPane.getContent();
+            Map<Node, Node> nodeMap = (Map<Node, Node>) gridPane.getProperties().get("map");
+            IMap temp = (IMap) runType;
+            IDataMap iDataMap = new IDataMap();
+            for (Map.Entry<Node, Node> nodeNodeEntry : nodeMap.entrySet()) {
+                var keyNode = nodeNodeEntry.getKey();
+                var valueNode = nodeNodeEntry.getValue();
+                iDataMap.getValues().put(saveField(keyNode, temp.getKey()), saveField(valueNode, temp.getValue()));
+            }
+            return iDataMap;
+        } else if (runType instanceof IBean) {
+            IBean temp = (IBean) runType;
+            TitledPane titledPane = (TitledPane) node;
+            return saveBean((GridPane) titledPane.getContent(), temp.getBeanDefine());
+        } else {
+            TextField textField = (TextField) node;
+            String content = textField.getText();
+            if (runType instanceof IEnum) {
+                IEnum iEnum = (IEnum) runType;
+                return new IDataEnum(iEnum.getEnumDefine(), content);
+            } else if (runType instanceof IInt) {
+                return new IDataInt(Integer.parseInt(content));
+            } else if (runType instanceof ILong) {
+                return new IDataLong(Long.parseLong(content));
+            } else if (runType instanceof IString) {
+                return new IDataString(content);
+            } else if (runType instanceof IFloat) {
+                return new IDataFloat(Float.parseFloat(content));
+            }
+        }
+        return null;
     }
 
 
