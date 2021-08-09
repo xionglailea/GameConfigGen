@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 public class MainUi implements Initializable {
 
     @FXML
-    private MenuBar mainMenu;
+    private MenuBar menuBar;
 
     @FXML
     private ListView<String> configList;
@@ -103,6 +103,7 @@ public class MainUi implements Initializable {
                 editView.show();
                 EditUi controller = loader.getController();
                 controller.setDataModel(tableCfg);
+                editView.setAlwaysOnTop(true);
                 oldEditStage = editView;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -123,6 +124,19 @@ public class MainUi implements Initializable {
         }
         addColumn(tableCfg);
     }
+
+    public void addData(IData data) {
+        dataTableView.getItems().add(data);
+    }
+
+    public void refreshData(IData data) {
+
+    }
+
+    public void removeData(IData data) {
+
+    }
+
 
     private void addColumn(BeanDefine beanDefine) {
         for (BeanField field : beanDefine.getFields()) {
