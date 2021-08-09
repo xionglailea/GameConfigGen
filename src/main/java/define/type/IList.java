@@ -1,11 +1,14 @@
 package define.type;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataList;
+import java.util.ArrayList;
 import java.util.function.Consumer;
+import javafx.scene.Node;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
 import lombok.Getter;
 
 
@@ -61,5 +64,17 @@ public class IList implements IType {
             dataList.getValues().add(valueType.convert(temp));
         }
         return dataList;
+    }
+
+    @Override
+    public IData convert(Node node) {
+        TitledPane titledPane = (TitledPane) node;
+        GridPane gridPane = (GridPane) titledPane.getContent();
+        ArrayList<Node> values = (ArrayList<Node>) gridPane.getProperties().get("list");
+        IDataList iDataList = new IDataList();
+        for (Node value : values) {
+            iDataList.getValues().add(valueType.convert(value));
+        }
+        return iDataList;
     }
 }

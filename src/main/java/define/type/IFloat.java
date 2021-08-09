@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataFloat;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
 
 /**
  * 浮点数
@@ -51,6 +53,13 @@ public class IFloat implements IType {
     @Override
     public IData convert(JsonElement jsonElement) {
         return new IDataFloat(jsonElement.getAsFloat());
+    }
+
+    @Override
+    public IData convert(Node node) {
+        TextField textField = (TextField) node;
+        String content = textField.getText();
+        return new IDataFloat(Float.parseFloat(content));
     }
 
     @Override

@@ -1,13 +1,16 @@
 package define.type;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataMap;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
+import javafx.scene.Node;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,5 +86,19 @@ public class IMap implements IType {
             }
         }
         return new IDataMap(values);
+    }
+
+    @Override
+    public IData convert(Node node) {
+        TitledPane titledPane = (TitledPane) node;
+        GridPane gridPane = (GridPane) titledPane.getContent();
+        Map<Node, Node> nodeMap = (Map<Node, Node>) gridPane.getProperties().get("map");
+        IDataMap iDataMap = new IDataMap();
+        for (Map.Entry<Node, Node> nodeNodeEntry : nodeMap.entrySet()) {
+            var keyNode = nodeNodeEntry.getKey();
+            var valueNode = nodeNodeEntry.getValue();
+            iDataMap.getValues().put(key.convert(keyNode), value.convert(valueNode));
+        }
+        return iDataMap;
     }
 }

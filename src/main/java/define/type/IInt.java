@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataInt;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
 
 /**
  * 整形
@@ -51,6 +53,13 @@ public class IInt implements IType {
     @Override
     public IData convert(JsonElement jsonElement) {
         return new IDataInt(jsonElement.getAsInt());
+    }
+
+    @Override
+    public IData convert(Node node) {
+        TextField textField = (TextField) node;
+        String content = textField.getText();
+        return new IDataInt(Integer.parseInt(content));
     }
 
     @Override

@@ -8,6 +8,7 @@ import define.visit.cs.CsUnmarshal;
 import define.visit.java.ExtUnmarshal;
 import define.visit.java.Unmarshal;
 import java.util.function.Consumer;
+import javafx.scene.Node;
 
 
 /**
@@ -59,6 +60,8 @@ public interface IType {
     IData convert(XlsxDataSource dataSource);
 
     IData convert(JsonElement jsonElement);
+
+    IData convert(Node node);
 
     default boolean canBeIndex() {
         return false;

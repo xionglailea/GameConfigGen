@@ -5,6 +5,8 @@ import define.EnumDefine;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataEnum;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import lombok.Getter;
 
 
@@ -54,6 +56,13 @@ public class IEnum implements IType {
         String value = jsonElement.getAsString();
         int intValue = enumDefine.getEnumValue(value);
         return new IDataEnum(enumDefine, value, intValue);
+    }
+
+    @Override
+    public IData convert(Node node) {
+        TextField textField = (TextField) node;
+        String content = textField.getText().trim();
+        return new IDataEnum(enumDefine, content);
     }
 
     @Override

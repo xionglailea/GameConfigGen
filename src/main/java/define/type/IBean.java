@@ -1,14 +1,20 @@
 package define.type;
 
+import cn.hutool.core.lang.Pair;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import define.BeanDefine;
+import define.column.BeanField;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataBean;
 import generator.Context;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
+import javafx.scene.Node;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -110,5 +116,35 @@ public class IBean implements IType {
             }
         }
         return new IDataBean(beanDefine, actualType, fieldData);
+    }
+
+    @Override
+    public IData convert(Node node) {
+        GridPane gridPane;
+        if (node instanceof TitledPane) {
+            gridPane = (GridPane) ((TitledPane)node).getContent();
+        } else {
+            gridPane = (GridPane) node;
+        }
+        ArrayList<Pair<BeanField, Node>> allFields = (ArrayList<Pair<BeanField, Node>>) gridPane.getProperties().get("fields");
+        BeanDefine actual = beanDefine;
+        var subType = gridPane.getProperties().get("subType");
+        if (beanDefine.isDynamic() && subType == null) {
+            //没有选择具体的数据类型，得报错
+            return null;
+        }
+        if (subType != null) {
+            actual = (BeanDefine) subType;
+        }
+        List<IData> data = new ArrayList<>();
+        for (Pair<BeanField, Node> entry : allFields) {
+            var field = entry.getKey();
+            var value = entry.getValue();
+            var temp = field.getRunType().convert(value);
+            if (temp != null) {
+                data.add(temp);
+            }
+        }
+        return new IDataBean(beanDefine, actual, data);
     }
 }

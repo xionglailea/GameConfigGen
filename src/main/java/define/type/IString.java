@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataString;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
 
 /**
  * string类型
@@ -44,6 +46,14 @@ public class IString implements IType {
     @Override
     public IData convert(JsonElement jsonElement) {
         return new IDataString(jsonElement.getAsString());
+    }
+
+
+    @Override
+    public IData convert(Node node) {
+        TextField textField = (TextField) node;
+        String content = textField.getText();
+        return new IDataString(content);
     }
 
     @Override
