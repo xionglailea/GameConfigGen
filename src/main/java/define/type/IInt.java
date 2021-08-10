@@ -59,6 +59,9 @@ public class IInt implements IType {
     public IData convert(Node node) {
         TextField textField = (TextField) node;
         String content = textField.getText();
+        if (content.isEmpty()) {
+            return new IDataInt(0);
+        }
         return new IDataInt(Integer.parseInt(content));
     }
 

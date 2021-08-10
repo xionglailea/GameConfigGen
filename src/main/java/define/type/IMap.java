@@ -94,10 +94,12 @@ public class IMap implements IType {
         GridPane gridPane = (GridPane) titledPane.getContent();
         Map<Node, Node> nodeMap = (Map<Node, Node>) gridPane.getProperties().get("map");
         IDataMap iDataMap = new IDataMap();
-        for (Map.Entry<Node, Node> nodeNodeEntry : nodeMap.entrySet()) {
-            var keyNode = nodeNodeEntry.getKey();
-            var valueNode = nodeNodeEntry.getValue();
-            iDataMap.getValues().put(key.convert(keyNode), value.convert(valueNode));
+        if (nodeMap != null) {
+            for (Map.Entry<Node, Node> nodeNodeEntry : nodeMap.entrySet()) {
+                var keyNode = nodeNodeEntry.getKey();
+                var valueNode = nodeNodeEntry.getValue();
+                iDataMap.getValues().put(key.convert(keyNode), value.convert(valueNode));
+            }
         }
         return iDataMap;
     }

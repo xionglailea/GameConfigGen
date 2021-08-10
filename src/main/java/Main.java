@@ -62,7 +62,6 @@ public class Main {
             task.run();
         }
         var url = Main.class.getResource("/ui/MainUi.fxml");
-        System.out.println(url.getFile().length());
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Platform.startup(() -> {

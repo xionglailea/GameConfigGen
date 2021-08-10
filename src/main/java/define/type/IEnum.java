@@ -62,6 +62,9 @@ public class IEnum implements IType {
     public IData convert(Node node) {
         TextField textField = (TextField) node;
         String content = textField.getText().trim();
+        if (content.isEmpty()) {
+            throw new RuntimeException(String.format("枚举类型 %s 不能为空", enumDefine.getName()));
+        }
         return new IDataEnum(enumDefine, content);
     }
 

@@ -72,8 +72,10 @@ public class IList implements IType {
         GridPane gridPane = (GridPane) titledPane.getContent();
         ArrayList<Node> values = (ArrayList<Node>) gridPane.getProperties().get("list");
         IDataList iDataList = new IDataList();
-        for (Node value : values) {
-            iDataList.getValues().add(valueType.convert(value));
+        if (values != null) {
+            for (Node value : values) {
+                iDataList.getValues().add(valueType.convert(value));
+            }
         }
         return iDataList;
     }

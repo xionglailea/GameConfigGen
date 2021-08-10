@@ -59,6 +59,9 @@ public class ILong implements IType {
     public IData convert(Node node) {
         TextField textField = (TextField) node;
         String content = textField.getText();
+        if (content.isEmpty()) {
+            return new IDataLong(0L);
+        }
         return new IDataLong(Long.parseLong(content));
     }
 

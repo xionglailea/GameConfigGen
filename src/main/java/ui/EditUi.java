@@ -73,16 +73,32 @@ public class EditUi implements Initializable {
         save.setOnMouseClicked(event -> {
             //保存数据入口
             //记录每个输入组件对应的字段类型bean field
-            IData data = new IBean(beanDefine).convert(rootGridPane);
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonElement jsonObject = data.save();
-            String text = gson.toJson(jsonObject);
             try {
-                Files.writeString(new File("test.json").toPath(), text);
-            } catch (IOException e) {
-                e.printStackTrace();
+                IData data = new IBean(beanDefine).convert(rootGridPane);
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonElement jsonObject = data.save();
+                String text = gson.toJson(jsonObject);
+                try {
+                    Files.writeString(new File("test.json").toPath(), text);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (NumberFormatException exception) {
+                showException("字符串转数字失败 " + exception.getMessage());
             }
+            catch (RuntimeException exception) {
+                showException(exception.getMessage());
+            }
+
         });
+    }
+
+    private void showException(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("错误提示");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void showRoot() {

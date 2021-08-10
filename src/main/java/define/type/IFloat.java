@@ -59,6 +59,9 @@ public class IFloat implements IType {
     public IData convert(Node node) {
         TextField textField = (TextField) node;
         String content = textField.getText();
+        if (content.isEmpty()) {
+            return new IDataFloat(0f);
+        }
         return new IDataFloat(Float.parseFloat(content));
     }
 
