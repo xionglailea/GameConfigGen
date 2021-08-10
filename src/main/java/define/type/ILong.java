@@ -68,6 +68,11 @@ public class ILong implements IType {
     }
 
     @Override
+    public boolean canBeMapKey() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "long";
     }

@@ -45,7 +45,7 @@ public class IDataEnum extends IData {
 
     @Override
     public String toString() {
-        return value + "-" + enumName;
+        return enumName;
     }
 
     @Override

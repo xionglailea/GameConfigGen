@@ -68,6 +68,11 @@ public class IInt implements IType {
     }
 
     @Override
+    public boolean canBeMapKey() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "int";
     }

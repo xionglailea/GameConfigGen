@@ -67,6 +67,10 @@ public interface IType {
         return false;
     }
 
+    default boolean canBeMapKey() {
+        return false;
+    }
+
     //cs 接口
 
     String getCsType();

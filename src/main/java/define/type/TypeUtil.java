@@ -40,8 +40,12 @@ public class TypeUtil {
                 return new IList(create(types.subList(1, size), packageName));
             case "map":
                 Assert.isTrue(size >= 3);
-                return new IMap(create(Collections.singletonList(types.get(1)), packageName),
+                IMap mapType = new IMap(create(Collections.singletonList(types.get(1)), packageName),
                     create(types.subList(2, size), packageName));
+                if (!mapType.getKey().canBeMapKey()) {
+                    throw new RuntimeException(String.format("%s中定义了一个错误的map，%s类型不能做key", packageName, types.get(1)));
+                }
+                return mapType;
             default:
                 //如果是结构体
                 Assert.isTrue(size == 1);

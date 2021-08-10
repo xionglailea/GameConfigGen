@@ -5,24 +5,21 @@ import define.column.BeanField;
 import define.data.type.IData;
 import define.data.type.IDataBean;
 import generator.Context;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * <p>
@@ -64,21 +61,22 @@ public class MainUi implements Initializable {
             TableRow<IData> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    if (oldBeanStage != null) {
-                        oldBeanStage.close();
+                    if (oldEditStage != null && oldEditStage.isShowing()) {
+                        return;
                     }
                     var data = row.getItem();
                     var beanData = (IDataBean) data;
                     try {
                         Stage beanView = new Stage();
-                        FXMLLoader loader = new FXMLLoader(UiManager.class.getResource("/ui/beanUi.fxml"));
+                        FXMLLoader loader = new FXMLLoader(UiManager.class.getResource("/ui/EditUi.fxml"));
                         Parent root = loader.load();
-                        beanView.setTitle(beanData.getActual().getName());
+                        beanView.setTitle(beanData.getDefine().getName());
                         beanView.setScene(new Scene(root));
                         beanView.show();
-                        BeanUi controller = loader.getController();
-                        controller.initData(beanData);
-                        oldBeanStage = beanView;
+                        EditUi controller = loader.getController();
+                        controller.changeData(beanData);
+                        beanView.setAlwaysOnTop(true);
+                        oldEditStage = beanView;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
