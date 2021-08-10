@@ -75,7 +75,6 @@ public class MainUi implements Initializable {
                         beanView.show();
                         EditUi controller = loader.getController();
                         controller.changeData(beanData);
-                        beanView.setAlwaysOnTop(true);
                         oldEditStage = beanView;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -101,7 +100,6 @@ public class MainUi implements Initializable {
                 editView.show();
                 EditUi controller = loader.getController();
                 controller.setDataModel(tableCfg);
-                editView.setAlwaysOnTop(true);
                 oldEditStage = editView;
             } catch (IOException e) {
                 e.printStackTrace();

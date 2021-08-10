@@ -6,12 +6,12 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.EditUi">
     <children>
-      <ScrollPane prefHeight="465.0" prefWidth="800.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
+      <ScrollPane prefHeight="465.0" prefWidth="800.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fitToWidth="true">
+         <content >
               <GridPane fx:id="rootGridPane" hgap="1.0" prefHeight="23.0" prefWidth="499.0" vgap="1.0">
                   <columnConstraints>
-                      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0"/>
-                      <ColumnConstraints hgrow="ALWAYS" minWidth="700.0" maxWidth="2000" />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" maxWidth="150.0"/>
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="600.0"/>
                   </columnConstraints>
                   <!--        <rowConstraints>-->
                   <!--          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />-->
