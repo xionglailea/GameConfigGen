@@ -1,11 +1,7 @@
 package generator;
 
-import define.AbsClassDefine;
-import define.AllTypeDefine;
-import define.BeanDefine;
-import define.CfgDefine;
-import define.EnumDefine;
-import define.ModuleDefine;
+import constdef.Mode;
+import define.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +26,9 @@ public class Context {
         }
         return ins;
     }
+
+    @Setter
+    private Mode mode;
 
     /**
      * 所有的bean
@@ -101,6 +100,10 @@ public class Context {
             return true;
         }
         return group.equals(mark);
+    }
+
+    public boolean canModifyData() {
+        return mode == Mode.Editor;
     }
 
 }

@@ -198,22 +198,32 @@ public class BeanDefine extends AbsClassDefine {
             }
         } else {
             for (var record : records) {
-                IDataBean dataBean = (IDataBean) record;
-                var indexValue = dataBean.getIndexData(indexField.getName());
-                if (recordsByIndex.put(indexValue, record) != null) {
-                    log.error("table = {}, index = {} 重复", getName(), indexValue);
-                }
+                buildIndex(record);
             }
         }
     }
-
-    public void checkData() {
-        //检查数据
-        for (var record : records) {
-            IData.curValidateData = record;
-            IData.curValidateTable = name;
-            record.validate();
+    
+    private boolean buildIndex(IData record) {
+        IDataBean dataBean = (IDataBean) record;
+        var indexValue = dataBean.getIndexData(indexField.getName());
+        if (recordsByIndex.put(indexValue, record) != null) {
+            log.error("table = {}, index = {} 重复", getName(), indexValue);
+            return false;
         }
+        return true;
+    }
+
+    //检查
+    public void checkData() {
+        for (var record : records) {
+            checkSingleData(record);
+        }
+    }
+    
+    private void checkSingleData(IData record) {
+        IData.curValidateData = record;
+        IData.curValidateTable = name;
+        record.validate();
     }
 
     //导出数据
@@ -230,4 +240,26 @@ public class BeanDefine extends AbsClassDefine {
         return os;
     }
 
+    public String addDataFromEditor(IData data) {
+        if (data instanceof IDataBean) {
+            return "error data type";
+        }
+        boolean result = buildIndex(data);
+        if (!result) {
+            return "key duplicate!";
+        }
+        records.add(data);
+        DataCreator.saveData(this, data, inputFiles);
+        return null;
+    }
+
+
+    public void removeData(IData data) {
+        if (records.remove(data)) {
+            IDataBean dataBean = (IDataBean) data;
+            var indexValue = dataBean.getIndexData(indexField.getName());
+            recordsByIndex.remove(indexValue);
+        }
+    }
+    
 }

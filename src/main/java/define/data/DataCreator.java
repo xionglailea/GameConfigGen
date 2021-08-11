@@ -1,14 +1,21 @@
 package define.data;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import define.BeanDefine;
 import define.data.source.AbsDataSource;
 import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
+import define.data.type.IData;
+import define.data.type.IDataBean;
 import define.type.IType;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,6 +54,27 @@ public class DataCreator {
         } else {
             throw new RuntimeException("无法识别的文件" + fileName);
         }
+    }
+
+    //save json file like item_1001.json
+    public static void saveData(BeanDefine beanDefine, IData data, String[] filePaths) {
+        for (var path : filePaths) {
+            File f = new File(path);
+            if (f.isDirectory()) {
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonElement jsonObject = data.save();
+                String text = gson.toJson(jsonObject);
+                try {
+                    IDataBean dataBean = (IDataBean) data;
+                    var indexValue = dataBean.getIndexData(beanDefine.getIndexField().getName());
+                    Files.writeString(new File(path + "/" + beanDefine.getName() + "_" + indexValue + ".json").toPath(), text);
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        throw new RuntimeException(beanDefine.getName() + " not define data directory!!");
     }
 
 }
