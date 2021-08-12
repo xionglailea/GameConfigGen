@@ -1,9 +1,6 @@
 package ui;
 
 import cn.hutool.core.lang.Pair;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import define.BeanDefine;
 import define.column.BeanField;
 import define.data.type.IData;
@@ -15,10 +12,7 @@ import define.type.IList;
 import define.type.IMap;
 import define.type.IType;
 import generator.Context;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.*;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
@@ -31,6 +25,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import lombok.Getter;
 
 /**
  * 编辑界面
@@ -48,21 +43,25 @@ public class EditUi implements Initializable {
 
     private BeanDefine beanDefine;
 
+    @Getter
     private IDataBean originalData;
 
+    private MainUi mainUi;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
     //增加数据
-    public void setDataModel(BeanDefine beanDefine) {
+    public void setDataModel(MainUi mainUi, BeanDefine beanDefine) {
+        this.mainUi = mainUi;
         this.beanDefine = beanDefine;
         startShow();
     }
 
     //修改数据
-    public void changeData(IDataBean originalData) {
+    public void changeData(MainUi mainUi, IDataBean originalData) {
+        this.mainUi = mainUi;
         this.originalData = originalData;
         this.beanDefine = originalData.getDefine();
         startShow();
@@ -75,14 +74,7 @@ public class EditUi implements Initializable {
             //记录每个输入组件对应的字段类型bean field
             try {
                 IData data = new IBean(beanDefine).convert(rootGridPane);
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                JsonElement jsonObject = data.save();
-                String text = gson.toJson(jsonObject);
-                try {
-                    Files.writeString(new File("test.json").toPath(), text);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mainUi.addOriginalData((IDataBean) data);
             } catch (NumberFormatException exception) {
                 showException("字符串转数字失败 " + exception.getMessage());
             }
@@ -180,6 +172,7 @@ public class EditUi implements Initializable {
             container.getChildren().removeIf(e -> GridPane.getRowIndex(e) != 0);
             //记录选择的子类型
             container.getProperties().put("subType", actual);
+            clearField(container);
         }
         for (int i = 0; i < actual.getAllFields().size(); i++) {
             var field = actual.getAllFields().get(i);
@@ -280,6 +273,10 @@ public class EditUi implements Initializable {
             }
         });
         markList(gridPane, node);
+    }
+
+    private void clearField(Node parent) {
+        parent.getProperties().remove("fields");
     }
 
     private void markField(Node parent, BeanField field, Node child) {

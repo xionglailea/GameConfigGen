@@ -76,6 +76,13 @@ public class BeanDefine extends AbsClassDefine {
     @JsonIgnore
     private Map<IData, IData> recordsByIndex = new HashMap<>();
 
+    public static IData getDataIndexString(IDataBean dataBean) {
+        var indexField = dataBean.getDefine().getIndexField();
+        if (indexField == null) {
+            return null;
+        }
+        return dataBean.getIndexData(indexField.getName());
+    }
 
     public void parse() {
         if (inputFile != null) {
@@ -100,7 +107,6 @@ public class BeanDefine extends AbsClassDefine {
         setFullName(getPackageName() + "." + name);
         Context.getIns().putBean(this);
     }
-
 
     /**
      * 将子bean的父子关系关联上
@@ -178,7 +184,6 @@ public class BeanDefine extends AbsClassDefine {
         generator.createBean(getPackageName(), name, this);
     }
 
-
     //加载数据
     public void load() throws Exception {
         if (inputFiles == null) {
@@ -198,19 +203,18 @@ public class BeanDefine extends AbsClassDefine {
             }
         } else {
             for (var record : records) {
-                buildIndex(record);
+                var old = buildIndex(record);
+                if (old != null) {
+                    log.error("table = {}, data = {} | {} 重复", getName(), record, old);
+                }
             }
         }
     }
-    
-    private boolean buildIndex(IData record) {
+
+    private IData buildIndex(IData record) {
         IDataBean dataBean = (IDataBean) record;
         var indexValue = dataBean.getIndexData(indexField.getName());
-        if (recordsByIndex.put(indexValue, record) != null) {
-            log.error("table = {}, index = {} 重复", getName(), indexValue);
-            return false;
-        }
-        return true;
+        return recordsByIndex.put(indexValue, record);
     }
 
     //检查
@@ -219,7 +223,7 @@ public class BeanDefine extends AbsClassDefine {
             checkSingleData(record);
         }
     }
-    
+
     private void checkSingleData(IData record) {
         IData.curValidateData = record;
         IData.curValidateTable = name;
@@ -240,26 +244,25 @@ public class BeanDefine extends AbsClassDefine {
         return os;
     }
 
-    public String addDataFromEditor(IData data) {
-        if (data instanceof IDataBean) {
-            return "error data type";
+    public void addDataFromEditor(IData data) {
+        if (!(data instanceof IDataBean)) {
+            return;
         }
-        boolean result = buildIndex(data);
-        if (!result) {
-            return "key duplicate!";
+        checkSingleData(data);
+        var old = buildIndex(data);
+        if (old != null) {
+            records.remove(old);
         }
         records.add(data);
         DataCreator.saveData(this, data, inputFiles);
-        return null;
     }
-
 
     public void removeData(IData data) {
-        if (records.remove(data)) {
-            IDataBean dataBean = (IDataBean) data;
-            var indexValue = dataBean.getIndexData(indexField.getName());
-            recordsByIndex.remove(indexValue);
-        }
+        //record中的数据已经被删掉了
+        IDataBean dataBean = (IDataBean) data;
+        var indexValue = dataBean.getIndexData(indexField.getName());
+        recordsByIndex.remove(indexValue);
+        DataCreator.removeData(this, data, inputFiles);
     }
-    
+
 }

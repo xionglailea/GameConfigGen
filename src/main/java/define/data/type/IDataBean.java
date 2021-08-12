@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import datastream.Octets;
 import define.BeanDefine;
 import java.util.List;
-
-import define.column.BeanField;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,13 +72,13 @@ public class IDataBean extends IData {
         int index = 0;
         for (var v : values) {
             v.validate();
-            v.validateRef(fields.get(index).getRef());
+            v.validateRef(fields.get(index).getName(), fields.get(index).getRef());
             ++index;
         }
     }
 
     @Override
-    public void validateRef(String ref) {
+    public void validateRef(String name, String ref) {
         if (ref == null) {
             return;
         }

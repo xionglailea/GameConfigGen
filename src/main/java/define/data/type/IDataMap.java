@@ -43,9 +43,9 @@ public class IDataMap extends IData {
     }
 
     @Override
-    public void validateRef(String ref) {
+    public void validateRef(String name, String ref) {
         for (var value : values.values()) {
-            value.validateRef(ref);
+            value.validateRef(name, ref);
         }
     }
 

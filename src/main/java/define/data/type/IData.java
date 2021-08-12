@@ -1,7 +1,6 @@
 package define.data.type;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import datastream.Octets;
 import define.BeanDefine;
 import generator.Context;
@@ -50,7 +49,7 @@ public abstract class IData {
     /**
      * 引用检查
      */
-    public void validateRef(String ref) {
+    public void validateRef(String name, String ref) {
         if (ref == null) {
             return;
         }
@@ -59,7 +58,12 @@ public abstract class IData {
         }
         BeanDefine table = Context.getIns().getTables().get(ref);
         if (!table.getRecordsByIndex().containsKey(this)) {
-            log.error("表 {} 中的数据 {},成员 {} 引用 {} 表失败！", curValidateTable, curValidateData, this, ref);
+            if (name != null) {
+                log.error("表 {} 中的数据 {},字段 {} = {} 引用 {} 表失败！", curValidateTable, curValidateData, name, this, ref);
+            } else {
+                log.error("表 {} 中的数据 {},成员 = {} 引用 {} 表失败！", curValidateTable, curValidateData, this, ref);
+
+            }
         }
     }
 

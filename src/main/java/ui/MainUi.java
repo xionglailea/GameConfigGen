@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,9 +40,14 @@ public class MainUi implements Initializable {
     @FXML
     private Button addData;
 
-    private Stage oldBeanStage;
+    @FXML
+    private Button removeData;
 
     private Stage oldEditStage;
+
+    private ObservableList curDataRecords;
+
+    private TableRow selectRow;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +66,9 @@ public class MainUi implements Initializable {
         dataTableView.setRowFactory(param -> {
             TableRow<IData> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                if (event.getClickCount() == 1) {
+                    selectRow = row;
+                } else if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     if (oldEditStage != null && oldEditStage.isShowing()) {
                         return;
                     }
@@ -74,7 +82,7 @@ public class MainUi implements Initializable {
                         beanView.setScene(new Scene(root));
                         beanView.show();
                         EditUi controller = loader.getController();
-                        controller.changeData(beanData);
+                        controller.changeData(this, beanData);
                         oldEditStage = beanView;
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -99,12 +107,36 @@ public class MainUi implements Initializable {
                 editView.setScene(new Scene(root));
                 editView.show();
                 EditUi controller = loader.getController();
-                controller.setDataModel(tableCfg);
+                controller.setDataModel(this, tableCfg);
                 oldEditStage = editView;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
+        removeData.setOnMouseClicked(event -> {
+            if (selectRow == null) {
+                showTips("请选择要删除的数据");
+                return;
+            }
+            if (oldEditStage != null && oldEditStage.isShowing()) {
+                showTips("当前正在编辑数据，请保存后再开始删除数据！");
+                return;
+            }
+            var item = selectRow.getItem();
+            curDataRecords.remove(item);
+            selectRow = null;
+            removeOriginalData((IDataBean) item);
+        });
+
+    }
+
+    private void showTips(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("错误提示");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 
@@ -113,6 +145,7 @@ public class MainUi implements Initializable {
         var tableCfg = Context.getIns().getTables().get(tableName);
         var records = FXCollections.observableList(tableCfg.getRecords());
         dataTableView.setItems(records);
+        curDataRecords = records;
         if (tableCfg.isDynamic()) {
             TableColumn<IData, String> dynamicType = new TableColumn<>("dataType");
             dynamicType.setCellValueFactory(param -> new SimpleObjectProperty<>(((IDataBean) param.getValue()).getActual().getName()));
@@ -121,18 +154,27 @@ public class MainUi implements Initializable {
         addColumn(tableCfg);
     }
 
-    public void addData(IData data) {
-        dataTableView.getItems().add(data);
+    public void addOriginalData(IDataBean data) {
+        //if (configList.getSelectionModel().getSelectedItem().equals(data.getDefine().getName())) {
+        //    var newIndex = BeanDefine.getDataIndexString(data);
+        //    for (var item : dataTableView.getItems()) {
+        //        if (newIndex == BeanDefine.getDataIndexString((IDataBean) item)) {
+        //            dataTableView.getItems().remove(item);
+        //            break;
+        //        }
+        //    }
+        //    dataTableView.getItems().add(data);
+        //}
+        data.getDefine().addDataFromEditor(data);
+        //
+        if (data.getDefine().getName().equals(configList.getSelectionModel().getSelectedItem())) {
+            setDataTableView(data.getDefine().getName());
+        }
     }
 
-    public void refreshData(IData data) {
-
+    public void removeOriginalData(IDataBean data) {
+        data.getDefine().removeData(data);
     }
-
-    public void removeData(IData data) {
-
-    }
-
 
     private void addColumn(BeanDefine beanDefine) {
         for (BeanField field : beanDefine.getFields()) {

@@ -31,7 +31,7 @@
         <field name="extra" type="ExtraInfo"/>
     </bean>
 
-    <table name="Item" comment="物品表" inputFile="item.xlsx, item1.json">
+    <table name="Item" comment="物品表" inputFile="item.xlsx, item1.json, items">
         <field name="id" type="int"/>
         <field name="itemName" type="string"/>
         <field name="itemColor" type="ItemColor"/>

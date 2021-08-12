@@ -36,7 +36,7 @@ public class IDataEnum extends IData {
     }
 
     @Override
-    public void validateRef(String ref) {
+    public void validateRef(String name, String ref) {
         if (ref == null) {
             return;
         }

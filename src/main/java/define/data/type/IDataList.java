@@ -42,9 +42,9 @@ public class IDataList extends IData {
     }
 
     @Override
-    public void validateRef(String ref) {
+    public void validateRef(String name, String ref) {
         for (var data : values) {
-            data.validateRef(ref);
+            data.validateRef(name, ref);
         }
     }
 

@@ -32,6 +32,9 @@ public class DataCreator {
         var files = new ArrayList<File>();
         for (var path : filePaths) {
             File f = new File(path);
+            if (!f.exists() && !path.contains(".")) {
+                f.mkdir();
+            }
             if (f.isDirectory()) {
                 var sub = f.listFiles();
                 if (sub != null) {
@@ -68,6 +71,7 @@ public class DataCreator {
                     IDataBean dataBean = (IDataBean) data;
                     var indexValue = dataBean.getIndexData(beanDefine.getIndexField().getName());
                     Files.writeString(new File(path + "/" + beanDefine.getName() + "_" + indexValue + ".json").toPath(), text);
+                    log.info("write new data = {}", data);
                     return;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -75,6 +79,28 @@ public class DataCreator {
             }
         }
         throw new RuntimeException(beanDefine.getName() + " not define data directory!!");
+    }
+
+
+    public static void removeData(BeanDefine beanDefine, IData data, String[] filePaths) {
+        for (var path : filePaths) {
+            File f = new File(path);
+            if (f.isDirectory()) {
+                try {
+                    IDataBean dataBean = (IDataBean) data;
+                    var indexValue = dataBean.getIndexData(beanDefine.getIndexField().getName());
+                    var temp = new File(path + "/" + beanDefine.getName() + "_" + indexValue + ".json");
+                    if (temp.exists()) {
+                        Files.delete(temp.toPath());
+                        log.info("delete data = {}", data);
+
+                    }
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }
