@@ -1,0 +1,8 @@
+{
+  "subType": "ItemPackageCurrency",
+  "id": 8,
+  "itemName": "测试物品3",
+  "itemColor": "黑色",
+  "packageCurrencyContent": [],
+  "bonuses": []
+}
