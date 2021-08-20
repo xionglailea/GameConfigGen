@@ -1,0 +1,8 @@
+<module>
+    <packageName>test3</packageName>
+
+    <table name="Drop" comment="掉落" inputFile="drop.xlsx">
+        <field name="id" type="int" comment="掉落id"/>
+        <field name="name" type="string" comment="描述"/>
+    </table>
+</module>

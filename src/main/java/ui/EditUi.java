@@ -25,6 +25,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.util.Callback;
 import lombok.Getter;
 
 /**
@@ -119,7 +120,7 @@ public class EditUi implements Initializable {
         }
     }
 
-    private Node createValue(IType valueType, IData valueData) {
+    private Node createValue(IType valueType, IData valueData, String ref) {
         Node result;
         if (valueType instanceof IBean) {
             IBean dataBean = (IBean) valueType;
@@ -131,11 +132,34 @@ public class EditUi implements Initializable {
             IList dataList = (IList) valueType;
             result = createListPane(dataList, (IDataList) valueData);
         } else {
-            var textField = new javafx.scene.control.TextField();
-            if (valueData != null) {
-                textField.setText(valueData.toString());
+            if (ref == null) {
+                var textField = new javafx.scene.control.TextField();
+                if (valueData != null) {
+                    textField.setText(valueData.toString());
+                }
+                result = textField;
+            } else {
+                var refDefine = Context.getIns().getTables().get(ref);
+                var comboBox = new ComboBox<IData>();
+                comboBox.getItems().addAll(refDefine.getRecords());
+                comboBox.setCellFactory(new Callback<>() {
+                    @Override
+                    public ListCell<IData> call(ListView<IData> param) {
+                        return new ListCell<>() {
+                            @Override
+                            protected void updateItem(IData item, boolean empty) {
+                                super.updateItem(item, empty);
+                                setText(BeanDefine.getDataIndexString((IDataBean) item).toString());
+                            }
+                        };
+                    }
+                });
+                comboBox.setVisibleRowCount(10);
+                if (valueData != null) {
+                    comboBox.getEditor().setText(valueData.toString());
+                }
+                result = comboBox;
             }
-            result = textField;
         }
         return result;
     }
@@ -188,7 +212,7 @@ public class EditUi implements Initializable {
             } else {
                 fieldData = null;
             }
-            Node fieldValue = createValue(field.getRunType(), fieldData);
+            Node fieldValue = createValue(field.getRunType(), fieldData, field.getRef());
             GridPane.setHalignment(fieldValue, HPos.LEFT);
             container.add(fieldValue, 1, i + 1);
             markField(container, field, fieldValue);
@@ -219,14 +243,14 @@ public class EditUi implements Initializable {
         GridPane.setHalignment(keyLabel, HPos.LEFT);
         //keyLabel.setPadding(new Insets(0, 3, 0, 5));
         gridPane.add(keyLabel, 0, rowIndex + 1);
-        var keyNode = createValue(keyType, keyValue);
+        var keyNode = createValue(keyType, keyValue, null);
         gridPane.add(keyNode, 1, rowIndex + 1);
         GridPane.setHalignment(keyNode, HPos.LEFT);
         var valueLabel = new Label("value");
         GridPane.setHalignment(valueLabel, HPos.LEFT);
         //valueLabel.setPadding(new Insets(0, 3, 0, 5));
         gridPane.add(valueLabel, 0, rowIndex + 2);
-        var valueNode = createValue(valueType, valueValue);
+        var valueNode = createValue(valueType, valueValue, null);
         gridPane.add(valueNode, 1, rowIndex + 2);
         GridPane.setHalignment(valueNode, HPos.LEFT);
         Button button1 = new Button("删除");
@@ -260,7 +284,7 @@ public class EditUi implements Initializable {
     }
 
     private void addListValue(GridPane gridPane, IType valueType, IData valueData) {
-        var node = createValue(valueType, valueData);
+        var node = createValue(valueType, valueData, null);
         int rowIndex = gridPane.getRowCount();
         gridPane.add(node, 0, rowIndex + 1);
         Button button1 = new Button("删除");
