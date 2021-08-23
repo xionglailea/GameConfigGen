@@ -14,6 +14,7 @@ import define.type.IType;
 import generator.Context;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -48,6 +49,7 @@ public class EditUi implements Initializable {
     private IDataBean originalData;
 
     private MainUi mainUi;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -78,8 +80,7 @@ public class EditUi implements Initializable {
                 mainUi.addOriginalData((IDataBean) data);
             } catch (NumberFormatException exception) {
                 showException("字符串转数字失败 " + exception.getMessage());
-            }
-            catch (RuntimeException exception) {
+            } catch (RuntimeException exception) {
                 showException(exception.getMessage());
             }
 
@@ -127,10 +128,10 @@ public class EditUi implements Initializable {
             result = createBeanPane(dataBean, (IDataBean) valueData);
         } else if (valueType instanceof IMap) {
             IMap dataMap = (IMap) valueType;
-            result = createMapPane(dataMap, (IDataMap) valueData);
+            result = createMapPane(dataMap, (IDataMap) valueData, ref);
         } else if (valueType instanceof IList) {
             IList dataList = (IList) valueType;
-            result = createListPane(dataList, (IDataList) valueData);
+            result = createListPane(dataList, (IDataList) valueData, ref);
         } else {
             if (ref == null) {
                 var textField = new javafx.scene.control.TextField();
@@ -140,21 +141,25 @@ public class EditUi implements Initializable {
                 result = textField;
             } else {
                 var refDefine = Context.getIns().getTables().get(ref);
-                var comboBox = new ComboBox<IData>();
-                comboBox.getItems().addAll(refDefine.getRecords());
+                var comboBox = new ComboBox<String>();
                 comboBox.setCellFactory(new Callback<>() {
                     @Override
-                    public ListCell<IData> call(ListView<IData> param) {
+                    public ListCell<String> call(ListView<String> param) {
                         return new ListCell<>() {
                             @Override
-                            protected void updateItem(IData item, boolean empty) {
+                            protected void updateItem(String item, boolean empty) {
                                 super.updateItem(item, empty);
-                                setText(BeanDefine.getDataIndexString((IDataBean) item).toString());
+                                if (item != null) {
+                                    setText(refDefine.getRecordByIndexString(item));
+                                }
                             }
                         };
                     }
                 });
-                comboBox.setVisibleRowCount(10);
+                List<String> temp = refDefine.getRecords().stream().map(e -> BeanDefine.getDataIndexString((IDataBean) e).toString()).collect(Collectors.toList());
+                comboBox.getItems().addAll(temp);
+                comboBox.setVisibleRowCount(6);
+                comboBox.setEditable(true);
                 if (valueData != null) {
                     comboBox.getEditor().setText(valueData.toString());
                 }
@@ -182,7 +187,8 @@ public class EditUi implements Initializable {
                 choiceBox.getSelectionModel().select(actualName);
                 setBeanField(beanType.getBeanDefine(), actualName, gridPane, beanValue);
             }
-            choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setBeanField(beanType.getBeanDefine(), newValue, gridPane, null));
+            choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setBeanField(beanType.getBeanDefine(),
+                newValue, gridPane, null));
         } else {
             setBeanField(beanType.getBeanDefine(), null, gridPane, beanValue);
         }
@@ -219,25 +225,25 @@ public class EditUi implements Initializable {
         }
     }
 
-    private Node createMapPane(IMap map, IDataMap mapValue) {
+    private Node createMapPane(IMap map, IDataMap mapValue, String ref) {
         GridPane gridPane = new GridPane();
         TitledPane titledPane = new TitledPane("", gridPane);
         titledPane.setExpanded(false);
         Button button = new Button("增加");
         if (mapValue != null) {
             for (Map.Entry<IData, IData> entry : mapValue.getValues().entrySet()) {
-                addEntry(gridPane, map.getKey(), entry.getKey(), map.getValue(), entry.getValue());
+                addEntry(gridPane, map.getKey(), entry.getKey(), map.getValue(), entry.getValue(), ref);
             }
         }
         button.setOnMouseClicked(event -> {
-            addEntry(gridPane, map.getKey(), null, map.getValue(), null);
+            addEntry(gridPane, map.getKey(), null, map.getValue(), null, ref);
         });
         gridPane.add(button, 0, 0);
         gridPane.getColumnConstraints().add(0, new ColumnConstraints(40));
         return titledPane;
     }
 
-    private void addEntry(GridPane gridPane, IType keyType, IData keyValue, IType valueType, IData valueValue) {
+    private void addEntry(GridPane gridPane, IType keyType, IData keyValue, IType valueType, IData valueValue, String ref) {
         int rowIndex = gridPane.getRowCount();
         Label keyLabel = new Label("key");
         GridPane.setHalignment(keyLabel, HPos.LEFT);
@@ -250,7 +256,7 @@ public class EditUi implements Initializable {
         GridPane.setHalignment(valueLabel, HPos.LEFT);
         //valueLabel.setPadding(new Insets(0, 3, 0, 5));
         gridPane.add(valueLabel, 0, rowIndex + 2);
-        var valueNode = createValue(valueType, valueValue, null);
+        var valueNode = createValue(valueType, valueValue, valueType.canBeMapKey() ? ref : null);
         gridPane.add(valueNode, 1, rowIndex + 2);
         GridPane.setHalignment(valueNode, HPos.LEFT);
         Button button1 = new Button("删除");
@@ -266,35 +272,32 @@ public class EditUi implements Initializable {
     }
 
 
-    private Node createListPane(IList listType, IDataList listValue) {
+    private Node createListPane(IList listType, IDataList listValue, String ref) {
         GridPane gridPane = new GridPane();
         TitledPane titledPane = new TitledPane("", gridPane);
         titledPane.setExpanded(false);
         Button button = new Button("增加");
         if (listValue != null) {
             for (IData value : listValue.getValues()) {
-                addListValue(gridPane, listType.getValueType(), value);
+                addListValue(gridPane, listType.getValueType(), value, ref);
             }
         }
         button.setOnMouseClicked(event -> {
-            addListValue(gridPane, listType.getValueType(), null);
+            addListValue(gridPane, listType.getValueType(), null, ref);
         });
         gridPane.add(button, 0, 0);
         return titledPane;
     }
 
-    private void addListValue(GridPane gridPane, IType valueType, IData valueData) {
-        var node = createValue(valueType, valueData, null);
+    private void addListValue(GridPane gridPane, IType valueType, IData valueData, String ref) {
+        var node = createValue(valueType, valueData, valueType.canBeMapKey() ? ref : null);
         int rowIndex = gridPane.getRowCount();
         gridPane.add(node, 0, rowIndex + 1);
         Button button1 = new Button("删除");
         gridPane.add(button1, 1, rowIndex + 1);
-        button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                removeList(gridPane, node);
-                gridPane.getChildren().removeAll(node, button1);
-            }
+        button1.setOnMouseClicked(event -> {
+            removeList(gridPane, node);
+            gridPane.getChildren().removeAll(node, button1);
         });
         markList(gridPane, node);
     }

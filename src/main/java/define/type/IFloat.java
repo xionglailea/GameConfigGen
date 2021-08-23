@@ -6,6 +6,7 @@ import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataFloat;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -57,7 +58,14 @@ public class IFloat implements IType {
 
     @Override
     public IData convert(Node node) {
-        TextField textField = (TextField) node;
+        TextField textField;
+        if (node instanceof TextField) {
+            textField = (TextField) node;
+
+        } else {
+            ComboBox comboBox = (ComboBox) node;
+            textField = comboBox.getEditor();
+        }
         String content = textField.getText();
         if (content.isEmpty()) {
             return new IDataFloat(0f);

@@ -6,6 +6,7 @@ import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataString;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -51,7 +52,14 @@ public class IString implements IType {
 
     @Override
     public IData convert(Node node) {
-        TextField textField = (TextField) node;
+        TextField textField;
+        if (node instanceof TextField) {
+            textField = (TextField) node;
+
+        } else {
+            ComboBox comboBox = (ComboBox) node;
+            textField = comboBox.getEditor();
+        }
         String content = textField.getText();
         return new IDataString(content);
     }

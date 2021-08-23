@@ -265,4 +265,12 @@ public class BeanDefine extends AbsClassDefine {
         DataCreator.removeData(this, data, inputFiles);
     }
 
+    public String getRecordByIndexString(String key) {
+        for (Map.Entry<IData, IData> entry : recordsByIndex.entrySet()) {
+            if (key.equals(entry.getKey().toString())) {
+                return entry.getValue().toString();
+            }
+        }
+        return null;
+    }
 }

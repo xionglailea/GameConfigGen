@@ -13,11 +13,13 @@
         </child>
     </bean>
 
-    <table name="Instance" comment="副本表" inputFile="instance.xlsx">
+    <table name="Instance" comment="副本表" inputFile="instance.xlsx, instance">
         <field name="id" type="int" comment="副本id"/>
         <field name="name" type="string" comment="副本名字"/>
         <field name="bonus" type="map,int,test1.Bonus" comment="副本奖励" group="server"/>
         <field name="posX" type="int" comment="入口x"/>
         <field name="event" type="list, EventInfo" comment="副本内容"/>
+        <field name="drop" type="int" comment="掉落" ref="Drop"/>
+        <field name="dropList" type="list,int" comment="掉落2" ref="Drop"/>
     </table>
 </module>
