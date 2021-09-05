@@ -256,7 +256,7 @@ public class EditUi implements Initializable {
         GridPane.setHalignment(valueLabel, HPos.LEFT);
         //valueLabel.setPadding(new Insets(0, 3, 0, 5));
         gridPane.add(valueLabel, 0, rowIndex + 2);
-        var valueNode = createValue(valueType, valueValue, valueType.canBeMapKey() ? ref : null);
+        var valueNode = createValue(valueType, valueValue, valueType.simpleType() ? ref : null);
         gridPane.add(valueNode, 1, rowIndex + 2);
         GridPane.setHalignment(valueNode, HPos.LEFT);
         Button button1 = new Button("删除");
@@ -290,7 +290,7 @@ public class EditUi implements Initializable {
     }
 
     private void addListValue(GridPane gridPane, IType valueType, IData valueData, String ref) {
-        var node = createValue(valueType, valueData, valueType.canBeMapKey() ? ref : null);
+        var node = createValue(valueType, valueData, valueType.simpleType() ? ref : null);
         int rowIndex = gridPane.getRowCount();
         gridPane.add(node, 0, rowIndex + 1);
         Button button1 = new Button("删除");

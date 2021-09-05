@@ -5,7 +5,9 @@ import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataMap;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import javafx.scene.Node;
@@ -59,18 +61,74 @@ public class IMap implements IType {
         value.addExtensionType(consumer);
     }
 
+
+    public boolean isDynamic() {
+        return value instanceof IBean && ((IBean) value).isDynamic();
+    }
+
+    //key和value之间使用->分隔
+    @Override
+    public IData convert(List<String> values, String sep) {
+        var dataMap = new HashMap<IData, IData>();
+        if (values.size() == 1) {
+            //所有数据在一个单元格内
+            String firstSep = sep.substring(0, 1);
+            String left = null;
+            if (sep.length() > 1) {
+                left = sep.substring(1);
+            }
+            String[] keyValuePair = values.get(0).split(firstSep);
+            for (String temp : keyValuePair) {
+                putOneCellData(left, dataMap, temp);
+            }
+        } else {
+            //数据存放在不同的单元格内
+            if (sep == null) {
+                //数据全部展开
+                if (isDynamic()) {
+                    throw new RuntimeException(String.format("%s 存放的是多态数据类型，需要定义分隔符号，放在一个单元格中", getJavaType()));
+                }
+                while (!values.isEmpty()) {
+                    var tempKey = key.convert(Collections.singletonList(values.remove(0)), null);
+                    var tempValue = value.convert(values, null);
+                    if (dataMap.put(tempKey, tempValue) != null) {
+                        throw new RuntimeException(String.format("%s key %s 重复", getJavaType(), tempKey));
+                    }
+                }
+            } else {
+                //每个元素在一个单元格内,单元格内的数据分隔符为sep，意味着最好只嵌套一层，如果数据定义为多态，只能用这种形式
+                for (String temp : values) {
+                    if (temp.equals(XlsxDataSource.EMPTY_STR)) {
+                        continue;
+                    }
+                    putOneCellData(sep, dataMap, temp);
+                }
+            }
+        }
+        return new IDataMap(dataMap);
+    }
+
+    private void putOneCellData(String sep, HashMap<IData, IData> dataMap, String temp) {
+        String[] entry = temp.split("->");
+        var tempKey = key.convert(Collections.singletonList(entry[0]), null);
+        var tempValue = value.convert(Collections.singletonList(entry[1]), sep);
+        if (dataMap.put(tempKey, tempValue) != null) {
+            throw new RuntimeException(String.format("%s key %s 重复", getJavaType(), tempKey));
+        }
+    }
+
     @Override
     public IData convert(XlsxDataSource dataSource) {
         var values = new HashMap<IData, IData>();
-        dataSource.expectListBegin();
-        while (!dataSource.isListEnd()) {
-            var tempKey = key.convert(dataSource);
-            var tempValue = value.convert(dataSource);
-            if (values.put(tempKey, tempValue) != null) {
-                throw new RuntimeException(String.format("%s key %s 重复", dataSource.getFile().getName(), tempKey));
-            }
-        }
-        dataSource.expectListEnd();
+        //dataSource.expectListBegin();
+        //while (!dataSource.isListEnd()) {
+        //    var tempKey = key.convert(dataSource);
+        //    var tempValue = value.convert(dataSource);
+        //    if (values.put(tempKey, tempValue) != null) {
+        //        throw new RuntimeException(String.format("%s key %s 重复", dataSource.getFile().getName(), tempKey));
+        //    }
+        //}
+        //dataSource.expectListEnd();
         return new IDataMap(values);
     }
 

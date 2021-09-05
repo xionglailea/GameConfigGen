@@ -4,8 +4,8 @@ package define.type;
 import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
-import define.data.type.IDataFloat;
 import define.data.type.IDataInt;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -16,6 +16,8 @@ import javafx.scene.control.TextField;
  * create by xiongjieqing on 2020-07-24 16:38
  */
 public class IInt implements IType {
+
+    public static IDataInt defaultInt = new IDataInt(0);
 
     @Override
     public String getTypeName() {
@@ -45,6 +47,12 @@ public class IInt implements IType {
     @Override
     public String getUnmarshalMethodName() {
         throw new RuntimeException("unsupport method");
+    }
+
+    @Override
+    public IData convert(List<String> values, String sep) {
+        String value = values.remove(0);
+        return value.equals(XlsxDataSource.EMPTY_STR) ? defaultInt : new IDataInt(Integer.parseInt(value));
     }
 
     @Override
@@ -80,7 +88,7 @@ public class IInt implements IType {
     }
 
     @Override
-    public boolean canBeMapKey() {
+    public boolean simpleType() {
         return true;
     }
 

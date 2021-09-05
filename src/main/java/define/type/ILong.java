@@ -6,6 +6,7 @@ import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataInt;
 import define.data.type.IDataLong;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -16,6 +17,8 @@ import javafx.scene.control.TextField;
  * create by xiongjieqing on 2020/7/26 17:33
  */
 public class ILong implements IType {
+
+    public static IDataLong defaultLong = new IDataLong(0L);
 
     @Override
     public String getTypeName() {
@@ -45,6 +48,12 @@ public class ILong implements IType {
     @Override
     public String getUnmarshalMethodName() {
         throw new RuntimeException("unsupport method");
+    }
+
+    @Override
+    public IData convert(List<String> values, String sep) {
+        String value = values.remove(0);
+        return value.equals(XlsxDataSource.EMPTY_STR) ? defaultLong : new IDataLong(Long.parseLong(value));
     }
 
     @Override
@@ -80,7 +89,7 @@ public class ILong implements IType {
     }
 
     @Override
-    public boolean canBeMapKey() {
+    public boolean simpleType() {
         return true;
     }
 

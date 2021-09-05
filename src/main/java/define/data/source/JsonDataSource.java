@@ -2,7 +2,7 @@ package define.data.source;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import define.type.IType;
+import define.type.IBean;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Collections;
@@ -17,11 +17,10 @@ import java.util.Collections;
  */
 public class JsonDataSource extends AbsDataSource {
 
+    public static String curFileName;
     private final File file;
 
-    public static String curFileName;
-
-    public JsonDataSource(File file, IType dataType) {
+    public JsonDataSource(File file, IBean dataType) {
         super(dataType);
         this.file = file;
     }

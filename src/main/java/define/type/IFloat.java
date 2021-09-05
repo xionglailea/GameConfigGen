@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataFloat;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -15,6 +16,8 @@ import javafx.scene.control.TextField;
  * create by xiongjieqing on 2020/7/26 17:29
  */
 public class IFloat implements IType {
+
+    public static IDataFloat defaultFloat = new IDataFloat(0);
 
     @Override
     public String getTypeName() {
@@ -47,6 +50,12 @@ public class IFloat implements IType {
     }
 
     @Override
+    public IData convert(List<String> values, String sep) {
+        String value = values.remove(0);
+        return value.equals(XlsxDataSource.EMPTY_STR) ? defaultFloat : new IDataFloat(Float.parseFloat(value));
+    }
+
+    @Override
     public IData convert(XlsxDataSource dataSource) {
         return new IDataFloat(Float.parseFloat(dataSource.getNextNotEmpty()));
     }
@@ -74,7 +83,7 @@ public class IFloat implements IType {
     }
 
     @Override
-    public boolean canBeMapKey() {
+    public boolean simpleType() {
         return true;
     }
 

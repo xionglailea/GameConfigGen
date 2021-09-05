@@ -42,7 +42,7 @@ public class TypeUtil {
                 Assert.isTrue(size >= 3);
                 IMap mapType = new IMap(create(Collections.singletonList(types.get(1)), packageName),
                     create(types.subList(2, size), packageName));
-                if (!mapType.getKey().canBeMapKey()) {
+                if (!mapType.getKey().simpleType()) {
                     throw new RuntimeException(String.format("%s中定义了一个错误的map，%s类型不能做key", packageName, types.get(1)));
                 }
                 return mapType;

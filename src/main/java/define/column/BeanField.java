@@ -19,6 +19,11 @@ public class BeanField extends AbsField {
     private String type; //原始类型
     private String comment = "";
     private String ref; //索引的config
+    private String separator; //分隔符，只在集合类型的定义有效
+    private String range; //取值范围
+    private long min;
+    private long max;
+    private boolean multiRow; //该字段是否占据多行
 
     /**
      * 检查定义的合法性
@@ -32,6 +37,14 @@ public class BeanField extends AbsField {
         }
         if (type == null) {
             throw new RuntimeException(String.format("%s 中的字段 %s 没有定义类型", host.getName(), name));
+        }
+        if (range != null) {
+            var temp = range.split(",");
+            min = Long.parseLong(temp[0]);
+            max = Long.parseLong(temp[1]);
+            if (min > max) {
+                throw new RuntimeException(String.format("%s 中的字段 %s 范围 %s 配置错误", host.getName(), name, range));
+            }
         }
     }
 

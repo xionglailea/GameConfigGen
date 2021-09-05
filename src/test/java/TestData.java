@@ -1,7 +1,11 @@
 import com.google.gson.*;
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Repeatable;
 import java.nio.file.Files;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.Test;
 
 /**
@@ -14,9 +18,9 @@ public class TestData {
 
     @Test
     public void testLoadData() {
-        cfg.CfgMgr.setDir(".temp/data");
-        cfg.CfgMgr.load();
-        System.out.println("ok");
+        //cfg.CfgMgr.setDir(".temp/data");
+        //cfg.CfgMgr.load();
+        //System.out.println("ok");
     }
 
     @Test
@@ -54,5 +58,17 @@ public class TestData {
 
     }
 
+    @Test
+    public void testReadExcel() throws Exception {
+        Workbook workbook = WorkbookFactory.create(new File("test.xlsx"));
+        var sheet = workbook.getSheetAt(0);
+        System.out.println(sheet.getLastRowNum());
+        var row = sheet.getRow(1);
+        for (Cell cell : row) {
+            System.out.println(cell.getColumnIndex() + " " + cell.getStringCellValue());
+            System.out.println(cell.getStringCellValue().equals(""));
+        }
+
+    }
 
 }

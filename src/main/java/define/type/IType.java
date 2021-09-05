@@ -7,6 +7,7 @@ import define.visit.cs.CsExtUnmarshal;
 import define.visit.cs.CsUnmarshal;
 import define.visit.java.ExtUnmarshal;
 import define.visit.java.Unmarshal;
+import java.util.List;
 import java.util.function.Consumer;
 import javafx.scene.Node;
 
@@ -57,6 +58,14 @@ public interface IType {
     default void addExtensionType(Consumer<IType> consumer) {
     }
 
+    /**
+     * 读取数据
+     * @param values 原始数据
+     * @param sep 分隔符
+     * @return
+     */
+    IData convert(List<String> values, String sep);
+
     IData convert(XlsxDataSource dataSource);
 
     IData convert(JsonElement jsonElement);
@@ -67,7 +76,7 @@ public interface IType {
         return false;
     }
 
-    default boolean canBeMapKey() {
+    default boolean simpleType() {
         return false;
     }
 

@@ -9,7 +9,7 @@ import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataBean;
-import define.type.IType;
+import define.type.IBean;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DataCreator {
 
-    public static List<AbsDataSource> getDataSource(IType type, String[] filePaths) {
+    public static List<AbsDataSource> getDataSource(IBean type, String[] filePaths) {
         var files = new ArrayList<File>();
         for (var path : filePaths) {
             File f = new File(path);
@@ -48,7 +48,7 @@ public class DataCreator {
         return files.stream().map(e -> createDataSource(type, e)).collect(Collectors.toList());
     }
 
-    public static AbsDataSource createDataSource(IType type, File file) {
+    public static AbsDataSource createDataSource(IBean type, File file) {
         String fileName = file.getName();
         if (fileName.endsWith("xlsx")) {
             return new XlsxDataSource(file, type);

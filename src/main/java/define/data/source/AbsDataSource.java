@@ -1,7 +1,7 @@
 package define.data.source;
 
 import define.data.type.IData;
-import define.type.IType;
+import define.type.IBean;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,15 +16,18 @@ import lombok.Setter;
 @Setter
 public abstract class AbsDataSource {
 
-    private IType dataType;
+    private IBean dataType;
     private List<IData> data;
     private boolean multi = true;
 
-    public AbsDataSource(IType dataType) {
+    public AbsDataSource(IBean dataType) {
         this.dataType = dataType;
     }
 
     public abstract void load() throws Exception;
 
+    protected boolean isDynamic() {
+        return ((IBean) dataType).getBeanDefine().isDynamic();
+    }
 
 }

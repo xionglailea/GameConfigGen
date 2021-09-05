@@ -5,6 +5,7 @@ import define.EnumDefine;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataEnum;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import lombok.Getter;
@@ -42,6 +43,13 @@ public class IEnum implements IType {
     @Override
     public String getJavaBoxType() {
         return "Integer";
+    }
+
+    @Override
+    public IData convert(List<String> values, String sep) {
+        String value = values.remove(0);
+        int intValue = enumDefine.getEnumValue(value);
+        return new IDataEnum(enumDefine, value, intValue);
     }
 
     @Override

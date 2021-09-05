@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataString;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -15,6 +16,8 @@ import javafx.scene.control.TextField;
  * create by xiongjieqing on 2020-07-25 10:04
  */
 public class IString implements IType {
+
+    public static IDataString defaultString = new IDataString("");
 
     private String value;
 
@@ -36,6 +39,12 @@ public class IString implements IType {
     @Override
     public String getUnmarshalMethodName() {
         throw new RuntimeException("unsupport method");
+    }
+
+    @Override
+    public IData convert(List<String> values, String sep) {
+        String value = values.remove(0);
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals("null") ? defaultString : new IDataString(value);
     }
 
     @Override
@@ -75,7 +84,7 @@ public class IString implements IType {
     }
 
     @Override
-    public boolean canBeMapKey() {
+    public boolean simpleType() {
         return true;
     }
 
