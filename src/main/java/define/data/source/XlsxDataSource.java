@@ -2,7 +2,6 @@ package define.data.source;
 
 import define.data.type.IData;
 import define.type.IBean;
-import define.type.IType;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ public class XlsxDataSource extends AbsDataSource {
 
     public static final String DEFAULT_TYPE_FIELD = "_type";
     public static final String EMPTY_STR = "";
+    public static final String NULL_STR = "null";
     private static final String LINE_COMMENT = "##";
     private static final String LIST_BEGIN = "{";
     private static final String LIST_END = "}";
@@ -48,7 +48,7 @@ public class XlsxDataSource extends AbsDataSource {
     @Override
     public void load() throws Exception {
         loadExcelSheets();
-        setData(readListData(getDataType(), true));
+        setData(readExcel());
     }
 
     public String getCellValue(Cell cell) {
@@ -57,7 +57,8 @@ public class XlsxDataSource extends AbsDataSource {
         }
         switch (cell.getCellType()) {
             case Cell.CELL_TYPE_STRING:
-                return cell.getRichStringCellValue().getString();
+                var temp = cell.getRichStringCellValue().getString().trim();
+                return temp.equals(NULL_STR) ? EMPTY_STR : temp;
             case Cell.CELL_TYPE_NUMERIC:
                 return convertNum(cell.getNumericCellValue());
             case Cell.CELL_TYPE_BOOLEAN:
@@ -157,26 +158,12 @@ public class XlsxDataSource extends AbsDataSource {
     public List<IData> readExcel() {
         var values = new ArrayList<IData>();
         while (findNewRecord()) {
-            //values.add()
+            values.add(getDataType().readNewRecord(this));
             rowIndex++;
         }
         return values;
     }
 
-
-    public List<IData> readListData(IType type, boolean readRecord) {
-        var values = new ArrayList<IData>();
-        if (!readRecord) {
-
-        }
-        //while (!(readRecord ? isEOF() : isListEnd())) {
-        //    values.add(type.convert(this));
-        //}
-        if (!readRecord) {
-
-        }
-        return values;
-    }
 
     @AllArgsConstructor
     public static class FieldDataRange {

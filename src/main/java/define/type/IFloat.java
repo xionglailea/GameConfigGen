@@ -52,12 +52,7 @@ public class IFloat implements IType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) ? defaultFloat : new IDataFloat(Float.parseFloat(value));
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        return new IDataFloat(Float.parseFloat(dataSource.getNextNotEmpty()));
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultFloat : new IDataFloat(Float.parseFloat(value));
     }
 
     @Override

@@ -13,10 +13,13 @@
 
     <bean name="Equip" comment="装备结构">
         <field name="id" type="int"/>
-        <field name="attrs" type="list,int"/>
+        <field name="attrs" type="list,int" sep=","/>
         <field name="itemId" type="int"/>
         <child name="ShoeEquip" comment="鞋子">
             <field name="color" type="int" comment="属性1"/>
+        </child>
+        <child name="Weapon" comment="武器">
+            <field name="attack" type="int" comment="攻击力"/>
         </child>
     </bean>
 
@@ -28,22 +31,26 @@
     <bean name="Bonus" comment="奖励">
         <field name="itemId" type="int" comment="物品id" ref="Item"/>
         <field name="itemNum" type="int" comment="物品数量"/>
-        <field name="extra" type="ExtraInfo"/>
+        <field name="extra" type="ExtraInfo" sep=","/>
     </bean>
 
-    <table name="Item" comment="物品表" inputFile="item.xlsx, item1.json, items">
+    <table name="Item" comment="物品表" inputFile="item.xlsx, items">
         <field name="id" type="int"/>
         <field name="itemName" type="string"/>
         <field name="itemColor" type="ItemColor"/>
         <child name="ItemNormal" comment="普通">
-            <field name="normalContent" type="map,int,list,int"/>
+            <field name="normalContent" type="map,int,list,int" sep="|,"/>
         </child>
 
         <child name="ItemPackage" comment="礼包">
             <child name="ItemPackageCurrency" comment="货币礼包">
-                <field name="packageCurrencyContent" type="map,int,int"/>
-                <field name="bonuses" type="list, Bonus"/>
+                <field name="packageCurrencyContent" type="map,int,int" sep="|"/>
+                <field name="bonuses" type="list, Bonus" multiRow="true"/>
             </child>
+        </child>
+
+        <child name="ItemTest" comment="测试">
+            <field name="equips" type="list, Equip" sep=";"/>
         </child>
     </table>
 

@@ -1,7 +1,6 @@
 import com.google.gson.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Repeatable;
 import java.nio.file.Files;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -18,9 +17,9 @@ public class TestData {
 
     @Test
     public void testLoadData() {
-        //cfg.CfgMgr.setDir(".temp/data");
-        //cfg.CfgMgr.load();
-        //System.out.println("ok");
+        cfg.CfgMgr.setDir(".temp/data");
+        cfg.CfgMgr.load();
+        System.out.println("ok");
     }
 
     @Test
@@ -69,6 +68,14 @@ public class TestData {
             System.out.println(cell.getStringCellValue().equals(""));
         }
 
+    }
+
+    @Test
+    public void testString() {
+        String a = "a,d|b|c";
+        for (String s : a.split("\\|")) {
+            System.out.println(s);
+        }
     }
 
 }

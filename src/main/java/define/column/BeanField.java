@@ -19,7 +19,7 @@ public class BeanField extends AbsField {
     private String type; //原始类型
     private String comment = "";
     private String ref; //索引的config
-    private String separator; //分隔符，只在集合类型的定义有效
+    private String sep; //分隔符，只在集合类型的定义有效
     private String range; //取值范围
     private long min;
     private long max;

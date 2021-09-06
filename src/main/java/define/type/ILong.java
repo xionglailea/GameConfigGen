@@ -4,7 +4,6 @@ package define.type;
 import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
-import define.data.type.IDataInt;
 import define.data.type.IDataLong;
 import java.util.List;
 import javafx.scene.Node;
@@ -53,12 +52,7 @@ public class ILong implements IType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) ? defaultLong : new IDataLong(Long.parseLong(value));
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        return new IDataLong(Long.parseLong(dataSource.getNextNotEmpty()));
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultLong : new IDataLong(Long.parseLong(value));
     }
 
     @Override

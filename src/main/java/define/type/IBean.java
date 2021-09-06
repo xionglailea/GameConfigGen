@@ -1,5 +1,6 @@
 package define.type;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
 import com.google.gson.JsonElement;
@@ -10,7 +11,6 @@ import define.data.type.IData;
 import define.data.type.IDataBean;
 import generator.Context;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import javafx.scene.Node;
@@ -64,10 +64,6 @@ public class IBean implements IType {
         return beanDefine.isDynamic();
     }
 
-    public int getFieldNum() {
-        return beanDefine.getAllFields().size();
-    }
-
     public IData readNewRecord(XlsxDataSource dataSource) {
         var fieldData = new ArrayList<IData>();
         var actualType = beanDefine;
@@ -78,7 +74,7 @@ public class IBean implements IType {
         for (var field : actualType.getAllFields()) {
             try {
                 var fieldRecord = dataSource.getNext(field.getName(), field.isMultiRow());
-                var data = field.getRunType().convert(fieldRecord, field.getSeparator());
+                var data = field.getRunType().convert(fieldRecord, field.getSep());
                 data.setCanExport(field.canExport());
                 fieldData.add(data);
             } catch (Exception ex) {
@@ -102,13 +98,13 @@ public class IBean implements IType {
             for (int i = 0; i < beanDefine.getAllFields().size(); i++) {
                 var field = beanDefine.getAllFields().get(i);
                 //读一个就从列表中删掉一个
-                var data = field.getRunType().convert(Collections.singletonList(values.remove(0)), field.getSeparator());
+                var data = field.getRunType().convert(CollUtil.newArrayList(values.remove(0)), field.getSep());
                 data.setCanExport(field.canExport());
                 fieldData.add(data);
             }
             return new IDataBean(beanDefine, beanDefine, fieldData);
         } else {
-            String[] fieldValue = values.get(0).split(sep);
+            String[] fieldValue = values.get(0).split(replaceRegex(sep));
             var actualType = beanDefine;
             int i = 0;
             if (beanDefine.isDynamic()) {
@@ -118,7 +114,7 @@ public class IBean implements IType {
             }
             for (var field : actualType.getAllFields()) {
                 try {
-                    IData data = field.getRunType().convert(Collections.singletonList(fieldValue[i]), field.getSeparator());
+                    IData data = field.getRunType().convert(CollUtil.newArrayList(fieldValue[i]), field.getSep());
                     data.setCanExport(field.canExport());
                     fieldData.add(data);
                     i++;
@@ -131,29 +127,6 @@ public class IBean implements IType {
             }
             return new IDataBean(beanDefine, actualType, fieldData);
         }
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        var fieldData = new ArrayList<IData>();
-        var actualType = beanDefine;
-        if (beanDefine.isDynamic()) {
-            String subTypeName = dataSource.getNextNotEmpty();
-            actualType = getActualBeanDefine(subTypeName);
-        }
-        for (var field : actualType.getAllFields()) {
-            try {
-                IData data = field.getRunType().convert(dataSource);
-                data.setCanExport(field.canExport());
-                fieldData.add(data);
-            } catch (Exception ex) {
-                log.error("解析 {} 的字段 {} 数据失败, 当前记录为 {}, 错误详细信息为", actualType.getName(), field.getName(), fieldData);
-                ex.printStackTrace();
-                //直接退出
-                System.exit(0);
-            }
-        }
-        return new IDataBean(beanDefine, actualType, fieldData);
     }
 
     private BeanDefine getActualBeanDefine(String subTypeName) {

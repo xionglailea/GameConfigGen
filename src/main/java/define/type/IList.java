@@ -1,11 +1,11 @@
 package define.type;
 
+import cn.hutool.core.collection.CollUtil;
 import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataList;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import javafx.scene.Node;
@@ -68,9 +68,9 @@ public class IList implements IType {
             if (sep.length() > 1) {
                 left = sep.substring(1);
             }
-            String[] elements = values.get(0).split(firstSep);
+            String[] elements = values.get(0).split(replaceRegex(firstSep));
             for (String element : elements) {
-                dataList.getValues().add(valueType.convert(Collections.singletonList(element), left));
+                dataList.getValues().add(valueType.convert(CollUtil.newArrayList(element), left));
             }
         } else {
             //数据存放在不同的单元格内
@@ -88,16 +88,11 @@ public class IList implements IType {
                     if (value.equals(XlsxDataSource.EMPTY_STR)) {
                         continue;
                     }
-                    dataList.getValues().add(valueType.convert(Collections.singletonList(value), sep));
+                    dataList.getValues().add(valueType.convert(CollUtil.newArrayList(value), sep));
                 }
             }
         }
         return dataList;
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        return new IDataList(dataSource.readListData(valueType, false));
     }
 
     @Override

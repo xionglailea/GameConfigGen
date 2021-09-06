@@ -1,11 +1,11 @@
 package define.type;
 
+import cn.hutool.core.collection.CollUtil;
 import com.google.gson.JsonElement;
 import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataMap;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +77,7 @@ public class IMap implements IType {
             if (sep.length() > 1) {
                 left = sep.substring(1);
             }
-            String[] keyValuePair = values.get(0).split(firstSep);
+            String[] keyValuePair = values.get(0).split(replaceRegex(firstSep));
             for (String temp : keyValuePair) {
                 putOneCellData(left, dataMap, temp);
             }
@@ -89,7 +89,7 @@ public class IMap implements IType {
                     throw new RuntimeException(String.format("%s 存放的是多态数据类型，需要定义分隔符号，放在一个单元格中", getJavaType()));
                 }
                 while (!values.isEmpty()) {
-                    var tempKey = key.convert(Collections.singletonList(values.remove(0)), null);
+                    var tempKey = key.convert(CollUtil.newArrayList(values.remove(0)), null);
                     var tempValue = value.convert(values, null);
                     if (dataMap.put(tempKey, tempValue) != null) {
                         throw new RuntimeException(String.format("%s key %s 重复", getJavaType(), tempKey));
@@ -110,26 +110,11 @@ public class IMap implements IType {
 
     private void putOneCellData(String sep, HashMap<IData, IData> dataMap, String temp) {
         String[] entry = temp.split("->");
-        var tempKey = key.convert(Collections.singletonList(entry[0]), null);
-        var tempValue = value.convert(Collections.singletonList(entry[1]), sep);
+        var tempKey = key.convert(CollUtil.newArrayList(entry[0]), null);
+        var tempValue = value.convert(CollUtil.newArrayList(entry[1]), sep);
         if (dataMap.put(tempKey, tempValue) != null) {
             throw new RuntimeException(String.format("%s key %s 重复", getJavaType(), tempKey));
         }
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        var values = new HashMap<IData, IData>();
-        //dataSource.expectListBegin();
-        //while (!dataSource.isListEnd()) {
-        //    var tempKey = key.convert(dataSource);
-        //    var tempValue = value.convert(dataSource);
-        //    if (values.put(tempKey, tempValue) != null) {
-        //        throw new RuntimeException(String.format("%s key %s 重复", dataSource.getFile().getName(), tempKey));
-        //    }
-        //}
-        //dataSource.expectListEnd();
-        return new IDataMap(values);
     }
 
     @Override

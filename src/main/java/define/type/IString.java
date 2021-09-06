@@ -44,13 +44,7 @@ public class IString implements IType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals("null") ? defaultString : new IDataString(value);
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        var v = dataSource.getNextNotEmpty();
-        return new IDataString(v.equals("null") ? "" : v);
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultString : new IDataString(value);
     }
 
     @Override

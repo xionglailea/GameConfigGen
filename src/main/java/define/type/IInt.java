@@ -52,12 +52,7 @@ public class IInt implements IType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) ? defaultInt : new IDataInt(Integer.parseInt(value));
-    }
-
-    @Override
-    public IData convert(XlsxDataSource dataSource) {
-        return new IDataInt(Integer.parseInt(dataSource.getNextNotEmpty()));
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultInt : new IDataInt(Integer.parseInt(value));
     }
 
     @Override

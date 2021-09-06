@@ -1,7 +1,7 @@
 package define.type;
 
+import cn.hutool.core.lang.Assert;
 import com.google.gson.JsonElement;
-import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.visit.cs.CsExtUnmarshal;
 import define.visit.cs.CsUnmarshal;
@@ -66,8 +66,6 @@ public interface IType {
      */
     IData convert(List<String> values, String sep);
 
-    IData convert(XlsxDataSource dataSource);
-
     IData convert(JsonElement jsonElement);
 
     IData convert(Node node);
@@ -83,5 +81,14 @@ public interface IType {
     //cs 接口
 
     String getCsType();
+
+    default String replaceRegex(String original) {
+        Assert.notNull(original);
+        if (original.equals("|")) {
+            return "\\" + original;
+        } else {
+            return original;
+        }
+    }
 
 }
