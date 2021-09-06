@@ -26,6 +26,9 @@ public class TypeUtil {
             case "int":
                 Assert.isTrue(size == 1);
                 return new IInt();
+            case "bool":
+                Assert.isTrue(size == 1);
+                return new IBoolean();
             case "float":
                 Assert.isTrue(size == 1);
                 return new IFloat();

@@ -1,12 +1,7 @@
 package define.visit.java;
 
 
-import define.type.IEnum;
-import define.type.IFloat;
-import define.type.IInt;
-import define.type.ILong;
-import define.type.IString;
-import define.type.IType;
+import define.type.*;
 
 /**
  * 解析字段调用代码生成
@@ -24,6 +19,8 @@ public class Unmarshal {
     public String accept(IType t) {
         if (t instanceof IInt) {
             return "os.readFixedInt()";
+        } else if (t instanceof IBoolean) {
+            return "os.readBool()";
         } else if (t instanceof IFloat) {
             return "os.readFloat()";
         } else if (t instanceof ILong) {

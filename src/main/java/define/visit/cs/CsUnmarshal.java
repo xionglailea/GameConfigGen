@@ -19,6 +19,8 @@ public class CsUnmarshal {
     public String accept(IType t) {
         if (t instanceof IInt) {
             return "os.ReadFixedInt()";
+        } else if (t instanceof IBoolean) {
+            return "os.ReadBool()";
         } else if (t instanceof IFloat) {
             return "os.ReadFloat()";
         } else if (t instanceof ILong) {

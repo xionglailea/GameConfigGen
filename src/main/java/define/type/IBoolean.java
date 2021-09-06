@@ -3,39 +3,40 @@ package define.type;
 import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
-import define.data.type.IDataInt;
+import define.data.type.IDataBoolean;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
- * 整形
+ * bool值类型
+ *
  * <p>
- * create by xiongjieqing on 2020-07-24 16:38
+ * create by xiongjieqing on 2021/9/6 17:14
  */
-public class IInt implements IType {
+public class IBoolean implements IType {
 
-    public static IDataInt defaultInt = new IDataInt(0);
+    public static IDataBoolean defaultBool = new IDataBoolean(false);
 
     @Override
     public String getTypeName() {
-        return "int";
+        return "bool";
     }
 
     @Override
     public String getJavaType() {
-        return "int";
+        return "boolean";
     }
 
     @Override
     public String getJavaBoxType() {
-        return "Integer";
+        return "Boolean";
     }
 
     @Override
     public String getCsType() {
-        return "int";
+        return "bool";
     }
 
     @Override
@@ -51,12 +52,13 @@ public class IInt implements IType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultInt : new IDataInt(Integer.parseInt(value));
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultBool : new IDataBoolean(Boolean.parseBoolean(value));
+
     }
 
     @Override
     public IData convert(JsonElement jsonElement) {
-        return new IDataInt(jsonElement.getAsInt());
+        return new IDataBoolean(jsonElement.getAsBoolean());
     }
 
     @Override
@@ -71,14 +73,14 @@ public class IInt implements IType {
         }
         String content = textField.getText();
         if (content.isEmpty()) {
-            return new IDataInt(0);
+            return new IDataBoolean(false);
         }
-        return new IDataInt(Integer.parseInt(content));
+        return new IDataBoolean(Boolean.parseBoolean(content));
     }
 
     @Override
     public boolean canBeIndex() {
-        return true;
+        return false;
     }
 
     @Override
@@ -88,6 +90,6 @@ public class IInt implements IType {
 
     @Override
     public String toString() {
-        return "int";
+        return "bool";
     }
 }
