@@ -13,8 +13,8 @@ import javafx.scene.Node;
 
 
 /**
- * 类型
- *
+ * 类型 支持9种数据类型的定义
+ * <p>
  * create by xiongjieqing on 2020-07-24 16:38
  */
 public interface IType {
@@ -22,13 +22,9 @@ public interface IType {
 
     String getJavaType();
 
-    default String getJavaBoxType() {
-        return getJavaType();
-    }
+    String getJavaBoxType();
 
-    default String getConstValue(String origin) {
-        throw new RuntimeException("unsuport operate!");
-    }
+    String getConstValue(String origin);
 
     default String getUnmarshal() {
         return Unmarshal.INS.accept(this);
@@ -46,22 +42,20 @@ public interface IType {
         return CsExtUnmarshal.INS.accept(this);
     }
 
-    default String getUnmarshalMethodName() {
-        return "unmarshal_" + this.toString();
-    }
+    String getUnmarshalMethodName();
 
     default String getCsUnmarshalMethodName() {
         return "Unmarshal_" + this.toString();
     }
 
     //增加扩展类型，就是通过list和map扩展的
-    default void addExtensionType(Consumer<IType> consumer) {
-    }
+    void addExtensionType(Consumer<IType> consumer);
 
     /**
      * 读取数据
+     *
      * @param values 原始数据
-     * @param sep 分隔符
+     * @param sep    分隔符
      * @return
      */
     IData convert(List<String> values, String sep);
@@ -70,13 +64,9 @@ public interface IType {
 
     IData convert(Node node);
 
-    default boolean canBeIndex() {
-        return false;
-    }
+    boolean canBeIndex();
 
-    default boolean simpleType() {
-        return false;
-    }
+    boolean simpleType();
 
     //cs 接口
 

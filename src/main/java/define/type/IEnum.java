@@ -15,7 +15,7 @@ import lombok.Getter;
  * <p>
  * create by xiongjieqing on 2020/8/28 17:03
  */
-public class IEnum implements IType {
+public class IEnum extends AbsSimpleType {
 
     @Getter
     private EnumDefine enumDefine;
@@ -45,6 +45,11 @@ public class IEnum implements IType {
     }
 
     @Override
+    public String getConstValue(String origin) {
+        throw new RuntimeException("unsupported operate!");
+    }
+
+    @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
         int intValue = enumDefine.getEnumValue(value);
@@ -66,6 +71,16 @@ public class IEnum implements IType {
             throw new RuntimeException(String.format("枚举类型 %s 不能为空", enumDefine.getName()));
         }
         return new IDataEnum(enumDefine, content);
+    }
+
+    @Override
+    public boolean canBeIndex() {
+        return false;
+    }
+
+    @Override
+    public boolean simpleType() {
+        return false;
     }
 
     @Override

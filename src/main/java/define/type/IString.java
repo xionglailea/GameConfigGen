@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
  * <p>
  * create by xiongjieqing on 2020-07-25 10:04
  */
-public class IString implements IType {
+public class IString extends AbsSimpleType {
 
     public static IDataString defaultString = new IDataString("");
 
@@ -32,13 +32,13 @@ public class IString implements IType {
     }
 
     @Override
-    public String getCsType() {
-        return "string";
+    public String getJavaBoxType() {
+        return getJavaType();
     }
 
     @Override
-    public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupport method");
+    public String getCsType() {
+        return "string";
     }
 
     @Override

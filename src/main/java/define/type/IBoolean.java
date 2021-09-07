@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
  * <p>
  * create by xiongjieqing on 2021/9/6 17:14
  */
-public class IBoolean implements IType {
+public class IBoolean extends AbsSimpleType {
 
     public static IDataBoolean defaultBool = new IDataBoolean(false);
 
@@ -41,12 +41,7 @@ public class IBoolean implements IType {
 
     @Override
     public String getConstValue(String origin) {
-        return origin;
-    }
-
-    @Override
-    public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupport method");
+        return origin.toLowerCase();
     }
 
     @Override

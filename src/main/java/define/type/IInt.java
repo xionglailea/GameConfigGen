@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
  * <p>
  * create by xiongjieqing on 2020-07-24 16:38
  */
-public class IInt implements IType {
+public class IInt extends AbsSimpleType {
 
     public static IDataInt defaultInt = new IDataInt(0);
 
@@ -41,11 +41,6 @@ public class IInt implements IType {
     @Override
     public String getConstValue(String origin) {
         return origin;
-    }
-
-    @Override
-    public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupport method");
     }
 
     @Override

@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Getter
 @Slf4j
-public class IBean implements IType {
+public class IBean extends AbsComplexType {
 
     private BeanDefine beanDefine;
 

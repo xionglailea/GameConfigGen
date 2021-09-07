@@ -20,7 +20,7 @@ import lombok.Getter;
  * create by xiongjieqing on 2020-07-24 16:38
  */
 @Getter
-public class IList implements IType {
+public class IList extends AbsComplexType {
 
     private IType valueType;
 

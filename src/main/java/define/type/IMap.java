@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Getter
 @Slf4j
-public class IMap implements IType {
+public class IMap extends AbsComplexType {
 
     private IType key;
     private IType value;

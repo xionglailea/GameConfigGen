@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
  * <p>
  * create by xiongjieqing on 2020/7/26 17:33
  */
-public class ILong implements IType {
+public class ILong extends AbsSimpleType {
 
     public static IDataLong defaultLong = new IDataLong(0L);
 
@@ -42,11 +42,6 @@ public class ILong implements IType {
     @Override
     public String getConstValue(String origin) {
         return origin + "L";
-    }
-
-    @Override
-    public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupport method");
     }
 
     @Override
