@@ -21,8 +21,8 @@ public class BeanField extends AbsField {
     private String ref; //索引的config
     private String sep; //分隔符，只在集合类型的定义有效
     private String range; //取值范围
-    private long min;
-    private long max;
+    private double min;
+    private double max;
     private boolean multiRow; //该字段是否占据多行
 
     /**
@@ -40,8 +40,8 @@ public class BeanField extends AbsField {
         }
         if (range != null) {
             var temp = range.split(",");
-            min = Long.parseLong(temp[0]);
-            max = Long.parseLong(temp[1]);
+            min = Double.parseDouble(temp[0]);
+            max = Double.parseDouble(temp[1]);
             if (min > max) {
                 throw new RuntimeException(String.format("%s 中的字段 %s 范围 %s 配置错误", host.getName(), name, range));
             }

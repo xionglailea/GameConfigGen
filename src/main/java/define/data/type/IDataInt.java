@@ -21,6 +21,12 @@ public class IDataInt extends IData {
         os.writeFixedInt(value);
     }
 
+    @Override
+    public void validateRange(double min, double max) {
+        if (value < min || value > max) {
+            printValidateRangeError();
+        }
+    }
 
     @Override
     public boolean isDefaultValue() {

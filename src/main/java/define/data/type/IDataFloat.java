@@ -24,6 +24,13 @@ public class IDataFloat extends IData {
     }
 
     @Override
+    public void validateRange(double min, double max) {
+        if (value < min || value > max) {
+            printValidateRangeError();
+        }
+    }
+
+    @Override
     public boolean isDefaultValue() {
         return value == 0;
     }

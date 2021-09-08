@@ -4,10 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import datastream.Octets;
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 /**
  * create by xiongjieqing on 2020/8/5 16:01
@@ -46,6 +45,13 @@ public class IDataMap extends IData {
     public void validateRef(String name, String ref) {
         for (var value : values.values()) {
             value.validateRef(name, ref);
+        }
+    }
+
+    @Override
+    public void validateRange(double min, double max) {
+        for (var value : values.values()) {
+            value.validateRange(min, max);
         }
     }
 

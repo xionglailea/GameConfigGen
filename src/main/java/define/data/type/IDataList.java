@@ -2,12 +2,10 @@ package define.data.type;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import datastream.Octets;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 
 
 /**
@@ -45,6 +43,13 @@ public class IDataList extends IData {
     public void validateRef(String name, String ref) {
         for (var data : values) {
             data.validateRef(name, ref);
+        }
+    }
+
+    @Override
+    public void validateRange(double min, double max) {
+        for (var data : values) {
+            data.validateRange(min, max);
         }
     }
 

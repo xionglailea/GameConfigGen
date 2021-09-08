@@ -35,6 +35,16 @@ public abstract class IData {
 
     }
 
+    /**
+     * 范围校验
+     *
+     * @param min include
+     * @param max include
+     */
+    public void validateRange(double min, double max) {
+    }
+
+
     public boolean isDefaultValue() {
         return false;
     }
@@ -65,6 +75,10 @@ public abstract class IData {
 
             }
         }
+    }
+
+    protected void printValidateRangeError() {
+        log.error("表 {} 中的数据 {} 中的 {} 范围检查失败！", curValidateTable, curValidateData, this);
     }
 
     public abstract JsonElement save();
