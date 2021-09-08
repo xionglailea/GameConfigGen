@@ -61,7 +61,7 @@ public class IDataMap extends IData {
         builder.append("map:[");
         for (var data : values.entrySet()) {
             builder.append(data.getKey());
-            builder.append(":");
+            builder.append("->");
             builder.append(data.getValue());
             builder.append(" ");
         }

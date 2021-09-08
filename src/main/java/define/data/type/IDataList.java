@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import datastream.Octets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 
@@ -55,14 +56,9 @@ public class IDataList extends IData {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("list:[");
-        for (var data : values) {
-            builder.append(data);
-            builder.append(" ");
-        }
-        builder.append("]");
-        return builder.toString();
+        return "list:[" +
+            values.stream().map(Object::toString).collect(Collectors.joining(",")) +
+            "]";
     }
 
     @Override

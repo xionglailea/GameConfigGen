@@ -40,6 +40,7 @@
         <field name="itemColor" type="ItemColor"/>
         <field name="canUse" type="bool" comment="能否使用"/>
         <child name="ItemNormal" comment="普通">
+            <field name="rangeInt" type="int" range="1,10"/>
             <field name="normalContent" type="map,int,list,int" sep="|,"/>
         </child>
 

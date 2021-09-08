@@ -67,7 +67,7 @@ public class IFloat extends AbsSimpleType {
         }
         String content = textField.getText();
         if (content.isEmpty()) {
-            return new IDataFloat(0f);
+            return defaultFloat;
         }
         return new IDataFloat(Float.parseFloat(content));
     }

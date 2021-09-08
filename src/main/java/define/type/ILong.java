@@ -67,7 +67,7 @@ public class ILong extends AbsSimpleType {
         }
         String content = textField.getText();
         if (content.isEmpty()) {
-            return new IDataLong(0L);
+            return defaultLong;
         }
         return new IDataLong(Long.parseLong(content));
     }

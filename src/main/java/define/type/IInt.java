@@ -66,7 +66,7 @@ public class IInt extends AbsSimpleType {
         }
         String content = textField.getText();
         if (content.isEmpty()) {
-            return new IDataInt(0);
+            return defaultInt;
         }
         return new IDataInt(Integer.parseInt(content));
     }

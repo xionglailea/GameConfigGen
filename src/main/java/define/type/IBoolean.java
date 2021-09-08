@@ -68,7 +68,7 @@ public class IBoolean extends AbsSimpleType {
         }
         String content = textField.getText();
         if (content.isEmpty()) {
-            return new IDataBoolean(false);
+            return defaultBool;
         }
         return new IDataBoolean(Boolean.parseBoolean(content));
     }
