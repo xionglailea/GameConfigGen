@@ -5,10 +5,11 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataLong;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+import java.util.List;
 
 /**
  * long类型
@@ -37,6 +38,11 @@ public class ILong extends AbsSimpleType {
     @Override
     public String getCsType() {
         return "long";
+    }
+
+    @Override
+    public String getGoType() {
+        return "int64";
     }
 
     @Override

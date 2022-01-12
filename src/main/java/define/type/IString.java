@@ -5,10 +5,11 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataString;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+import java.util.List;
 
 /**
  * string类型
@@ -38,6 +39,11 @@ public class IString extends AbsSimpleType {
 
     @Override
     public String getCsType() {
+        return "string";
+    }
+
+    @Override
+    public String getGoType() {
         return "string";
     }
 

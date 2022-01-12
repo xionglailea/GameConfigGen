@@ -7,9 +7,10 @@ import define.visit.cs.CsExtUnmarshal;
 import define.visit.cs.CsUnmarshal;
 import define.visit.java.ExtUnmarshal;
 import define.visit.java.Unmarshal;
+import javafx.scene.Node;
+
 import java.util.List;
 import java.util.function.Consumer;
-import javafx.scene.Node;
 
 
 /**
@@ -81,4 +82,6 @@ public interface IType {
         }
     }
 
+    //go 接口
+    String getGoType();
 }

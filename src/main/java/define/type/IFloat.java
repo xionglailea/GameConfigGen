@@ -5,10 +5,11 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataFloat;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+import java.util.List;
 
 /**
  * 浮点数
@@ -37,6 +38,11 @@ public class IFloat extends AbsSimpleType {
     @Override
     public String getCsType() {
         return "float";
+    }
+
+    @Override
+    public String getGoType() {
+        return "float32";
     }
 
     @Override

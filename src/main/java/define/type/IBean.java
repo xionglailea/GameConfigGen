@@ -10,14 +10,15 @@ import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataBean;
 import generator.Context;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
@@ -48,6 +49,11 @@ public class IBean extends AbsComplexType {
     @Override
     public String getCsType() {
         return beanDefine.getFullName();
+    }
+
+    @Override
+    public String getGoType() {
+        return beanDefine.getName();
     }
 
     @Override

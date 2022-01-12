@@ -522,6 +522,8 @@ public class Octets {
             sureWrite(n);
             System.arraycopy(x, 0, data, endPos, n);
             endPos += n;
+        } else {
+            writeCompactUint(0);
         }
     }
 

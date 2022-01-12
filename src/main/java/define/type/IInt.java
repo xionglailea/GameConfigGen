@@ -4,10 +4,11 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataInt;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+import java.util.List;
 
 /**
  * 整形
@@ -36,6 +37,11 @@ public class IInt extends AbsSimpleType {
     @Override
     public String getCsType() {
         return "int";
+    }
+
+    @Override
+    public String getGoType() {
+        return "int32";
     }
 
     @Override

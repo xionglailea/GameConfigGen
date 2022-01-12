@@ -4,10 +4,11 @@ import com.google.gson.JsonElement;
 import define.EnumDefine;
 import define.data.type.IData;
 import define.data.type.IDataEnum;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import lombok.Getter;
+
+import java.util.List;
 
 
 /**
@@ -31,6 +32,11 @@ public class IEnum extends AbsSimpleType {
 
     @Override
     public String getCsType() {
+        return "int";
+    }
+
+    @Override
+    public String getGoType() {
         return "int";
     }
 
@@ -85,7 +91,7 @@ public class IEnum extends AbsSimpleType {
 
     @Override
     public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupport method");
+        throw new RuntimeException("unsupported method");
     }
 
 

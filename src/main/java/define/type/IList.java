@@ -5,13 +5,14 @@ import com.google.gson.JsonElement;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
@@ -41,6 +42,11 @@ public class IList extends AbsComplexType {
     @Override
     public String getCsType() {
         return String.format("System.Collections.Generic.List<%s>", valueType.getCsType());
+    }
+
+    @Override
+    public String getGoType() {
+        return "*list.List";
     }
 
     @Override

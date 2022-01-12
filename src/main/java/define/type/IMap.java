@@ -6,15 +6,16 @@ import define.data.source.JsonDataSource;
 import define.data.source.XlsxDataSource;
 import define.data.type.IData;
 import define.data.type.IDataMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 
 /**
@@ -47,6 +48,11 @@ public class IMap extends AbsComplexType {
     @Override
     public String getCsType() {
         return String.format("System.Collections.Generic.Dictionary<%s, %s>", key.getCsType(), value.getCsType());
+    }
+
+    @Override
+    public String getGoType() {
+        return String.format("map[%s]%s", key.getGoType(), value.getGoType());
     }
 
     @Override
