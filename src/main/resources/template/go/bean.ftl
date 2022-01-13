@@ -1,7 +1,9 @@
 package ${packageName}
 
 import(
-
+<#list getGoImportInfo() as temp>
+    "${temp}"
+</#list>
 )
 
 <#assign structName = "${name?cap_first}">
@@ -26,7 +28,7 @@ type ${structName} struct {
 }
 
 <#if hasParent>
-    func (i *${structName}) Get${parentName} *${parentName} {
+func (i *${structName}) Get${parentName} *${parentName} {
     return &i.${parentName}
-    }
+}
 </#if>

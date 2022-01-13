@@ -1,4 +1,3 @@
-
 buildscript {
     dependencies {
         classpath "org.openjfx:javafx-plugin:0.0.9"
@@ -34,8 +33,6 @@ repositories {
 }
 
 
-
-
 sourceSets {
     main {
         java {
@@ -47,7 +44,7 @@ sourceSets {
     }
     test {
         java {
-            srcDirs = ["src/test/java",".temp/"]
+            srcDirs = ["src/test/java", ".temp/"]
         }
 
     }

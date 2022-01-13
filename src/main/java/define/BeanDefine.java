@@ -12,12 +12,10 @@ import define.data.type.IDataBean;
 import define.data.type.IDataList;
 import define.type.IBean;
 import define.type.IType;
+import define.visit.go.GoExtUnmarshal;
 import generator.Context;
 import generator.language.AbsGenerator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -272,5 +270,9 @@ public class BeanDefine extends AbsClassDefine {
             }
         }
         return null;
+    }
+
+    public Set<String> getGoImportInfo() {
+        return GoExtUnmarshal.getBeanImportInfo(this);
     }
 }

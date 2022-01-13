@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import define.data.type.IData;
 import define.visit.cs.CsExtUnmarshal;
 import define.visit.cs.CsUnmarshal;
+import define.visit.go.GoExtUnmarshal;
+import define.visit.go.GoUnmarshal;
 import define.visit.java.ExtUnmarshal;
 import define.visit.java.Unmarshal;
 import javafx.scene.Node;
@@ -35,6 +37,10 @@ public interface IType {
         return CsUnmarshal.INS.accept(this);
     }
 
+    default String getGoUnmarshal() {
+        return GoUnmarshal.INS.accept(this);
+    }
+
     default String getExtUnmarshal() {
         return ExtUnmarshal.INS.accept(this);
     }
@@ -43,9 +49,17 @@ public interface IType {
         return CsExtUnmarshal.INS.accept(this);
     }
 
+    default String getGoExtUnmarshal() {
+        return GoExtUnmarshal.INS.accept(this);
+    }
+
     String getUnmarshalMethodName();
 
     default String getCsUnmarshalMethodName() {
+        return "Unmarshal_" + this.toString();
+    }
+
+    default String getGoUnmarshalMethodName() {
         return "Unmarshal_" + this.toString();
     }
 
