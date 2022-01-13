@@ -7,7 +7,7 @@ public class GoUnmarshal {
     public static GoUnmarshal INS = new GoUnmarshal();
 
     protected String getExtension(IType t) {
-        return "cfg.Extensions" + "." + t.getUnmarshalMethodName() + "(os)";
+        return t.getGoUnmarshalMethodName() + "(os)";
     }
 
     public String accept(IType t) {
@@ -18,11 +18,11 @@ public class GoUnmarshal {
         } else if (t instanceof IFloat) {
             return "os.ReadFloat32()";
         } else if (t instanceof ILong) {
-            return "os.readFixedInt64()";
+            return "os.ReadFixedInt64()";
         } else if (t instanceof IString) {
             return "os.ReadString()";
         } else if (t instanceof IEnum) {
-            return "os.readFixedInt()";
+            return "os.ReadFixedInt()";
         } else {
             return getExtension(t);
         }
