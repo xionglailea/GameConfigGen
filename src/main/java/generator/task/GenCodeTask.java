@@ -3,6 +3,7 @@ package generator.task;
 import generator.Context;
 import generator.language.AbsGenerator;
 import generator.language.CsGenerator;
+import generator.language.GoGenerator;
 import generator.language.JavaGenerator;
 
 /**
@@ -22,6 +23,8 @@ public class GenCodeTask extends AbsTask {
             codeGenerator = new JavaGenerator();
         } else if (lan.equals("cs")) {
             codeGenerator = new CsGenerator();
+        } else if (lan.equals("go")) {
+            codeGenerator = new GoGenerator();
         } else {
             throw new RuntimeException("unknown lan " + lan);
         }
@@ -37,9 +40,9 @@ public class GenCodeTask extends AbsTask {
         for (var e : context.getBeans().values()) {
             e.genCode(codeGenerator);
         }
-        //生成extension中的代码
-        context.getAllTypeDefine().genCode(codeGenerator);
-        //生成CfgMgr代码
-        codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
+//        //生成extension中的代码
+//        context.getAllTypeDefine().genCode(codeGenerator);
+//        //生成CfgMgr代码
+//        codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
     }
 }

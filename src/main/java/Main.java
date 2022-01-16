@@ -3,12 +3,13 @@ import constdef.Mode;
 import constdef.StringConst;
 import generator.Context;
 import generator.task.*;
+import javafx.application.Platform;
+import ui.UiManager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import javafx.application.Platform;
-import ui.UiManager;
 
 /**
  * 启动入口
@@ -21,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String lan = "java";
+        String lan = "go";
         Mode mode = Mode.Generator;
         for (int i = 0; i < args.length; i = i + 2) {
             String option = args[i];

@@ -1,5 +1,7 @@
 package ${packageName}
 
+//go的结构体要不用全展开的方式 然后定义接口
+
 import(
 <#list getGoImportInfo() as temp>
     "${temp}"
@@ -11,16 +13,16 @@ import(
 
 <#if dynamic == true>
     type I${structName} interface {
-    Get${structName}() *${structName}
+    <#list allFields as field >
+        <#if field.canExport() == true>
+            Get${field.name?cap_first}() ${field.runType.getGoType()}
+        </#if>
+    </#list>
     }
 </#if>
 
 type ${structName} struct {
-<#if hasParent>
-    <#assign parentName = "${(parent.name)?cap_first}">
-    ${parentName}
-</#if>
-<#list fields as field>
+<#list allFields as field>
     <#if field.canExport() == true>
         ${(field.name)?cap_first} ${field.runType.getGoType()}  //${field.comment}
     </#if>
@@ -28,7 +30,12 @@ type ${structName} struct {
 }
 
 <#if hasParent>
-func (i *${structName}) Get${parentName} *${parentName} {
-    return &i.${parentName}
-}
+    <#list parent.allFields as field >
+        <#if field.canExport() == true>
+            func (i ${structName}) Get${field.name?cap_first}() ${field.runType.getGoType()} {
+            return i.${field.name?cap_first}
+            }
+        </#if>
+    </#list>
+
 </#if>
