@@ -2,10 +2,12 @@ import cn.hutool.core.io.FileUtil;
 import constdef.Mode;
 import constdef.StringConst;
 import generator.Context;
-import generator.task.*;
+import generator.task.AbsTask;
+import generator.task.GenCodeTask;
+import generator.task.ParseDefineTask;
+import generator.task.PreProcessTask;
 import javafx.application.Platform;
 import ui.UiManager;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +65,10 @@ public class Main {
         List<AbsTask> tasks = new ArrayList<>();
         tasks.add(new ParseDefineTask(context));
         tasks.add(new PreProcessTask(context));
-        tasks.add(new LoadDataTask(context));
+//        tasks.add(new LoadDataTask(context));
         if (mode == Mode.Generator) {
             tasks.add(new GenCodeTask(context, lan));
-            tasks.add(new ExportDataTask(context));
+//            tasks.add(new ExportDataTask(context));
         }
         for (AbsTask task : tasks) {
             task.run();

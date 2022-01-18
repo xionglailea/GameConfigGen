@@ -12,7 +12,7 @@ public class GoUnmarshal {
 
     public String accept(IType t) {
         if (t instanceof IInt) {
-            return "os.ReadFixedInt32";
+            return "os.ReadFixedInt32()";
         } else if (t instanceof IBoolean) {
             return "os.ReadBool()";
         } else if (t instanceof IFloat) {

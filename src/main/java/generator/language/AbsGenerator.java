@@ -5,7 +5,6 @@ import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import lombok.SneakyThrows;
-
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
@@ -18,23 +17,23 @@ import java.nio.charset.StandardCharsets;
 public abstract class AbsGenerator {
 
     public void createConst(String packageName, String javaName, Object data) {
-        createFile(packageName, javaName, data, "const");
+        createFile(packageName, getFileName(javaName), data, "const");
     }
 
     public void createEnum(String packageName, String javaName, Object data) {
-        createFile(packageName, javaName, data, "enum");
+        createFile(packageName, getFileName(javaName), data, "enum");
     }
 
     public void createBean(String packageName, String javaName, Object data) {
-        createFile(packageName, javaName, data, "bean");
+        createFile(packageName, getFileName(javaName), data, "bean");
     }
 
     public void createExtensions(String packageName, String javaName, Object data) {
-        createFile(packageName, javaName, data, "extensions");
+        createFile(packageName, getFileName(javaName), data, "extensions");
     }
 
     public void createCfgMgr(String packageName, String javaName, Object data) {
-        createFile(packageName, javaName, data, "cfgMgr");
+        createFile(packageName, getFileName(javaName), data, "cfgMgr");
     }
 
 
@@ -42,6 +41,10 @@ public abstract class AbsGenerator {
      * 写java文件
      */
     public abstract void createFile(String packageName, String javaName, Object data, String template);
+
+    public String getFileName(String javaName) {
+        return javaName;
+    }
 
     /**
      * 根据freemarker模板生成代码

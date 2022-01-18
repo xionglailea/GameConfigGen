@@ -40,8 +40,8 @@ public class GenCodeTask extends AbsTask {
         for (var e : context.getBeans().values()) {
             e.genCode(codeGenerator);
         }
-//        //生成extension中的代码
-//        context.getAllTypeDefine().genCode(codeGenerator);
+        //生成extension中的代码
+        context.getAllTypeDefine().genCode(codeGenerator);
 //        //生成CfgMgr代码
 //        codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
     }

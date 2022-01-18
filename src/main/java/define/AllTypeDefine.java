@@ -1,11 +1,13 @@
 package define;
 
 import define.type.IType;
+import generator.Context;
 import generator.language.AbsGenerator;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,6 +34,14 @@ public class AllTypeDefine {
 
     public void genCode(AbsGenerator codeGenerator) {
         codeGenerator.createExtensions(rootPackage, extensionFileName, this);
+    }
+
+    public List<String> getAllImport() {
+        List<String> result = new ArrayList<>();
+        for (ModuleDefine module : Context.getIns().getModules()) {
+            result.add(Context.getIns().getRootPackage() + "/" + module.getPackageName());
+        }
+        return result;
     }
 
 }

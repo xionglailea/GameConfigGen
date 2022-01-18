@@ -1,4 +1,4 @@
-package ${packageName}
+package ${moduleName}
 
 //go的结构体要不用全展开的方式 然后定义接口
 

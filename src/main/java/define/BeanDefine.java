@@ -15,10 +15,10 @@ import define.type.IType;
 import define.visit.go.GoExtUnmarshal;
 import generator.Context;
 import generator.language.AbsGenerator;
-import java.util.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import java.util.*;
 
 
 /**
@@ -53,7 +53,6 @@ public class BeanDefine extends AbsClassDefine {
     //定义的进一步解析
     @JsonIgnore
     private BeanDefine parent = null;
-    private String moduleName; //模块名，定义在moduleDefine中
     private boolean dynamic = false;
     private boolean hasParent = false;
 
@@ -89,7 +88,7 @@ public class BeanDefine extends AbsClassDefine {
             String[] temp = inputFile.split("[,;]");
             inputFiles = new String[temp.length];
             for (int i = 0; i < temp.length; i++) {
-                inputFiles[i] = StringConst.INPUT_DIR + "/" + moduleName + "/" + temp[i].trim();
+                inputFiles[i] = StringConst.INPUT_DIR + "/" + getModuleName() + "/" + temp[i].trim();
             }
         }
 
@@ -119,6 +118,7 @@ public class BeanDefine extends AbsClassDefine {
         curBean.setDynamic(true);
         for (var e : curBean.getChildren()) {
             e.setPackageName(packageName);
+            e.setModuleName(getModuleName());
             e.setFullName(packageName + "." + e.getName());
             e.setParent(curBean);
             e.setHasParent(true);

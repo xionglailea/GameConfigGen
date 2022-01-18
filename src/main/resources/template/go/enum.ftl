@@ -1,4 +1,4 @@
-package ${packageName}
+package ${moduleName}
 
 <#assign x = "">
 <#list fields as field>

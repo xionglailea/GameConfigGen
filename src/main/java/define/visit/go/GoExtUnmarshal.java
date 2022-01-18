@@ -6,8 +6,6 @@ import define.type.IBean;
 import define.type.IList;
 import define.type.IMap;
 import define.type.IType;
-import generator.Context;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +29,7 @@ public class GoExtUnmarshal {
         } else if (target instanceof IBean) {
             var beanType = (IBean) target;
             if (!beanDefine.getPackageName().equals(beanType.getBeanDefine().getPackageName())) {
-                result.add(Context.getIns().getRootPackage() + "/" + beanType.getBeanDefine().getPackageName());
+                result.add(beanType.getBeanDefine().getPackageName().replace(".", "/"));
             }
         }
     }
@@ -96,9 +94,9 @@ public class GoExtUnmarshal {
     private String buildObject(IBean beanType, BeanDefine beanDefine) {
         var s = new StringBuilder();
         s.append("    return &").append(beanType.getGoType()).append("{\n");
-        if (beanDefine.isHasParent()) {
-            s.append(buildParent(beanDefine));
-        }
+//        if (beanDefine.isHasParent()) {
+//            s.append(buildParent(beanDefine));
+//        }
         s.append(buildFields(beanDefine));
         s.append("    }\n");
         s.append("}\n");
@@ -119,7 +117,7 @@ public class GoExtUnmarshal {
 
     private String buildFields(BeanDefine beanDefine) {
         var s = new StringBuilder();
-        for (BeanField field : beanDefine.getFields()) {
+        for (BeanField field : beanDefine.getAllFields()) {
             s.append("    ").append(getGoFieldName(field)).append(": ").append(field.getRunType().getGoUnmarshal()).append(",\n");
         }
         return s.toString();

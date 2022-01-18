@@ -3,11 +3,7 @@ package generator.task;
 import cn.hutool.core.io.FileUtil;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import constdef.StringConst;
-import define.BeanDefine;
-import define.CfgDefine;
-import define.ConstDefine;
-import define.EnumDefine;
-import define.ModuleDefine;
+import define.*;
 import define.column.ConstField;
 import define.column.EnumField;
 import define.type.TypeUtil;
@@ -52,6 +48,7 @@ public class ParseDefineTask extends AbsTask {
         for (var e : moduleDefine.getEnums()) {
             e.setPackageName(context.getRootPackage() + "." + moduleDefine.getPackageName());
             e.setFullName(e.getPackageName() + "." + e.getName());
+            e.setModuleName(moduleDefine.getPackageName());
             parseEnum(e);
             context.getConstAndEnums().put(e.getFullName(), e);
         }
@@ -59,12 +56,14 @@ public class ParseDefineTask extends AbsTask {
         for (var e : moduleDefine.getConsts()) {
             e.setPackageName(context.getRootPackage() + "." + moduleDefine.getPackageName());
             e.setFullName(e.getPackageName() + "." + e.getName());
+            e.setModuleName(moduleDefine.getPackageName());
             parseConst(e);
             context.getConstAndEnums().put(e.getFullName(), e);
         }
         //结构体
         for (var e : moduleDefine.getBeans()) {
             e.setPackageName(context.getRootPackage() + "." + moduleDefine.getPackageName());
+            e.setModuleName(moduleDefine.getPackageName());
             parseBean(e);
         }
         //配置

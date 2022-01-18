@@ -14,6 +14,8 @@ import lombok.Setter;
 @Getter
 public abstract class AbsClassDefine {
 
+    private String moduleName; //模块名，定义在moduleDefine中
+
     private String packageName;
 
     private String fullName;
