@@ -37,7 +37,7 @@ public class IEnum extends AbsSimpleType {
 
     @Override
     public String getGoType() {
-        return "int";
+        return "int32";
     }
 
     @Override

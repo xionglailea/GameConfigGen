@@ -12,30 +12,30 @@ import(
 <#assign parentName = "">
 
 <#if dynamic == true>
-    type I${structName} interface {
-    <#list allFields as field >
-        <#if field.canExport() == true>
-            Get${field.name?cap_first}() ${field.runType.getGoType()}
-        </#if>
-    </#list>
-    }
+type I${structName} interface {
+<#list allFields as field >
+    <#if field.canExport() == true>
+    Get${field.name?cap_first}() ${field.runType.getGoType()?replace(moduleName + ".", "")}
+    </#if>
+</#list>
+}
 </#if>
 
 type ${structName} struct {
 <#list allFields as field>
     <#if field.canExport() == true>
-        ${(field.name)?cap_first} ${field.runType.getGoType()}  //${field.comment}
+    ${(field.name)?cap_first} ${field.runType.getGoType()?replace(moduleName + ".", "")}  //${field.comment}
     </#if>
 </#list>
 }
 
 <#if hasParent>
-    <#list parent.allFields as field >
-        <#if field.canExport() == true>
-            func (i ${structName}) Get${field.name?cap_first}() ${field.runType.getGoType()} {
-            return i.${field.name?cap_first}
-            }
-        </#if>
-    </#list>
+<#list parent.allFields as field >
+    <#if field.canExport() == true>
+func (i ${structName}) Get${field.name?cap_first}() ${field.runType.getGoType()?replace(moduleName + ".", "")} {
+    return i.${field.name?cap_first}
+}
+    </#if>
+</#list>
 
 </#if>

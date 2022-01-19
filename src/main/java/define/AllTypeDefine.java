@@ -1,5 +1,6 @@
 package define;
 
+import define.type.IBean;
 import define.type.IType;
 import generator.Context;
 import generator.language.AbsGenerator;
@@ -42,6 +43,19 @@ public class AllTypeDefine {
             result.add(Context.getIns().getRootPackage() + "/" + module.getPackageName());
         }
         return result;
+    }
+
+    public String getGoReturnType(IType type) {
+        if (!(type instanceof IBean)) {
+            return type.getGoType();
+        }
+        var beanType = (IBean)type;
+        var beanDefine = beanType.getBeanDefine();
+        if (beanDefine.isDynamic()) {
+            return beanDefine.getModuleName() + ".I" + beanDefine.getName();
+        } else {
+            return type.getGoType();
+        }
     }
 
 }

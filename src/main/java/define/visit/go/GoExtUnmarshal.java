@@ -51,11 +51,11 @@ public class GoExtUnmarshal {
     public String accept(IList listType) {
         var s = new StringBuilder();
         s.append("var n = int(os.ReadSize())\n");
-        s.append("  var x = list.New()\n");
-        s.append("  for i:= 0; i < n; i++{\n");
-        s.append("      x.PushBack(").append(listType.getValueType().getGoUnmarshal()).append(")\n");
-        s.append("  }\n");
-        s.append("  return x\n");
+        s.append("    var x = list.New()\n");
+        s.append("    for i:= 0; i < n; i++{\n");
+        s.append("        x.PushBack(").append(listType.getValueType().getGoUnmarshal()).append(")\n");
+        s.append("    }\n");
+        s.append("    return x");
         return s.toString();
     }
 
@@ -68,7 +68,7 @@ public class GoExtUnmarshal {
         s.append("        x[").append(mapType.getKey().getGoUnmarshal()).append("] = ")
                 .append(mapType.getValue().getGoUnmarshal()).append("\n");
         s.append("    }\n");
-        s.append("    return x\n");
+        s.append("    return x");
         return s.toString();
     }
 
@@ -86,20 +86,19 @@ public class GoExtUnmarshal {
             }
         }
         s.append("        default: panic(\"unknown bean id:\" + string(id))\n");
-        s.append("    }\n");
+        s.append("    }");
         return s.toString();
     }
 
 
     private String buildObject(IBean beanType, BeanDefine beanDefine) {
         var s = new StringBuilder();
-        s.append("    return &").append(beanType.getGoType()).append("{\n");
+        s.append("return &").append(beanType.getGoType().replace("*", "")).append("{\n");
 //        if (beanDefine.isHasParent()) {
 //            s.append(buildParent(beanDefine));
 //        }
         s.append(buildFields(beanDefine));
-        s.append("    }\n");
-        s.append("}\n");
+        s.append("    }");
         return s.toString();
     }
 
@@ -118,7 +117,7 @@ public class GoExtUnmarshal {
     private String buildFields(BeanDefine beanDefine) {
         var s = new StringBuilder();
         for (BeanField field : beanDefine.getAllFields()) {
-            s.append("    ").append(getGoFieldName(field)).append(": ").append(field.getRunType().getGoUnmarshal()).append(",\n");
+            s.append("        ").append(getGoFieldName(field)).append(": ").append(field.getRunType().getGoUnmarshal()).append(",\n");
         }
         return s.toString();
     }

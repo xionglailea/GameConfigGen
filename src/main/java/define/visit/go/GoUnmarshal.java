@@ -22,7 +22,7 @@ public class GoUnmarshal {
         } else if (t instanceof IString) {
             return "os.ReadString()";
         } else if (t instanceof IEnum) {
-            return "os.ReadFixedInt()";
+            return "os.ReadFixedInt32()";
         } else {
             return getExtension(t);
         }

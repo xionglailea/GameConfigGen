@@ -52,7 +52,7 @@ public class IBean extends AbsComplexType {
 
     @Override
     public String getGoType() {
-        return beanDefine.getModuleName() + "." + beanDefine.getName();
+        return "*" + beanDefine.getModuleName() + "." + beanDefine.getName();
     }
 
     @Override

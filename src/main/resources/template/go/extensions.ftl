@@ -1,4 +1,4 @@
-package extension;
+package extension
 
 import(
 "container/list"
@@ -11,7 +11,8 @@ import(
 * 解析工具类
 */
 <#list name2Type?values as iType>
-    func ${iType.getGoUnmarshalMethodName()}(datastream.Octets os) ${iType.getGoType()} {
+func ${iType.getGoUnmarshalMethodName()}(os datastream.Octets) ${getGoReturnType(iType)} {
     ${iType.getGoExtUnmarshal()}
-    }
+}
+
 </#list>
