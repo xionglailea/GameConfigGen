@@ -42,7 +42,7 @@ public class GenCodeTask extends AbsTask {
         }
         //生成extension中的代码
         context.getAllTypeDefine().genCode(codeGenerator);
-//        //生成CfgMgr代码
-//        codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
+        //生成CfgMgr代码
+        codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
     }
 }
