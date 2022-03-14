@@ -9,7 +9,12 @@ plugins {
     id 'maven'
 }
 
+
 apply plugin: "org.openjfx.javafxplugin"
+//使用非fatjar的方式打包
+apply plugin: 'application'
+
+mainClassName = 'Main'
 
 javafx {
     version = "11.0.2"
@@ -103,7 +108,7 @@ task fatJar(type: Jar, dependsOn: classes) {
         fileTree(dir: "build/classes/java/main", include: "**/*.class")
     }
     from {
-        fileTree(dir: "src/main/resources", include: "**/*")
+        fileTree(dir: "build/resources/main", include: "**/*")
     }
 
     manifest {
