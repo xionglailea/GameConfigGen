@@ -18,10 +18,6 @@ public abstract class AbsComplexType implements IType {
         throw new RuntimeException("unsupported operate!");
     }
 
-    @Override
-    public String getUnmarshalMethodName() {
-        return "unmarshal_" + this.toString();
-    }
 
     @Override
     public boolean canBeIndex() {

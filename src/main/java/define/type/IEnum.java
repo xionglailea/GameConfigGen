@@ -7,7 +7,6 @@ import define.data.type.IDataEnum;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import lombok.Getter;
-
 import java.util.List;
 
 
@@ -87,11 +86,6 @@ public class IEnum extends AbsSimpleType {
     @Override
     public boolean simpleType() {
         return false;
-    }
-
-    @Override
-    public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupported method");
     }
 
 

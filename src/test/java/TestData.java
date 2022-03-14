@@ -1,11 +1,11 @@
 import com.google.gson.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.Test;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * 测试
@@ -17,9 +17,9 @@ public class TestData {
 
     @Test
     public void testLoadData() {
-//        cfg.CfgMgr.setDir(".temp/data");
-//        cfg.CfgMgr.load();
-//        System.out.println("ok");
+        cfg.CfgMgr.setDir(".temp/data");
+        cfg.CfgMgr.load();
+        System.out.println("ok");
     }
 
     @Test

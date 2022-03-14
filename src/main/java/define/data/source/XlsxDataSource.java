@@ -9,7 +9,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,9 +132,12 @@ public class XlsxDataSource extends AbsDataSource {
             var sheet = workbook.getSheetAt(sheetIndex);
             for (int i = rowIndex; i <= sheet.getLastRowNum(); i++) {
                 var firstCell = sheet.getRow(i).getCell(0);
-                if (firstCell != null && !firstCell.getStringCellValue().startsWith(LINE_COMMENT)) {
-                    rowIndex = i;
-                    return true;
+                if (firstCell != null) {
+                    String cellValue = getCellValue(firstCell);
+                    if (!cellValue.equals(EMPTY_STR) && !cellValue.startsWith(LINE_COMMENT)) {
+                        rowIndex = i;
+                        return true;
+                    }
                 }
             }
             sheetIndex++;

@@ -11,11 +11,6 @@ import java.util.function.Consumer;
 public abstract class AbsSimpleType implements IType {
 
     @Override
-    public String getUnmarshalMethodName() {
-        throw new RuntimeException("unsupported operate!");
-    }
-
-    @Override
     public void addExtensionType(Consumer<IType> consumer) {
 
     }

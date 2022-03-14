@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -69,15 +68,22 @@ public class IList extends AbsComplexType {
         var dataList = new IDataList();
         if (values.size() == 1) {
             //所有数据在一个单元格内
-            String firstSep = sep.substring(0, 1);
-            String left = null;
-            if (sep.length() > 1) {
-                left = sep.substring(1);
+            if (sep == null) {
+                //如果确实只有1个元素
+                dataList.getValues().add(valueType.convert(CollUtil.newArrayList(values.get(0)), null));
+
+            } else {
+                String firstSep = sep.substring(0, 1);
+                String left = null;
+                if (sep.length() > 1) {
+                    left = sep.substring(1);
+                }
+                String[] elements = values.get(0).split(replaceRegex(firstSep));
+                for (String element : elements) {
+                    dataList.getValues().add(valueType.convert(CollUtil.newArrayList(element), left));
+                }
             }
-            String[] elements = values.get(0).split(replaceRegex(firstSep));
-            for (String element : elements) {
-                dataList.getValues().add(valueType.convert(CollUtil.newArrayList(element), left));
-            }
+
         } else {
             //数据存放在不同的单元格内
             if (sep == null) {
