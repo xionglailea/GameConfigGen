@@ -93,7 +93,7 @@ public class IBean extends AbsComplexType {
     }
 
     //字段中定义的bean类型的解析方式
-    //如果是多态类型，只能放在一个格子里面
+    //如果是多态类型，只能放在一个格子里面，必须有分隔符，方便列对齐
     //如果是普通类型，可以展开存放（无seq），也可以存放在一个格子里面（根据seq分隔）
     @Override
     public IData convert(List<String> values, String sep) {

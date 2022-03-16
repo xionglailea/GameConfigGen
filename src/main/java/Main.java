@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         String lan = "java";
-        Mode mode = Mode.Generator;
+        Mode mode = Mode.Editor;
         for (int i = 0; i < args.length; i = i + 2) {
             String option = args[i];
             switch (option) {
@@ -63,8 +63,9 @@ public class Main {
         tasks.add(new ParseDefineTask(context));
         tasks.add(new PreProcessTask(context));
         tasks.add(new LoadDataTask(context));
+        tasks.add(new GenCodeTask(context, lan));
+
         if (mode == Mode.Generator) {
-            tasks.add(new GenCodeTask(context, lan));
             tasks.add(new ExportDataTask(context));
         }
         for (AbsTask task : tasks) {
@@ -83,7 +84,6 @@ public class Main {
             countDownLatch.await();
             Platform.runLater(() -> {
                 new UiManager(url);
-
             });
         }
     }

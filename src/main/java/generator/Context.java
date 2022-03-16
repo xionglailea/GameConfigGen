@@ -2,12 +2,10 @@ package generator;
 
 import constdef.Mode;
 import define.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -65,6 +63,7 @@ public class Context {
     /**
      * 默认所有的都输出
      */
+    @Setter
     private String group = "all";
 
     private Context() {
@@ -91,19 +90,23 @@ public class Context {
     }
 
     /**
-     * 是否应该输出
+     * 是否应该导出
      *
      * @param mark 标记
      */
     public boolean shouldOutPut(String mark) {
-        if (mark == null || group.equals("all")) {
+        if (mark == null || mark.equals("editor") || group.equals("all")) {
             return true;
         }
-        return group.equals(mark);
+        return mark.contains(group);
     }
 
     public boolean canModifyData() {
         return mode == Mode.Editor;
+    }
+
+    public Set<String> getEditTable() {
+        return tables.entrySet().stream().filter(e -> e.getValue().getGroup() != null && e.getValue().getGroup().contains("editor")).map(Map.Entry::getKey).collect(Collectors.toSet());
     }
 
 }

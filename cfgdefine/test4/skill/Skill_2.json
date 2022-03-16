@@ -1,0 +1,16 @@
+{
+  "id": 2,
+  "desc": "恩赐解脱",
+  "skillEvents": [
+    {
+      "subType": "Damage",
+      "time": 0.0,
+      "num": 1000
+    },
+    {
+      "subType": "Damage",
+      "time": 1.0,
+      "num": 199
+    }
+  ]
+}

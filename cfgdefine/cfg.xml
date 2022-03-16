@@ -7,5 +7,6 @@
         <item>test1/item.xml</item>
         <item>test2/map.xml</item>
         <item>test3/drop.xml</item>
+        <item>test4/skill.xml</item>
     </includes>
 </cfgDefine>

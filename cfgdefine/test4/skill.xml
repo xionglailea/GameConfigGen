@@ -1,0 +1,19 @@
+<module>
+    <packageName>test4</packageName>
+
+    <bean name="SkillEvent">
+        <field name="time" type="float" comment="时间点"/>
+        <child name="Damage" comment="造成伤害">
+            <field name="num" type="int" comment="伤害数值"/>
+        </child>
+        <child name="AddBuff" comment="添加buff">
+            <field name="buffId" type="int" comment="添加的buff id"/>
+        </child>
+    </bean>
+
+    <table name="Skill" comment="技能" inputFile="skill" group="editor">
+        <field name="id" type="int" comment="技能id"/>
+        <field name="desc" type="string" comment="描述"/>
+        <field name="skillEvents" type="list, SkillEvent" comment="技能事件"/>
+    </table>
+</module>

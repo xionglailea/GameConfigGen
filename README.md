@@ -101,6 +101,7 @@ map,int,list,int表示值类型为int类型的列表。
 
 ###7.group标签
 该定义可以用在字段定义和表格定义上，根据需求到处数据，比如标识某个field  group="server"，那么会将该数据导出到服务器，不会给客户端导出。
+有client，server，editor（table上使用，表示可以用编辑器编辑）三个选项
 
 ##二、数据定义
 

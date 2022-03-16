@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "desc": "神灭斩",
+  "skillEvents": [
+    {
+      "subType": "Damage",
+      "time": 0.3,
+      "num": 100
+    },
+    {
+      "subType": "AddBuff",
+      "time": 0.8,
+      "buffId": 1
+    }
+  ]
+}

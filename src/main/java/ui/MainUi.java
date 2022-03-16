@@ -5,9 +5,6 @@ import define.column.BeanField;
 import define.data.type.IData;
 import define.data.type.IDataBean;
 import generator.Context;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,6 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * <p>
@@ -55,7 +55,7 @@ public class MainUi implements Initializable {
     }
 
     private void initConfigList() {
-        var items = FXCollections.observableArrayList(Context.getIns().getTables().keySet());
+        var items = FXCollections.observableArrayList(Context.getIns().getEditTable());
         configList.setItems(items);
         configList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override

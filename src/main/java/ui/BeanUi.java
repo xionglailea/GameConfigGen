@@ -14,13 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * 展示bean的结构
+ * 展示bean的结构,修改无效
  *
  * <p>
  * create by xiongjieqing on 2021-05-15 21:20
