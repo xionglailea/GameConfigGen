@@ -11,7 +11,7 @@ import (
 </#list>
 )
 
-var Dir = "config"
+var Dir = "data"
 
 func createOctets(fileName string) *datastream.Octets {
     file, err := os.Open(path.Join(Dir, fileName))

@@ -13,7 +13,7 @@
         </child>
     </bean>
 
-    <table name="Instance" comment="副本表" inputFile="instance.xlsx, instance">
+    <table name="Instance" comment="副本表" inputFile="instance.xlsx, instance" group="editor">
         <field name="id" type="int" comment="副本id"/>
         <field name="name" type="string" comment="副本名字"/>
         <field name="bonus" type="map,int,test1.Bonus" comment="副本奖励" group="server" multiRow="true"/>
