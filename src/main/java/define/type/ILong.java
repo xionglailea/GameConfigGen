@@ -46,6 +46,11 @@ public class ILong extends AbsSimpleType {
     }
 
     @Override
+    public String getTsType() {
+        return "number";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin + "L";
     }

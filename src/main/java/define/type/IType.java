@@ -9,6 +9,8 @@ import define.visit.go.GoExtUnmarshal;
 import define.visit.go.GoUnmarshal;
 import define.visit.java.ExtUnmarshal;
 import define.visit.java.Unmarshal;
+import define.visit.ts.TsExtUnmarshal;
+import define.visit.ts.TsUnmarshal;
 import javafx.scene.Node;
 import java.util.List;
 import java.util.function.Consumer;
@@ -41,6 +43,10 @@ public interface IType {
         return GoUnmarshal.INS.accept(this);
     }
 
+    default String getTsUnmarshal() {
+        return TsUnmarshal.INS.accept(this);
+    }
+
     // 扩展类型的读取生成代码
     default String getExtUnmarshal() {
         return ExtUnmarshal.INS.accept(this);
@@ -54,17 +60,25 @@ public interface IType {
         return GoExtUnmarshal.INS.accept(this);
     }
 
+    default String getTsExtUnmarshal() {
+        return TsExtUnmarshal.INS.accept(this);
+    }
+
     // 扩展类型的读取生成代码的方法名
     default String getUnmarshalMethodName() {
-        return "unmarshal_" + this.toString();
+        return "unmarshal_" + this;
     }
 
     default String getCsUnmarshalMethodName() {
-        return "Unmarshal_" + this.toString();
+        return "Unmarshal_" + this;
     }
 
     default String getGoUnmarshalMethodName() {
-        return "Unmarshal_" + this.toString();
+        return "Unmarshal_" + this;
+    }
+
+    default String getTsUnmarshalMethodName() {
+        return "Unmarshal_" + this;
     }
 
     //增加扩展类型，就是通过list和map扩展的
@@ -102,4 +116,6 @@ public interface IType {
 
     //go 接口
     String getGoType();
+
+    String getTsType();
 }

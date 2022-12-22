@@ -46,6 +46,11 @@ public class IFloat extends AbsSimpleType {
     }
 
     @Override
+    public String getTsType() {
+        return "number";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin + "f";
     }

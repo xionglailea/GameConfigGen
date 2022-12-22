@@ -49,6 +49,11 @@ public class IList extends AbsComplexType {
     }
 
     @Override
+    public String getTsType() {
+        return String.format("Array<%s>", valueType.getTsType());
+    }
+
+    @Override
     public String toString() {
         return "list_" + valueType;
     }

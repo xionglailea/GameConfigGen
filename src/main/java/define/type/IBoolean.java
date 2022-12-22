@@ -46,6 +46,11 @@ public class IBoolean extends AbsSimpleType {
     }
 
     @Override
+    public String getTsType() {
+        return "boolean";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin.toLowerCase();
     }

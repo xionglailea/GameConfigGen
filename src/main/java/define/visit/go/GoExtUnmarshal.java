@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class GoExtUnmarshal {
 
-    public static Set<String> getBeanImportInfo(BeanDefine beanDefine) {
+    public static Set<String> getGoBeanImportInfo(BeanDefine beanDefine) {
         var result = new HashSet<String>();
         for (BeanField field : beanDefine.getAllFields()) {
             check(beanDefine, field.getRunType(), result);

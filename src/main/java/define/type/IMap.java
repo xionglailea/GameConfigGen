@@ -56,6 +56,11 @@ public class IMap extends AbsComplexType {
     }
 
     @Override
+    public String getTsType() {
+        return String.format("Map<%s, %s>", key.getTsType(), value.getTsType());
+    }
+
+    @Override
     public String toString() {
         return "map_" + key + "_" + value;
     }

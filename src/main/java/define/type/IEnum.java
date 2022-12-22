@@ -40,6 +40,11 @@ public class IEnum extends AbsSimpleType {
     }
 
     @Override
+    public String getTsType() {
+        return "number";
+    }
+
+    @Override
     public String getJavaType() {
         return "int";
     }

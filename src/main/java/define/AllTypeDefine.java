@@ -6,10 +6,8 @@ import generator.Context;
 import generator.language.AbsGenerator;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 
 /**
@@ -37,11 +35,24 @@ public class AllTypeDefine {
         codeGenerator.createExtensions(rootPackage, extensionFileName, this);
     }
 
-    public List<String> getAllImport() {
+    public List<String> getGoAllImport() {
         List<String> result = new ArrayList<>();
         for (ModuleDefine module : Context.getIns().getModules()) {
             result.add(Context.getIns().getRootPackage() + "/" + module.getPackageName());
         }
+        return result;
+    }
+
+    public Set<String> getTsAllImport() {
+        var result = new HashSet<String>();
+        for (IType iType : name2Type.values()) {
+            if (!(iType instanceof IBean)) {
+                continue;
+            }
+            var beanType = (IBean)iType;
+            result.add(String.format("import { %s } from '../%s/%s';", beanType.getTypeName(), beanType.getBeanDefine().getModuleName(), beanType.getTypeName()));
+        }
+        result.add("import { Octets } from '../datastream/Octets';");
         return result;
     }
 

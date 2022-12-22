@@ -1,10 +1,7 @@
 package generator.task;
 
 import generator.Context;
-import generator.language.AbsGenerator;
-import generator.language.CsGenerator;
-import generator.language.GoGenerator;
-import generator.language.JavaGenerator;
+import generator.language.*;
 
 /**
  * 生成代码
@@ -14,19 +11,26 @@ import generator.language.JavaGenerator;
  */
 public class GenCodeTask extends AbsTask {
 
-    private AbsGenerator codeGenerator;
+    private final AbsGenerator codeGenerator;
 
 
     public GenCodeTask(Context context, String lan) {
         super(context);
-        if (lan.equals("java")) {
-            codeGenerator = new JavaGenerator();
-        } else if (lan.equals("cs")) {
-            codeGenerator = new CsGenerator();
-        } else if (lan.equals("go")) {
-            codeGenerator = new GoGenerator();
-        } else {
-            throw new RuntimeException("unknown lan " + lan);
+        switch (lan) {
+            case "java":
+                codeGenerator = new JavaGenerator();
+                break;
+            case "cs":
+                codeGenerator = new CsGenerator();
+                break;
+            case "go":
+                codeGenerator = new GoGenerator();
+                break;
+            case "ts":
+                codeGenerator = new TsGenerator();
+                break;
+            default:
+                throw new RuntimeException("unknown lan " + lan);
         }
     }
 

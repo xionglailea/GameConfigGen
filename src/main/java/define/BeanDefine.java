@@ -13,6 +13,7 @@ import define.data.type.IDataList;
 import define.type.IBean;
 import define.type.IType;
 import define.visit.go.GoExtUnmarshal;
+import define.visit.ts.TsExtUnmarshal;
 import generator.Context;
 import generator.language.AbsGenerator;
 import lombok.Getter;
@@ -273,6 +274,10 @@ public class BeanDefine extends AbsClassDefine {
     }
 
     public Set<String> getGoImportInfo() {
-        return GoExtUnmarshal.getBeanImportInfo(this);
+        return GoExtUnmarshal.getGoBeanImportInfo(this);
+    }
+
+    public Set<String> getTsImportInfo() {
+        return TsExtUnmarshal.getTsBeanImportInfo(this);
     }
 }

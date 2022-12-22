@@ -2,7 +2,7 @@ package extension
 
 import(
 "container/list"
-<#list getAllImport() as temp>
+<#list getGoAllImport() as temp>
     "${temp}"
 </#list>
 )
