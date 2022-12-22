@@ -433,6 +433,7 @@ public class Octets {
 
     public void writeFixedLong(long x) {
         sureWrite(8);
+        // 采用的是小端序 低位字节放在低地址
         data[(endPos + 7)] = (byte) (x >> 56);
         data[(endPos + 6)] = (byte) (x >> 48);
         data[(endPos + 5)] = (byte) (x >> 40);

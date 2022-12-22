@@ -165,6 +165,7 @@ func (o *Octets) WriteCompactShort(x int16) {
 			o.SureWrite(1)
 			o.data[o.endPos] = byte(x)
 			o.endPos++
+			return
 		} else if x < 0x4000 {
 			//去除符号位的最高位
 			o.SureWrite(2)
@@ -434,7 +435,7 @@ func (o *Octets) WriteFixedInt32(x int32) {
 }
 
 func (o *Octets) ReadFixedInt64() int64 {
-	o.SureWrite(8)
+	o.SureRead(8)
 	x := int64(o.data[o.beginPos]) | int64(o.data[o.beginPos+1])<<8 | int64(o.data[o.beginPos+2])<<16 | int64(o.data[o.beginPos+3])<<24 | int64(o.data[o.beginPos+4])<<32 | int64(o.data[o.beginPos+5])<<40 | int64(o.data[o.beginPos+6])<<48 | int64(o.data[o.beginPos+7])<<56
 	o.beginPos += 8
 	return x
