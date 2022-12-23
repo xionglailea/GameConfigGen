@@ -6,7 +6,7 @@ import * as extension from './extension/Extensions';
 import fs from 'fs';
 
 export class CfgMgr {
-    static _dir = "data"
+    static _dir = "../data"
     static createOctets(file: string): Octets {
         let path = this._dir + "/" + file
         let data = fs.readFileSync(path);

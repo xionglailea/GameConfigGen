@@ -7,6 +7,7 @@ import define.type.IBean;
 import define.type.IList;
 import define.type.IMap;
 import define.type.IType;
+import generator.Context;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,10 +22,22 @@ public class TsExtUnmarshal {
 
     public static Set<String> getTsBeanImportInfo(BeanDefine beanDefine) {
         var result = new HashSet<String>();
+        var hasRef = false;
         for (BeanField field : beanDefine.getAllFields()) {
             checkTs(beanDefine, field.getRunType(), result);
+            if (field.hasRef()) {
+                hasRef = true;
+                var refDefine = Context.getIns().getTables().get(field.getRef());
+                if (!beanDefine.getPackageName().equals(refDefine.getPackageName())) {
+                    result.add(String.format("import { %s } from '../%s/%s';", refDefine.getName(), refDefine.getModuleName(), refDefine.getName()));
+                } else {
+                    result.add(String.format("import { %s } from './%s';", refDefine.getName(), refDefine.getName()));
+                }
+            }
         }
-
+        if (hasRef) {
+            result.add("import { ins } from '../CfgMgr';");
+        }
         result.add("import * as extension from '../extension/Extensions';");
         result.add("import { Octets } from '../datastream/Octets';");
         if (beanDefine.isHasParent()) {

@@ -35,4 +35,19 @@ export class ${name} {
         </#if>
 </#list>
     }
+
+<#list fields as field>
+    <#if field.canExport() == true>
+    <#if field.hasRef()>
+        <#assign typeName = field.runType.getTypeName()>
+        <#if typeName == "list">
+        <#else>
+    public get${field.name?cap_first}Ref(): ${field.ref} {
+        return ins.${field.ref?lower_case}Map.get(this.${field.name})!;
+    }
+        </#if>
+    </#if>
+    </#if>
+</#list>
+
 }
