@@ -45,7 +45,7 @@ public class IList extends AbsComplexType {
 
     @Override
     public String getGoType() {
-        return "*list.List";
+        return String.format("[]%s", valueType.getGoType());
     }
 
     @Override

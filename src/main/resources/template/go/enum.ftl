@@ -1,4 +1,4 @@
-package ${moduleName}
+package ${getRootPkg()}
 
 <#assign x = "">
 <#list fields as field>

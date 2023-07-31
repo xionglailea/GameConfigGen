@@ -28,4 +28,8 @@ public abstract class AbsClassDefine {
         return Context.getIns().shouldOutPut(group);
     }
 
+    public String getRootPkg() {
+        return Context.getIns().getRootPackage();
+    }
+
 }

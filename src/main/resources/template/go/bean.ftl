@@ -1,10 +1,4 @@
-package ${moduleName}
-
-import(
-<#list getGoImportInfo() as temp>
-    "${temp}"
-</#list>
-)
+package ${getRootPkg()}
 
 <#assign structName = "${name?cap_first}">
 <#assign parentName = "">
@@ -25,7 +19,7 @@ type I${structName} interface {
 type ${structName} struct {
 <#list allFields as field>
     <#if field.canExport() == true>
-    ${(field.name)?cap_first} ${field.runType.getGoType()?replace(moduleName + ".", "")}  //${field.comment}
+    ${(field.name)?cap_first} ${field.runType.getGoType()?replace(moduleName + ".", "")}  <#if field.comment != "">// ${field.comment}</#if>
     </#if>
 </#list>
 }

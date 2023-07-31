@@ -17,7 +17,7 @@ public class GoGenerator extends AbsGenerator {
                 Context.getIns().getAllTypeDefine().addType(new IBean(e));
             }
         });
-        createFile(packageName + "/extension", getFileName(javaName), data, "extensions");
+        createFile(packageName, "extensions_" + getFileName(javaName), data, "extensions");
     }
 
 
@@ -29,7 +29,13 @@ public class GoGenerator extends AbsGenerator {
     @Override
     public void createFile(String packageName, String javaName, Object data, String template) {
         String text = generate("/template/go", template + ".ftl", data);
-        String path = packageName.replace(".", "/") + "/" + javaName + ".go";
+        int firstPoint = packageName.indexOf(".");
+        String path = "";
+        if (firstPoint > 0) {
+            path = packageName.substring(0, firstPoint) + "/" + packageName.substring(firstPoint + 1).replace(".", "_") + "_" + javaName + ".go";
+        } else {
+            path = packageName + "/" + javaName + ".go";
+        }
         File file = new File(StringConst.OUTPUT_CODE_DIR, path);
         FileUtil.writeUtf8String(text, file);
         log.info("write go file :: {}", file);

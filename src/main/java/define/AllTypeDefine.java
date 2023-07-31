@@ -63,7 +63,7 @@ public class AllTypeDefine {
         var beanType = (IBean)type;
         var beanDefine = beanType.getBeanDefine();
         if (beanDefine.isDynamic()) {
-            return beanDefine.getModuleName() + ".I" + beanDefine.getName();
+            return "I" + beanDefine.getName();
         } else {
             return type.getGoType();
         }

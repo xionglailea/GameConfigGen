@@ -11,29 +11,6 @@ import java.util.Set;
 
 public class GoExtUnmarshal {
 
-    public static Set<String> getGoBeanImportInfo(BeanDefine beanDefine) {
-        var result = new HashSet<String>();
-        for (BeanField field : beanDefine.getAllFields()) {
-            check(beanDefine, field.getRunType(), result);
-        }
-        return result;
-    }
-
-    private static void check(BeanDefine beanDefine, IType target, Set<String> result) {
-        if (target instanceof IList) {
-            result.add("container/list");
-            check(beanDefine, ((IList) (target)).getValueType(), result);
-        } else if (target instanceof IMap) {
-            var mapType = (IMap) target;
-            check(beanDefine, mapType.getValue(), result);
-        } else if (target instanceof IBean) {
-            var beanType = (IBean) target;
-            if (!beanDefine.getPackageName().equals(beanType.getBeanDefine().getPackageName())) {
-                result.add(beanType.getBeanDefine().getPackageName().replace(".", "/"));
-            }
-        }
-    }
-
     public static GoExtUnmarshal INS = new GoExtUnmarshal();
 
     public String accept(IType type) {
@@ -51,9 +28,9 @@ public class GoExtUnmarshal {
     public String accept(IList listType) {
         var s = new StringBuilder();
         s.append("var n = int(os.ReadSize())\n");
-        s.append("    var x = list.New()\n");
+        s.append(String.format("    var x = make(%s, 0)\n", listType.getGoType()));
         s.append("    for i:= 0; i < n; i++{\n");
-        s.append("        x.PushBack(").append(listType.getValueType().getGoUnmarshal()).append(")\n");
+        s.append("        x = append(x, ").append(listType.getValueType().getGoUnmarshal()).append(")\n");
         s.append("    }\n");
         s.append("    return x");
         return s.toString();

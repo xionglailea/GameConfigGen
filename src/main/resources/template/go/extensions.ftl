@@ -1,10 +1,7 @@
-package extension
+package ${rootPackage}
 
 import(
-"container/list"
-<#list getGoAllImport() as temp>
-    "${temp}"
-</#list>
+    "game/datastream"
 )
 
 /**

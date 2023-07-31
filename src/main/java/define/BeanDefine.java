@@ -19,6 +19,7 @@ import generator.language.AbsGenerator;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
 import java.util.*;
 
 
@@ -271,10 +272,6 @@ public class BeanDefine extends AbsClassDefine {
             }
         }
         return null;
-    }
-
-    public Set<String> getGoImportInfo() {
-        return GoExtUnmarshal.getGoBeanImportInfo(this);
     }
 
     public Set<String> getTsImportInfo() {
