@@ -31,12 +31,12 @@ public class EnumDefine extends AbsClassDefine{
         generator.createEnum(getPackageName(), name, this);
     }
 
-    public int getEnumValue(String value) {
+    public int getEnumValue(String enumName) {
         for (EnumField field : fields) {
-            if (field.getName().equals(value) || field.getAlias().equals(value)) {
+            if (field.getName().equals(enumName) || field.getAlias().equals(enumName)) {
                 return field.getValue();
             }
         }
-        throw new RuntimeException(String.format("枚举类型 %s 中没有名字或者别称为 %s 的枚举定义", name, value));
+        throw new RuntimeException(String.format("枚举类型 %s 中没有名字或者别称为 %s 的枚举定义", name, enumName));
     }
 }
