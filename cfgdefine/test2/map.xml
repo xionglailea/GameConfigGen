@@ -21,5 +21,6 @@
         <field name="event" type="list, EventInfo" comment="副本内容" multiRow="true" sep=";"/>
         <field name="drop" type="int" comment="掉落" ref="Drop"/>
         <field name="dropList" type="list,int" comment="掉落2" ref="Drop"/>
+        <field name="bg" type="string" comment="背景图片路径" path="true"/>
     </table>
 </module>

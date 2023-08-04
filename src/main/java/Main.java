@@ -45,6 +45,9 @@ public class Main {
                         mode = Mode.Editor;
                     }
                     break;
+                case "-root_dir":
+                    StringConst.VALIDATE_ROOT_DIR = args[i + 1];
+                    break;
                 default:
                     throw new RuntimeException("unknown args " + option);
             }

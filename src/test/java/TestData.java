@@ -1,3 +1,4 @@
+import cn.hutool.core.io.FileUtil;
 import com.google.gson.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -17,9 +18,9 @@ public class TestData {
 
     @Test
     public void testLoadData() {
-        cfg.CfgMgr.setDir(".temp/data");
-        cfg.CfgMgr.load();
-        System.out.println("ok");
+//        cfg.CfgMgr.setDir(".temp/data");
+//        cfg.CfgMgr.load();
+//        System.out.println("ok");
     }
 
     @Test

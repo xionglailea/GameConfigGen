@@ -21,4 +21,6 @@ public class StringConst {
     //导出分组
     public static Set<String> ALL_GROUPS = new HashSet<>(Arrays.asList("all", "server", "client", "editor"));
 
+    public static String VALIDATE_ROOT_DIR = ".";
+
 }

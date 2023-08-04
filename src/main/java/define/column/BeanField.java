@@ -24,7 +24,7 @@ public class BeanField extends AbsField {
     private double min;
     private double max;
     private boolean multiRow; //该字段是否占据多行
-
+    private boolean path; //
     /**
      * 检查定义的合法性
      */

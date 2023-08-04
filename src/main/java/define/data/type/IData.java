@@ -44,6 +44,13 @@ public abstract class IData {
     public void validateRange(double min, double max) {
     }
 
+    /**
+     * 路径校验
+     */
+    public void validatePath() {
+
+    }
+
 
     public boolean isDefaultValue() {
         return false;
@@ -79,6 +86,10 @@ public abstract class IData {
 
     protected void printValidateRangeError() {
         log.error("表 {} 中的数据 {} 中的 {} 范围检查失败！", curValidateTable, curValidateData, this);
+    }
+
+    protected void printValidatePathError() {
+        log.error("表 {} 中的数据 {} 中的 {} 路径检查失败！", curValidateTable, curValidateData, this);
     }
 
     public abstract JsonElement save();

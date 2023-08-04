@@ -74,6 +74,9 @@ public class IDataBean extends IData {
             var field = fields.get(index);
             v.validate();
             v.validateRef(field.getName(), field.getRef());
+            if (field.isPath()) {
+                v.validatePath();
+            }
             if (field.getRange() != null) {
                 v.validateRange(field.getMin(), field.getMax());
             }

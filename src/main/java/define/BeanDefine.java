@@ -205,7 +205,7 @@ public class BeanDefine extends AbsClassDefine {
             for (var record : records) {
                 var old = buildIndex(record);
                 if (old != null) {
-                    log.error("table = {}, data = {} | {} 重复", getName(), record, old);
+                    log.error("table = {}, 主键id重复 data = {} | {}", getName(), record, old);
                 }
             }
         }

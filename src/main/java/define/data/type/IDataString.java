@@ -3,7 +3,12 @@ package define.data.type;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import constdef.StringConst;
 import datastream.Octets;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * create by xiongjieqing on 2020/8/5 16:01
@@ -50,5 +55,13 @@ public class IDataString extends IData {
     @Override
     public JsonElement save() {
         return new JsonPrimitive(value);
+    }
+
+    @Override
+    public void validatePath() {
+        Path fullPath = Paths.get(StringConst.VALIDATE_ROOT_DIR, value);
+        if (!Files.exists(fullPath)) {
+            printValidatePathError();
+        }
     }
 }
