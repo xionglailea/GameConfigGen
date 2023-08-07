@@ -37,7 +37,7 @@
         <field name="stringValue" type="string" comment="string类型"/>
         <field name="enumValue" type="EnumBean" comment="枚举类型字段"/>
         <field name="beanValue" type="DetailBean" comment="bean类型字段"/>
-        <field name="list1NormalValue" type="list,int" comment="list类型字段"/>
+        <field name="list1NormalValue" type="list,int" ref="Item" comment="list类型字段"/>
         <field name="list2NormalValue" type="list,int" sep="," comment="list类型字段"/>
         <field name="list1BeanValue" type="list,DetailBean" comment="list类型字段"/>
         <field name="list2BeanValue" type="list,DetailBean"  multiRow="true" comment="list类型字段"/>
