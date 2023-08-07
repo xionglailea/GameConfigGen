@@ -81,12 +81,12 @@ public class IBean extends AbsComplexType {
         var fieldData = new ArrayList<IData>();
         var actualType = beanDefine;
         if (beanDefine.isDynamic()) {
-            String subTypeName = dataSource.getNext(XlsxDataSource.DEFAULT_TYPE_FIELD, false).get(0);
+            String subTypeName = dataSource.getNext(XlsxDataSource.DEFAULT_TYPE_FIELD, false, false).get(0);
             actualType = getActualBeanDefine(subTypeName);
         }
         for (var field : actualType.getAllFields()) {
             try {
-                var fieldRecord = dataSource.getNext(field.getName(), field.isMultiRow());
+                var fieldRecord = dataSource.getNext(field.getName(), field.isMultiRow(), field.getRunType() instanceof IList || field.getRunType() instanceof IMap);
                 var data = field.getRunType().convert(fieldRecord, field.getSep());
                 data.setCanExport(field.canExport());
                 fieldData.add(data);

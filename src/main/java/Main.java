@@ -21,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String lan = "go";
+        String lan = "java";
         Mode mode = Mode.Generator;
         for (int i = 0; i < args.length; i = i + 2) {
             String option = args[i];

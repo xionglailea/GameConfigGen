@@ -1,0 +1,57 @@
+<module>
+    <packageName>test5</packageName>
+
+    <enum name="EnumBean">
+        <field name="EASY" alias="简单" value="1"/>
+        <field name="HARD" alias="困难" value="2"/>
+    </enum>
+
+    <const name="ConstBean">
+        <field name="BornPosX" type="int" value="1"/>
+        <field name="BornPosY" type="int" value="10"/>
+    </const>
+
+    <bean name="DetailBean">
+        <field name="x" type="int"/>
+        <field name="y" type="int"/>
+        <field name="z" type="int"/>
+    </bean>
+
+    <bean name="BaseShape">
+        <field name="pos" type="int"/>
+        <child name="Rect">
+            <field name="width" type="int"/>
+            <field name="height" type="int"/>
+        </child>
+        <child name="Circle">
+            <field name="radius" type="int"/>
+        </child>
+    </bean>
+
+    <table name="AllTypeTest" comment="测试表" inputFile="all_test.xlsx" index="intValue">
+        <field name="intValue" type="int" comment="int类型"/>
+        <field name="intRefValue" type="int" ref="Item" comment="int类型引用检查"/>
+        <field name="floatValue" type="float" comment="float类型"/>
+        <field name="longValue" type="long" comment="long类型"/>
+        <field name="boolValue" type="bool" comment="bool类型"/>
+        <field name="stringValue" type="string" comment="string类型"/>
+        <field name="enumValue" type="EnumBean" comment="枚举类型字段"/>
+        <field name="beanValue" type="DetailBean" comment="bean类型字段"/>
+        <field name="list1NormalValue" type="list,int" comment="list类型字段"/>
+        <field name="list2NormalValue" type="list,int" sep="," comment="list类型字段"/>
+        <field name="list1BeanValue" type="list,DetailBean" comment="list类型字段"/>
+        <field name="list2BeanValue" type="list,DetailBean"  multiRow="true" comment="list类型字段"/>
+        <field name="list3BeanValue" type="list,DetailBean" sep="," comment="list类型字段"/>
+        <field name="list4BeanValue" type="list,DetailBean" sep="|," comment="list类型字段"/>
+        <field name="map1NormalValue" type="map,int,int" comment="map类型字段"/>
+        <field name="map6NormalValue" type="map,int,int" sep="|" comment="map类型字段"/>
+        <field name="map2BeanValue" type="map,int,DetailBean" multiRow="true" comment="map类型字段"/>
+        <field name="map3BeanValue" type="map,int,DetailBean" sep="," comment="map类型字段"/>
+        <field name="map4BeanValue" type="map,int,DetailBean" sep="|," comment="map类型字段"/>
+        <!-- 不支持map中嵌套map，map中嵌套list只支持一层,分割符最多定义两个，简化复杂度 -->
+        <field name="map5ListBeanValue" type="map,int,list,DetailBean" sep="|," comment="map类型字段"/>
+        <!-- 动态字段 -->
+        <field name="dynamicBean" type="BaseShape" sep="," comment="动态字段"/>
+        <field name="listDynamicBean" type="list,BaseShape" sep="," comment="list动态字段"/>
+    </table>
+</module>

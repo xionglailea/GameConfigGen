@@ -98,7 +98,14 @@ public class XlsxDataSource extends AbsDataSource {
         return result;
     }
 
-    public List<String> getNext(String fieldName, boolean multiRow) {
+    /**
+     *
+     * @param fieldName
+     * @param multiRow
+     * @param discardEmpty 当数据是列表的时候，可以忽略一些没有数据的单元格,
+     * @return
+     */
+    public List<String> getNext(String fieldName, boolean multiRow, boolean discardEmpty) {
         var fieldInfo = sheetDatas.get(sheetIndex).fieldInfo.get(fieldName);
         if (fieldInfo == null) {
             throw new RuntimeException(String.format("%s 中的字段 %s 没有配置数据", getDataType().getBeanDefine().getName(), fieldName));
@@ -107,7 +114,11 @@ public class XlsxDataSource extends AbsDataSource {
         var result = new ArrayList<String>();
         for (int i = fieldInfo.startColumnIndex; i <= fieldInfo.endColumnIndex; i++) {
             var cell = sheet.getRow(rowIndex).getCell(i);
-            result.add(getCellValue(cell));
+            String cellValue = getCellValue(cell);
+            if (cellValue.equals(EMPTY_STR) && discardEmpty) {
+                continue;
+            }
+            result.add(cellValue);
         }
 
         if (multiRow) {
@@ -115,7 +126,11 @@ public class XlsxDataSource extends AbsDataSource {
             while (temp <= sheet.getLastRowNum() && sheet.getRow(temp).getCell(0) == null) {
                 for (int i = fieldInfo.startColumnIndex; i <= fieldInfo.endColumnIndex; i++) {
                     var cell = sheet.getRow(temp).getCell(i);
-                    result.add(getCellValue(cell));
+                    String cellValue = getCellValue(cell);
+                    if (cellValue.equals(EMPTY_STR) && discardEmpty) {
+                        continue;
+                    }
+                    result.add(cellValue);
                 }
                 temp++;
             }

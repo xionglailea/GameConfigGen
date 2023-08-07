@@ -81,13 +81,30 @@ public class IMap extends AbsComplexType {
     @Override
     public IData convert(List<String> values, String sep) {
         var dataMap = new HashMap<IData, IData>();
+        if (values.isEmpty()) {
+            return new IDataMap(dataMap);
+        }
         if (values.size() == 1) {
+
+            boolean allInOne = true;
+            if (sep.length() <= 1 && !value.simpleType()) {
+                //对应value是个结构体，只有一个key-pair的情况
+                allInOne = false;
+            }
+            if ((value instanceof IList) && !((IList)value).getValueType().simpleType()) {
+                //对应value是个list，且list的元素是结构体的情况
+                allInOne = false;
+            }
+
+            if (!allInOne) {
+                putOneCellData(sep, dataMap, values.get(0));
+                return new IDataMap(dataMap);
+            }
+
             //所有数据在一个单元格内
             String firstSep = sep.substring(0, 1);
             String left = null;
-            if (sep.length() > 1) {
-                left = sep.substring(1);
-            }
+            left = sep.substring(1);
             String[] keyValuePair = values.get(0).split(replaceRegex(firstSep));
             for (String temp : keyValuePair) {
                 putOneCellData(left, dataMap, temp);
@@ -107,7 +124,7 @@ public class IMap extends AbsComplexType {
                     }
                 }
             } else {
-                //每个元素在一个单元格内,单元格内的数据分隔符为sep，意味着最好只嵌套一层，如果数据定义为多态，只能用这种形式
+                //每个pair在一个单元格内,单元格内的数据分隔符为sep，意味着最好只嵌套一层，如果数据定义为多态，只能用这种形式
                 for (String temp : values) {
                     if (temp.equals(XlsxDataSource.EMPTY_STR)) {
                         continue;

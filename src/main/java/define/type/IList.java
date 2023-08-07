@@ -71,6 +71,9 @@ public class IList extends AbsComplexType {
     @Override
     public IData convert(List<String> values, String sep) {
         var dataList = new IDataList();
+        if (values.isEmpty()) {
+            return dataList;
+        }
         if (values.size() == 1) {
             //所有数据在一个单元格内
             if (sep == null) {
@@ -82,7 +85,12 @@ public class IList extends AbsComplexType {
                 String left = null;
                 if (sep.length() > 1) {
                     left = sep.substring(1);
+                } else if (!valueType.simpleType()) {
+                    // 分隔符只有1个，此时列表中只有一个复杂结构数据
+                    dataList.getValues().add(valueType.convert(CollUtil.newArrayList(values.get(0)), sep));
+                    return dataList;
                 }
+
                 String[] elements = values.get(0).split(replaceRegex(firstSep));
                 for (String element : elements) {
                     dataList.getValues().add(valueType.convert(CollUtil.newArrayList(element), left));

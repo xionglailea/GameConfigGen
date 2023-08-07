@@ -55,7 +55,7 @@ public class IString extends AbsSimpleType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) || value.equals(XlsxDataSource.NULL_STR) ? defaultString : new IDataString(value);
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equalsIgnoreCase(XlsxDataSource.NULL_STR) ? defaultString : new IDataString(value);
     }
 
     @Override
