@@ -61,10 +61,10 @@ public class PreProcessTask extends AbsTask {
      */
     private void parseBeanFields(BeanDefine beanDefine) {
         for (BeanField field : beanDefine.getFields()) {
-            field.resolve(beanDefine);
             field.setRunType(TypeUtil
                 .create(Arrays.asList(field.getType().split("[,;]")), beanDefine.getPackageName()));
             field.getRunType().addExtensionType(type -> context.getAllTypeDefine().addType(type));
+            field.resolve(beanDefine);
         }
     }
 }

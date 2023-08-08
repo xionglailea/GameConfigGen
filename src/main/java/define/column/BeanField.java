@@ -1,6 +1,7 @@
 package define.column;
 
 import define.BeanDefine;
+import define.type.IMap;
 import generator.Context;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,12 @@ public class BeanField extends AbsField {
             max = Double.parseDouble(temp[1]);
             if (min > max) {
                 throw new RuntimeException(String.format("%s 中的字段 %s 范围 %s 配置错误", host.getName(), name, range));
+            }
+        }
+        if (getRunType() instanceof IMap) {
+            var mapType = (IMap)getRunType();
+            if (mapType.getValue() instanceof IMap) {
+                throw new RuntimeException(String.format("%s 中的字段 %s 不支持map中嵌套map的定义", host.getName(), name));
             }
         }
     }
