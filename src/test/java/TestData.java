@@ -17,9 +17,9 @@ public class TestData {
 
     @Test
     public void testLoadData() {
-        cfg.CfgMgr.setDir(".temp/data");
-        cfg.CfgMgr.load();
-        System.out.println("ok");
+//        cfg.CfgMgr.setDir(".temp/data");
+//        cfg.CfgMgr.load();
+//        System.out.println("ok");
     }
 
     @Test
@@ -76,6 +76,12 @@ public class TestData {
         for (String s : a.split("\\|")) {
             System.out.println(s);
         }
+        String b = ",a";
+        String c = "a,";
+        var temp1 = b.split(",");
+        var temp2 = c.split(",");
+        System.out.println(temp1.length);
+        System.out.println(temp2.length);
     }
 
 }

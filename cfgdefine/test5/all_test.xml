@@ -31,13 +31,13 @@
     <table name="AllTypeTest" comment="测试表" inputFile="all_test.xlsx" index="intValue">
         <field name="intValue" type="int" comment="int类型"/>
         <field name="intRefValue" type="int" ref="Item" comment="int类型引用检查"/>
-        <field name="floatValue" type="float" comment="float类型"/>
+        <field name="floatValue" type="float" range="0,4" comment="float类型"/>
         <field name="longValue" type="long" comment="long类型"/>
         <field name="boolValue" type="bool" comment="bool类型"/>
         <field name="stringValue" type="string" comment="string类型"/>
         <field name="enumValue" type="EnumBean" comment="枚举类型字段"/>
         <field name="beanValue" type="DetailBean" comment="bean类型字段"/>
-        <field name="list1NormalValue" type="list,int" ref="Item" comment="list类型字段"/>
+        <field name="list1NormalValue" type="list,int" comment="list类型字段"/>
         <field name="list2NormalValue" type="list,int" sep="," comment="list类型字段"/>
         <field name="list1BeanValue" type="list,DetailBean" comment="list类型字段"/>
         <field name="list2BeanValue" type="list,DetailBean"  multiRow="true" comment="list类型字段"/>

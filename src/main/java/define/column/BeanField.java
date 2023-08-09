@@ -6,6 +6,8 @@ import generator.Context;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
+
 
 /**
  * 字段定义
@@ -26,6 +28,7 @@ public class BeanField extends AbsField {
     private double max;
     private boolean multiRow; //该字段是否占据多行
     private boolean path; //
+
     /**
      * 检查定义的合法性
      */
@@ -41,14 +44,27 @@ public class BeanField extends AbsField {
         }
         if (range != null) {
             var temp = range.split(",");
-            min = Double.parseDouble(temp[0]);
-            max = Double.parseDouble(temp[1]);
+            temp = Arrays.stream(temp).dropWhile(String::isEmpty).toArray(String[]::new);
+            min = Double.MIN_VALUE;
+            max = Double.MAX_VALUE;
+            if (temp.length == 1) {
+                if (range.startsWith(",")) {
+                    max = Double.parseDouble(temp[0]);
+                } else if (range.endsWith(",")) {
+                    min = Double.parseDouble(temp[0]);
+                } else {
+                    throw new RuntimeException(String.format("%s 中的字段 %s 范围 %s 配置错误", host.getName(), name, range));
+                }
+            } else {
+                min = Double.parseDouble(temp[0]);
+                max = Double.parseDouble(temp[1]);
+            }
             if (min > max) {
                 throw new RuntimeException(String.format("%s 中的字段 %s 范围 %s 配置错误", host.getName(), name, range));
             }
         }
         if (getRunType() instanceof IMap) {
-            var mapType = (IMap)getRunType();
+            var mapType = (IMap) getRunType();
             if (mapType.getValue() instanceof IMap) {
                 throw new RuntimeException(String.format("%s 中的字段 %s 不支持map中嵌套map的定义", host.getName(), name));
             }
