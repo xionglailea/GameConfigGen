@@ -90,6 +90,9 @@ public class XlsxDataSource extends AbsDataSource {
             if (fieldName.equals(EMPTY_STR)) {
                 lastValue.endColumnIndex++;
             } else {
+                if (lastValue != null) {
+                    lastValue.endColumnIndex = cell.getColumnIndex() - 1;
+                }
                 var temp = new FieldDataRange(fieldName, cell.getColumnIndex(), cell.getColumnIndex());
                 lastValue = temp;
                 result.put(fieldName, temp);

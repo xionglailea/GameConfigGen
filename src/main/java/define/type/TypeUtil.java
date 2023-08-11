@@ -4,9 +4,10 @@ import cn.hutool.core.lang.Assert;
 import define.BeanDefine;
 import define.EnumDefine;
 import generator.Context;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Collections;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -38,13 +39,16 @@ public class TypeUtil {
             case "string":
                 Assert.isTrue(size == 1);
                 return new IString();
+            case "text":
+                Assert.isTrue(size == 1);
+                return new IText();
             case "list":
                 Assert.isTrue(size >= 2);
                 return new IList(create(types.subList(1, size), packageName));
             case "map":
                 Assert.isTrue(size >= 3);
                 IMap mapType = new IMap(create(Collections.singletonList(types.get(1)), packageName),
-                    create(types.subList(2, size), packageName));
+                        create(types.subList(2, size), packageName));
                 if (!mapType.getKey().canBeIndex()) {
                     throw new RuntimeException(String.format("%s中定义了一个错误的map，%s类型不能做key", packageName, types.get(1)));
                 }

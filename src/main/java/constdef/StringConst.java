@@ -23,4 +23,8 @@ public class StringConst {
 
     public static String VALIDATE_ROOT_DIR = ".";
 
+    public static String DEFAULT_L10N = "L10n";
+
+    public static String L10N_LAN = "en_US";
+
 }

@@ -9,5 +9,6 @@
         <item>test3/drop.xml</item>
         <item>test4/skill.xml</item>
         <item>test5/all_test.xml</item>
+        <item>l10n/l10n.xml</item>
     </includes>
 </cfgDefine>

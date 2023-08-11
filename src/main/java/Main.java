@@ -5,6 +5,7 @@ import generator.Context;
 import generator.task.*;
 import javafx.application.Platform;
 import ui.UiManager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,9 @@ public class Main {
                     break;
                 case "-root_dir":
                     StringConst.VALIDATE_ROOT_DIR = args[i + 1];
+                    break;
+                case "l10n_lan":
+                    StringConst.L10N_LAN = args[i + 1];
                     break;
                 default:
                     throw new RuntimeException("unknown args " + option);

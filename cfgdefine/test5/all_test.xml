@@ -32,6 +32,7 @@
         <field name="intValue" type="int" comment="int类型"/>
         <field name="intRefValue" type="int" ref="Item" comment="int类型引用检查"/>
         <field name="floatValue" type="float" range="0,4" comment="float类型"/>
+        <field name="textValue" type="text" comment="text类型 会自动本地化转化"/>
         <field name="longValue" type="long" comment="long类型"/>
         <field name="boolValue" type="bool" comment="bool类型"/>
         <field name="stringValue" type="string" comment="string类型"/>

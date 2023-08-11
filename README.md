@@ -6,55 +6,64 @@
 一个典型的xml定义文件结构如下
 
 ``` xml
-    <packageName>test1</packageName>
-    <enum name="ItemColor" comment="物品颜色">
-        <field name="White" alias="白色" value="1"/>
-        <field name="Black" alias="黑色" value="2"/>
+<module>
+    <packageName>test5</packageName>
+
+    <enum name="EnumBean">
+        <field name="EASY" alias="简单" value="1"/>
+        <field name="HARD" alias="困难" value="2"/>
     </enum>
 
-    <const name="ItemConst" comment="物品常量">
-        <field name="bornEquip" type="int" value="1"/>
-        <field name="bornName" type="string" value="熊"/>
+    <const name="ConstBean">
+        <field name="BornPosX" type="int" value="1"/>
+        <field name="BornPosY" type="int" value="10"/>
     </const>
 
-    <bean name="Equip" comment="装备结构">
-        <field name="id" type="int"/>
-        <field name="attrs" type="list,int"/>
-        <field name="itemId" type="int"/>
-        <child name="ShoeEquip" comment="鞋子">
-            <field name="speed" type="int" comment="速度"/>
+    <bean name="DetailBean">
+        <field name="x" type="int"/>
+        <field name="y" type="int"/>
+        <field name="z" type="int"/>
+    </bean>
+
+    <bean name="BaseShape">
+        <field name="pos" type="int"/>
+        <child name="Rect">
+            <field name="width" type="int"/>
+            <field name="height" type="int"/>
         </child>
-        <child name="WeaponEquip" comment="武器">
-            <field name="attack" type="int" comment="攻击"/>
+        <child name="Circle">
+            <field name="radius" type="int"/>
         </child>
     </bean>
 
-    <bean name="ExtraInfo" comment="额外信息">
-        <field name="date" type="string"/>
-        <field name="from" type="int"/>
-    </bean>
-
-    <bean name="Bonus" comment="奖励">
-        <field name="itemId" type="int" comment="物品id" ref="Item"/>
-        <field name="itemNum" type="int" comment="物品数量"/>
-        <field name="extra" type="ExtraInfo"/>
-    </bean>
-
-    <table name="Item" comment="物品表" inputFile="item.xlsx, item1.json, items">
-        <field name="id" type="int"/>
-        <field name="itemName" type="string"/>
-        <field name="itemColor" type="ItemColor"/>
-        <child name="ItemNormal" comment="普通">
-            <field name="normalContent" type="map,int,list,int"/>
-        </child>
-
-        <child name="ItemPackage" comment="礼包">
-            <child name="ItemPackageCurrency" comment="货币礼包">
-                <field name="packageCurrencyContent" type="map,int,int"/>
-                <field name="bonuses" type="list, Bonus"/>
-            </child>
-        </child>
+    <table name="AllTypeTest" comment="测试表" inputFile="all_test.xlsx" index="intValue">
+        <field name="intValue" type="int" comment="int类型"/>
+        <field name="intRefValue" type="int" ref="Item" comment="int类型引用检查"/>
+        <field name="floatValue" type="float" range="0,4" comment="float类型"/>
+        <field name="textValue" type="text" comment="text类型 会自动本地化转化"/>
+        <field name="longValue" type="long" comment="long类型"/>
+        <field name="boolValue" type="bool" comment="bool类型"/>
+        <field name="stringValue" type="string" comment="string类型"/>
+        <field name="enumValue" type="EnumBean" comment="枚举类型字段"/>
+        <field name="beanValue" type="DetailBean" comment="bean类型字段"/>
+        <field name="list1NormalValue" type="list,int" comment="list类型字段"/>
+        <field name="list2NormalValue" type="list,int" sep="," comment="list类型字段"/>
+        <field name="list1BeanValue" type="list,DetailBean" comment="list类型字段"/>
+        <field name="list2BeanValue" type="list,DetailBean"  multiRow="true" comment="list类型字段"/>
+        <field name="list3BeanValue" type="list,DetailBean" sep="," comment="list类型字段"/>
+        <field name="list4BeanValue" type="list,DetailBean" sep="|," comment="list类型字段"/>
+        <field name="map1NormalValue" type="map,int,int" comment="map类型字段"/>
+        <field name="map6NormalValue" type="map,int,int" sep="|" comment="map类型字段"/>
+        <field name="map2BeanValue" type="map,int,DetailBean" multiRow="true" comment="map类型字段"/>
+        <field name="map3BeanValue" type="map,int,DetailBean" sep="," comment="map类型字段"/>
+        <field name="map4BeanValue" type="map,int,DetailBean" sep="|," comment="map类型字段"/>
+        <!-- 不支持map中嵌套map，map中嵌套list只支持一层,分割符最多定义两个，简化复杂度 -->
+        <field name="map5ListBeanValue" type="map,int,list,DetailBean" sep="|," comment="map类型字段"/>
+        <!-- 动态字段 -->
+        <field name="dynamicBean" type="BaseShape" sep="," comment="动态字段"/>
+        <field name="listDynamicBean" type="list,BaseShape" sep="," comment="list动态字段"/>
     </table>
+</module>
 ```
 
 
@@ -68,9 +77,10 @@
 定义一组简单常量，可以自己指定数据类型和数据值。
 
 ### 4.字段定义`<field>`标签
-目前支持的字段类型有简单类型int，float，long，string；复杂类型 list，map，enum，自定义的结构体；
+目前支持的字段类型有简单类型int，float，long，string，text；复杂类型 list，map，enum，自定义的结构体；
 ref标签，表示该字段的引用表。当我们在字段定义中引用别的包中定义的结构时，使用 包名.结构名的形式。 seq标签，表示数据填在一个单元格内的分隔符号，multiRow标签，表示该字段会使用多行存放
 path标签，只对string类型有效，表明该字段是一个资源路径，需要我们启动时指定root_dir路径，最终会去检查 root_dir/{field_value} 对应的资源是否存在。
+其中text类型的数据，本质上也是字符串，只是在导出的时候会自动转换成本地化的文本，如果没有指定具体的本地化文本，会使用l10n中origin字段作为本地化文本。
 
 #### 4.1 list
 list的值类型支持嵌套定义，比如list,int 表示int类型的列表，list,bean1 表示自定义类型bean1的列表
@@ -130,7 +140,6 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 1.检查数据模式，检查当前数据的正确性，包括字段定义正确性检查，数据引用检查，数据格式检查。 2.生成模式，包括只生成代码，生成代码的同时生成数据。 3.编辑器模式，筛选出标识了editor的表格，能够添加，删除，修改数据。
 
 
-
 2021/9/5 开始将excel数据源，改为列固定的结构 excel格式的数据约束 第一行 注释 第二行 变量名 第三行 注释
 
 2021/10/9 准备重构：编辑器数据格式和解析的excel数据 使用adapter的方式耦合。
@@ -139,7 +148,6 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 准备重构不同语言的生成格式，现在基本上全在IType中定义的接口。
 
 2022/12/22 完成typescript的代码生成。
-
-联合主键?
-
+联合主键
 资源path校验
+本地化支持

@@ -18,9 +18,7 @@ import java.util.List;
  */
 public class IString extends AbsSimpleType {
 
-    public static IDataString defaultString = new IDataString("");
-
-    private String value;
+    public static IDataString defaultString = new IDataString("", false);
 
     @Override
     public String getTypeName() {
@@ -55,12 +53,12 @@ public class IString extends AbsSimpleType {
     @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
-        return value.equals(XlsxDataSource.EMPTY_STR) || value.equalsIgnoreCase(XlsxDataSource.NULL_STR) ? defaultString : new IDataString(value);
+        return value.equals(XlsxDataSource.EMPTY_STR) || value.equalsIgnoreCase(XlsxDataSource.NULL_STR) ? defaultString : buildData(value);
     }
 
     @Override
     public IData convert(JsonElement jsonElement) {
-        return new IDataString(jsonElement.getAsString());
+        return buildData(jsonElement.getAsString());
     }
 
 
@@ -75,7 +73,7 @@ public class IString extends AbsSimpleType {
             textField = comboBox.getEditor();
         }
         String content = textField.getText();
-        return new IDataString(content);
+        return buildData(content);
     }
 
     @Override
@@ -96,5 +94,9 @@ public class IString extends AbsSimpleType {
     @Override
     public String toString() {
         return "string";
+    }
+
+    public IDataString buildData(String value) {
+        return new IDataString(value, false);
     }
 }

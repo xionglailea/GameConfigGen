@@ -1,9 +1,14 @@
 package generator;
 
 import constdef.Mode;
+import constdef.StringConst;
 import define.*;
+import define.data.type.IDataBean;
+import define.data.type.IDataString;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +19,7 @@ import java.util.stream.Collectors;
  * create by xiongjieqing on 2020-07-25 10:23
  */
 @Getter
+@Slf4j
 public class Context {
 
     private static Context ins;
@@ -107,6 +113,24 @@ public class Context {
 
     public Set<String> getEditTable() {
         return tables.entrySet().stream().filter(e -> e.getValue().getGroup() != null && e.getValue().getGroup().contains("editor")).map(Map.Entry::getKey).collect(Collectors.toSet());
+    }
+
+    public String getL10n(IDataString value) {
+        var l10nData = tables.get(StringConst.DEFAULT_L10N);
+        if (l10nData == null) {
+            return value.toString();
+        }
+        var beanData = (IDataBean) l10nData.getRecordsByIndex().get(value);
+        if (beanData == null) {
+            log.error("l10n id >>> {} no found", value);
+            return value.toString();
+        }
+        var result = beanData.getDataByFieldName(StringConst.L10N_LAN);
+        if (result == null) {
+            log.error("l10n id >>> {} target language {} not found", value, StringConst.L10N_LAN);
+            return value.toString();
+        }
+        return result.toString();
     }
 
 }

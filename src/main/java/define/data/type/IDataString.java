@@ -1,10 +1,10 @@
 package define.data.type;
 
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import constdef.StringConst;
 import datastream.Octets;
+import generator.Context;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,16 +16,18 @@ import java.nio.file.Paths;
 public class IDataString extends IData {
 
     private String value;
+    private boolean l10n;
 
-    public IDataString(String value) {
+    public IDataString(String value, boolean l10n) {
         this.value = value;
-    }
-
-    public IDataString() {
+        this.l10n = l10n;
     }
 
     @Override
     public void export(Octets os) {
+        if (!isDefaultValue() && l10n) {
+            value = Context.getIns().getL10n(this);
+        }
         os.writeString(value);
     }
 

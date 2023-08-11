@@ -1,0 +1,10 @@
+<module>
+    <packageName>l10n</packageName>
+
+    <table name="L10n" comment="本地化" inputFile="l10n.xlsx">
+        <field name="id" type="string" comment="id"/>
+        <field name="origin" type="string" comment="默认"/>
+        <field name="en_US" type="string" comment="英文"/>
+    </table>
+
+</module>
