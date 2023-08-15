@@ -8,6 +8,8 @@ import define.column.ConstField;
 import define.column.EnumField;
 import define.type.TypeUtil;
 import generator.Context;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.Collections;
  * <p>
  * create by xiongjieqing on 2020/9/30 16:04
  */
+@Slf4j
 public class ParseDefineTask extends AbsTask {
 
     private XmlMapper xmlMapper;
@@ -29,6 +32,7 @@ public class ParseDefineTask extends AbsTask {
 
     @Override
     public void run() throws Exception {
+        log.info("==========开始解析定义==========");
         File cfgFile = new File(StringConst.INPUT_DIR + "/cfg.xml");
         context.setCfgDefine(xmlMapper.readValue(FileUtil.readUtf8String(cfgFile), CfgDefine.class));
 
@@ -40,6 +44,7 @@ public class ParseDefineTask extends AbsTask {
         }
         context.getAllTypeDefine().setRootPackage(context.getCfgDefine().getRootPackage());
         context.getAllTypeDefine().setExtensionFileName("Extensions");
+        log.info("==========解析定义结束==========");
     }
 
     private void parseModule(ModuleDefine moduleDefine) {

@@ -31,6 +31,7 @@ public class ExportDataTask extends AbsTask {
 
     @Override
     public void run() {
+        log.info("==========开始导出数据==========");
         for (var table : context.getTables().values()) {
             if (!exportJson) {
                 var data = table.getExportData();
@@ -60,5 +61,6 @@ public class ExportDataTask extends AbsTask {
                 log.info("导出数据 = {} 成功", table.getName());
             }
         }
+        log.info("==========导出数据结束==========");
     }
 }

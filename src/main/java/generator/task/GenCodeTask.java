@@ -2,6 +2,7 @@ package generator.task;
 
 import generator.Context;
 import generator.language.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 生成代码
@@ -9,6 +10,7 @@ import generator.language.*;
  * <p>
  * create by xiongjieqing on 2020/9/30 16:05
  */
+@Slf4j
 public class GenCodeTask extends AbsTask {
 
     private final AbsGenerator codeGenerator;
@@ -36,6 +38,7 @@ public class GenCodeTask extends AbsTask {
 
     @Override
     public void run() {
+        log.info("==========开始生成代码==========");
         //生成常量和枚举代码
         for (var e : context.getConstAndEnums().values()) {
             e.genCode(codeGenerator);
@@ -48,5 +51,6 @@ public class GenCodeTask extends AbsTask {
         context.getAllTypeDefine().genCode(codeGenerator);
         //生成CfgMgr代码
         codeGenerator.createCfgMgr(context.getRootPackage(), "CfgMgr", context);
+        log.info("==========生成代码完成==========");
     }
 }

@@ -122,7 +122,7 @@ public class Context {
         }
         var beanData = (IDataBean) l10nData.getRecordsByIndex().get(value);
         if (beanData == null) {
-            log.error("l10n id >>> {} no found", value);
+            log.error("l10n id >>> {} not found", value);
             return value.toString();
         }
         var result = beanData.getDataByFieldName(StringConst.L10N_LAN);

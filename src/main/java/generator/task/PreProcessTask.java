@@ -6,6 +6,8 @@ import define.type.IList;
 import define.type.IType;
 import define.type.TypeUtil;
 import generator.Context;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -15,6 +17,7 @@ import java.util.Collections;
  * <p>
  * create by xiongjieqing on 2020/9/30 16:05
  */
+@Slf4j
 public class PreProcessTask extends AbsTask {
 
     public PreProcessTask(Context context) {
@@ -23,6 +26,7 @@ public class PreProcessTask extends AbsTask {
 
     @Override
     public void run() {
+        log.info("==========开始处理配置结构==========");
         //解析bean的字段
         for (var e : context.getBeans().values()) {
             parseBeanFields(e);
@@ -54,6 +58,8 @@ public class PreProcessTask extends AbsTask {
             //解析索引
             tableBean.resolveIndex();
         }
+        log.info("==========处理配置结构结束==========");
+
     }
 
     /**
