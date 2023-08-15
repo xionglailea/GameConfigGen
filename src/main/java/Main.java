@@ -40,10 +40,16 @@ public class Main {
                     StringConst.OUTPUT_DATA_DIR = args[i + 1];
                     break;
                 case "-mode":
-                    if (args[i + 1].equals("generator")) {
-                        mode = Mode.Generator;
-                    } else if (args[i + 1].equals("editor")) {
-                        mode = Mode.Editor;
+                    switch (args[i + 1]) {
+                        case "generator":
+                            mode = Mode.Generator;
+                            break;
+                        case "editor":
+                            mode = Mode.Editor;
+                            break;
+                        case "check":
+                            mode = Mode.Check;
+                            break;
                     }
                     break;
                 case "-root_dir":
@@ -70,10 +76,12 @@ public class Main {
         tasks.add(new ParseDefineTask(context));
         tasks.add(new PreProcessTask(context));
         tasks.add(new LoadDataTask(context));
-        tasks.add(new GenCodeTask(context, lan));
-
         if (mode == Mode.Generator) {
-            tasks.add(new ExportDataTask(context));
+            tasks.add(new GenCodeTask(context, lan));
+            tasks.add(new ExportDataTask(context, false));
+        }
+        if (mode == Mode.Check) {
+            tasks.add(new ExportDataTask(context, true));
         }
         for (AbsTask task : tasks) {
             task.run();

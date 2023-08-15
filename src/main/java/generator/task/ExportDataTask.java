@@ -1,6 +1,7 @@
 package generator.task;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.file.FileWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -21,35 +22,43 @@ import java.nio.file.Files;
 @Slf4j
 public class ExportDataTask extends AbsTask {
 
-    public ExportDataTask(Context context) {
+    private final boolean exportJson;
+
+    public ExportDataTask(Context context, boolean exportJson) {
         super(context);
+        this.exportJson = exportJson;
     }
 
     @Override
     public void run() {
         for (var table : context.getTables().values()) {
-            var data = table.getExportData();
-            if (data != null) {
-                File file = new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".data");
-                FileUtil.writeBytes(data.copyRemainData(), file);
-                log.info("导出数据 = {} 成功", file.getName());
+            if (!exportJson) {
+                var data = table.getExportData();
+                if (data != null) {
+                    File file = new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".data");
+                    FileUtil.writeBytes(data.copyRemainData(), file);
+                    log.info("导出数据 = {} 成功", file.getName());
+                }
+            } else {
+                try {
+                    if (table.isSingle()) {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        Files.writeString(new File(".temp/" + table.getName() + ".json").toPath(), gson.toJson(table.getRecords().get(0)));
+                    } else {
+                        File file = new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".txt");
+                        FileWriter writer = new FileWriter(file);
+                        for (var recordEntry : table.getRecordsByIndex().entrySet()) {
+                            JsonElement jsonObject = recordEntry.getValue().save();
+                            String txt = jsonObject.toString();
+                            writer.write(txt, true);
+                            writer.write("\r\n", true);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                log.info("导出数据 = {} 成功", table.getName());
             }
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-//            try {
-//                if (table.isSingle()) {
-//                    Files.writeString(new File(".temp/" + table.getName() + ".json").toPath(), gson.toJson(table.getRecords().get(0)));
-//                } else {
-//                    for (var recordEntry : table.getRecordsByIndex().entrySet()) {
-//                        JsonElement jsonObject = recordEntry.getValue().save();
-//                        String text = gson.toJson(jsonObject);
-//                        String fileName = table.getName() + "_" + recordEntry.getKey().toString();
-//                        Files.writeString(new File(".temp/" + fileName + ".json").toPath(), text);
-//                    }
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 }

@@ -20,8 +20,6 @@ public class JavaGenerator extends AbsGenerator {
         String path = packageName.replace(".", "/") + "/" + javaName + ".java";
         File file = new File(StringConst.OUTPUT_CODE_DIR, path);
         FileUtil.writeUtf8String(text, file);
-        log.info("write java file :: {}", file);
     }
-
 
 }

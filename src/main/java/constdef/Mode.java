@@ -6,5 +6,6 @@ package constdef;
  */
 public enum Mode {
     Generator,
-    Editor
+    Editor,
+    Check,
 }
