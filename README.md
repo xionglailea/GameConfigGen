@@ -158,3 +158,11 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 本地化支持
 
 数据对比方案，对比json文件，而不是excel文件
+
+2023/8/15 升级gradle版本和一些依赖库，改变打包的方式。
+
+## 四、精简JRE
+
+为了能在没有jre的环境下运行该项目，我们需要精简jre，去除不必要的模块，这里我们使用jlink工具来完成，执行下面的命令
+`jlink --module-path "%JAVA_HOME%\jmods" --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.scripting,java.security.jgss,java.sql,java.xml,jdk.compiler,jdk.jfr,jdk.unsupported,jdk.charsets --output ".\sjre"`
+会生成一个简化的jre，大小只有90多M，而完整的jdk有300多M的大小。

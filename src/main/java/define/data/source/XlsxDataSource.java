@@ -51,27 +51,37 @@ public class XlsxDataSource extends AbsDataSource {
         setData(readExcel());
     }
 
+    public void close() {
+        if (workbook != null) {
+            try {
+                workbook.close();
+            } catch (Exception e) {
+                log.error("close workbook error", e);
+            }
+        }
+    }
+
     public String getCellValue(Cell cell) {
         if (cell == null) {
             return EMPTY_STR;
         }
         switch (cell.getCellType()) {
-            case Cell.CELL_TYPE_STRING:
+            case STRING:
                 var temp = cell.getRichStringCellValue().getString().trim();
                 return temp.equals(NULL_STR) ? EMPTY_STR : temp;
-            case Cell.CELL_TYPE_NUMERIC:
+            case NUMERIC:
                 return convertNum(cell.getNumericCellValue());
-            case Cell.CELL_TYPE_BOOLEAN:
+            case BOOLEAN:
                 return Boolean.toString(cell.getBooleanCellValue());
-            case Cell.CELL_TYPE_BLANK:
+            case BLANK:
                 return EMPTY_STR;
             default:
-                throw new RuntimeException("unknow cell type: " + cell.getCellType());
+                throw new RuntimeException("unknown cell type: " + cell.getCellType());
         }
     }
 
     public void loadExcelSheets() throws Exception {
-        workbook = WorkbookFactory.create(file);
+        workbook = WorkbookFactory.create(file, "", true);
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
             Sheet sheet = workbook.getSheetAt(i);
             SheetDataInfo sheetData = new SheetDataInfo();

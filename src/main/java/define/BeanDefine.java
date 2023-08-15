@@ -209,6 +209,10 @@ public class BeanDefine extends AbsClassDefine {
                 }
             }
         }
+        for (var source : dataSource) {
+            source.close();
+        }
+
     }
 
     private IData buildIndex(IData record) {

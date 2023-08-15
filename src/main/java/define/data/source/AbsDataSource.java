@@ -26,8 +26,10 @@ public abstract class AbsDataSource {
 
     public abstract void load() throws Exception;
 
+    public abstract void close();
+
     protected boolean isDynamic() {
-        return ((IBean) dataType).getBeanDefine().isDynamic();
+        return dataType.getBeanDefine().isDynamic();
     }
 
 }

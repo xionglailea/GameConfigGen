@@ -30,4 +30,8 @@ public class JsonDataSource extends AbsDataSource {
         JsonObject jsonObject = new JsonParser().parse(new FileReader(file)).getAsJsonObject();
         setData(Collections.singletonList(getDataType().convert(jsonObject)));
     }
+
+    public void close() {
+    }
+
 }

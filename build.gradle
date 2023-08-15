@@ -1,30 +1,9 @@
-buildscript {
-    dependencies {
-        classpath "org.openjfx:javafx-plugin:0.0.9"
-    }
-}
-
 plugins {
     id 'java'
-    id 'maven'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
-
-
-apply plugin: "org.openjfx.javafxplugin"
-//使用非fatjar的方式打包
 apply plugin: 'application'
-
 mainClassName = 'Main'
-
-javafx {
-    version = "11.0.2"
-    modules = [
-            'javafx.controls',
-            'javafx.fxml',
-//            'javafx.web',
-    ]
-}
-
 group 'xiong'
 version '1.0-SNAPSHOT'
 
@@ -33,6 +12,7 @@ tasks.withType(JavaCompile) {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
+
 repositories {
     mavenCentral()
 }
@@ -60,60 +40,57 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     // https://mvnrepository.com/artifact/commons-cli/commons-cli
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation 'commons-cli:commons-cli:1.4'
 
-    compile group: 'org.antlr', name: 'ST4', version: '4.1'
+    implementation 'org.antlr:ST4:4.1'
 
 // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
-    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+    implementation 'org.apache.commons:commons-csv:1.6'
 
     // https://mvnrepository.com/artifact/org.apache.poi/poi
-    compile group: 'org.apache.poi', name: 'poi', version: '3.12'
+    implementation 'org.apache.poi:poi:4.1.2'
 
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
-    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.12'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
 
-    compile 'cn.hutool:hutool-core:5.3.5'
+    implementation 'cn.hutool:hutool-core:5.3.5'
 
-    compile 'junit:junit:4.13'
-    compile 'org.yaml:snakeyaml:1.26'
-    compile 'org.freemarker:freemarker:2.3.30'
-    compile 'org.projectlombok:lombok:1.18.12'
+    implementation 'junit:junit:4.13'
+    implementation 'org.yaml:snakeyaml:1.26'
+    implementation 'org.freemarker:freemarker:2.3.30'
+    implementation 'org.projectlombok:lombok:1.18.12'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'ch.qos.logback:logback-core:1.2.3'
 
 
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
-    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.10.4'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.10.4'
 
-//    // https://mvnrepository.com/artifact/org.openjfx/javafx-plugin
-//    implementation group: 'org.openjfx', name: 'javafx-plugin', version: '0.0.9'
-
+    implementation 'org.openjfx:javafx-controls:17.0.0.1:win'
+    implementation 'org.openjfx:javafx-base:17.0.0.1:win'
+    implementation 'org.openjfx:javafx-graphics:17.0.0.1:win'
+    implementation 'org.openjfx:javafx-fxml:17.0.0.1:win'
 
 }
 
-
-task fatJar(type: Jar, dependsOn: classes) {
-    from {
-        configurations.runtime.collect {
-            zipTree(it)
-        }
-    }
-    from {
-        fileTree(dir: "build/classes/java/main", include: "**/*.class")
-    }
-    from {
-        fileTree(dir: "build/resources/main", include: "**/*")
-    }
-
+jar {
     manifest {
         attributes 'Main-Class': 'Main'
     }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
+// 使用插件打包fatjar
+shadowJar {
+    mergeServiceFiles()
+}
