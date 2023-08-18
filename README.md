@@ -141,17 +141,16 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 2. 生成模式，包括只生成代码，生成代码的同时生成数据，程序通常在这种模式下工作。
 3. 编辑器模式，筛选出标识了editor的表格，能够添加，删除，修改数据。
 
+更新记录：
 
-2021/9/5 开始将excel数据源，改为列固定的结构 excel格式的数据约束 第一行 注释 第二行 变量名 第三行 注释
+将excel数据源，改为列固定的结构 excel格式的数据约束 第一行 注释 第二行 变量名 第三行 注释
 
-2021/10/9 准备重构：编辑器数据格式和解析的excel数据 使用adapter的方式耦合。
+准备重构：编辑器数据格式和解析的excel数据 使用adapter的方式耦合。
 
-2022/1/19 完成初版go的生成代码，相对java和c#的生成方式，有较大的不同。
+完成初版go的生成代码，相对java和c#的生成方式，有较大的不同。
 准备重构不同语言的生成格式，现在基本上全在IType中定义的接口。
 
-2022/12/22 完成typescript的代码生成。
-
-联合主键
+完成typescript的代码生成。
 
 资源path校验
 
@@ -159,10 +158,10 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 
 数据对比方案，对比json文件，而不是excel文件
 
-2023/8/15 升级gradle版本和一些依赖库，改变打包的方式。
+升级gradle版本和一些依赖库，改变打包的方式。
 
 ## 四、精简JRE
 
 为了能在没有jre的环境下运行该项目，我们需要精简jre，去除不必要的模块，这里我们使用jlink工具来完成，执行下面的命令
 `jlink --module-path "%JAVA_HOME%\jmods" --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.scripting,java.security.jgss,java.sql,java.xml,jdk.compiler,jdk.jfr,jdk.unsupported,jdk.charsets --output ".\sjre"`
-会生成一个简化的jre，大小只有90多M，而完整的jdk有300多M的大小。
+会生成一个简化的jre，大小只有90多M，而完整的jre有300多M的大小。

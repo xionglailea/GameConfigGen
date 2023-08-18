@@ -55,4 +55,11 @@
         <field name="dynamicBean" type="BaseShape" sep="," comment="动态字段"/>
         <field name="listDynamicBean" type="list,BaseShape" sep="," comment="list动态字段"/>
     </table>
+
+    <table name="SingleTb" comment="单行数据表" inputFile="single.xlsx" single="true">
+        <field name="initLvl" type="int" comment="初始等级"/>
+        <field name="initPos" type="int" comment="初始位置"/>
+        <field name="initItem" type="list,int" sep="," ref="Item" comment="初始物品"/>
+    </table>
+
 </module>
