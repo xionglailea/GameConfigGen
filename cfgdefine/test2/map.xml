@@ -11,6 +11,9 @@
             <field name="talkId" type="int" comment="对话id"/>
             <field name="talkTime" type="int" comment="时间"/>
         </child>
+        <child name="GiveItem">
+            <field name="itemId" type="int" ref="Item" comment="给的物品id"/>
+        </child>
     </bean>
 
     <table name="Instance" comment="副本表" inputFile="instance.xlsx, instance" group="editor">

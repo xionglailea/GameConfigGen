@@ -42,6 +42,9 @@ public class TypeUtil {
             case "text":
                 Assert.isTrue(size == 1);
                 return new IText();
+            case "dateTime":
+                Assert.isTrue(size == 1);
+                return new IDateTime();
             case "list":
                 Assert.isTrue(size >= 2);
                 return new IList(create(types.subList(1, size), packageName));

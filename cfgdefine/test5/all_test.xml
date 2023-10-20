@@ -34,8 +34,10 @@
         <field name="floatValue" type="float" range="0,4" comment="float类型"/>
         <field name="textValue" type="text" comment="text类型 会自动本地化转化"/>
         <field name="longValue" type="long" comment="long类型"/>
+        <field name="timeValue" type="dateTime" comment="时间类型，格式为yyyy-MM-dd HH:mm:ss"/>
         <field name="boolValue" type="bool" comment="bool类型"/>
         <field name="stringValue" type="string" comment="string类型"/>
+        <field name="pathValid" type="string" comment="图片路径" path="true"/>
         <field name="enumValue" type="EnumBean" comment="枚举类型字段"/>
         <field name="beanValue" type="DetailBean" comment="bean类型字段"/>
         <field name="list1NormalValue" type="list,int" comment="list类型字段"/>
