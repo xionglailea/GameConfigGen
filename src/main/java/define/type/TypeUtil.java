@@ -50,6 +50,10 @@ public class TypeUtil {
                 return new IList(create(types.subList(1, size), packageName));
             case "map":
                 Assert.isTrue(size >= 3);
+                var valueLength = types.subList(2, size).size();
+                if (valueLength > 2) {
+                    throw new RuntimeException(String.format("%s中定义了一个错误的map，value的嵌套 %d 层级太多", packageName, valueLength));
+                }
                 IMap mapType = new IMap(create(Collections.singletonList(types.get(1)), packageName),
                         create(types.subList(2, size), packageName));
                 if (!mapType.getKey().canBeIndex()) {
