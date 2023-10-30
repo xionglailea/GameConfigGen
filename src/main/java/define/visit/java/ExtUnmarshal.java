@@ -70,7 +70,7 @@ public class ExtUnmarshal {
             }
         }
         s.append("            default: throw new RuntimeException(\"unknown bean id:\" + id);\n");
-        s.append("            }\n");
+        s.append("        }\n");
         s.append("        return x;");
         return s.toString();
     }

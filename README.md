@@ -1,4 +1,5 @@
 # GameConfigGen
+
 配置生成工具，支持java，c#，go，typescript代码生成。
 
 有三种工作模式
@@ -72,31 +73,40 @@
 </module>
 ```
 
+### 1.模块标签`<module>`, 包名标签`<packageName>`
 
-### 1.模块标签`<module>`, 包名标签`<packageName>` 
 这两个成对出现，表示定义了一个模块，该模块内的生成文件最后都会在同一个包内。
 
 ### 2.枚举结构定义`<enum>`标签
+
 定义一组枚举变量，一般供别的字段引用。
 
 ### 3.常量结构定义`<const>`标签
+
 定义一组简单常量，可以自己指定数据类型和数据值。
 
 ### 4.字段定义`<field>`标签
-目前支持的字段类型有简单类型int，float，long，string，text，dateTime(格式为 yyyy-MM-dd HH:mm:ss)；复杂类型 list，map，enum，自定义的结构体；
-ref标签，表示该字段的引用表。当我们在字段定义中引用别的包中定义的结构时，使用 包名.结构名的形式。 seq标签，表示数据填在一个单元格内的分隔符号，multiRow标签，表示该字段会使用多行存放
-path标签，只对string类型有效，表明该字段是一个资源路径，需要我们启动时指定root_dir路径，最终会去检查 root_dir/{field_value} 对应的资源是否存在。
+
+目前支持的字段类型有简单类型int，float，long，string，text，dateTime(格式为 yyyy-MM-dd HH:mm:ss)；复杂类型
+list，map，enum，自定义的结构体；
+ref标签，表示该字段的引用表。当我们在字段定义中引用别的包中定义的结构时，使用 包名.结构名的形式。
+seq标签，表示数据填在一个单元格内的分隔符号，multiRow标签，表示该字段会使用多行存放
+path标签，只对string类型有效，表明该字段是一个资源路径，需要我们启动时指定root_dir路径，最终会去检查 root_dir/{field_value}
+对应的资源是否存在。
 其中text类型的数据，本质上也是字符串，只是在导出的时候会自动转换成本地化的文本，如果没有指定具体的本地化文本，会使用l10n中origin字段作为本地化文本。
 
 #### 4.1 list
+
 list的值类型支持嵌套定义，比如list,int 表示int类型的列表，list,bean1 表示自定义类型bean1的列表
 list,list,int 表示外层list的值类型是int类型的列表
 
 #### 4.2 map
+
 map的key只支持简单类型，map的value也支持嵌套定义，map,int,int表示键值都为int类型
 map,int,list,int表示值类型为int类型的列表。
 
 ### 5.普通数据结构定义`<bean>`标签
+
 一组字段的集合，定义好数据结构后，就可以当作普通类型，供字段定义使用。
 我们可以在&lt;bean&gt;中使用&lt;child&gt;标签，来表示后者为前者的子类定义，子类型会继承父类中定义的所有字段
 比如上面的Equip结构中定义了两个子类型ShoeEquip和WeaponEquip，两个子类型中分别定义了自己需要的字段，这样可以减少
@@ -110,17 +120,19 @@ map,int,list,int表示值类型为int类型的列表。
 只需要定义该字段是一个Condition类型
 
 ### 6.表格数据结构定义`<table>`标签
+
 真正读取数据的地方，该定义跟&lt;bean&gt;定义的区别在于table中需要指定input字段，标识数据的来源。我们可以指定多个数据源和数据目录
 作为表格数据的来源。
 
-
 ### 7.`<group>`标签
-该定义可以用在字段定义和表格定义上，根据需求到处数据，比如标识某个field  group="server"，那么会将该数据导出到服务器，不会给客户端导出。
+
+该定义可以用在字段定义和表格定义上，根据需求到处数据，比如标识某个field group="server"，那么会将该数据导出到服务器，不会给客户端导出。
 有client，server，editor（table上使用，表示可以用编辑器编辑）三个选项
 
 ## 二、数据定义
 
 ### 1.数据源，支持excel和json。
+
 excel中添加注释行只需要在行的第一个单元格头添加##。
 填写数据时，按照定义的字段一个个按顺序填写，按照我们定义数据的方式，去除了冗余字段，
 所以每个字段应该都是有一个有意义的值的。
@@ -133,10 +145,12 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 的json结构就能表示。
 
 ### 2.使用单一数据源
+
 不支持混合数据源，即不支持同一个表的数据一部分来自json，一部分来自excel，如果表定义的group字段有"editor"
 的标签，该表的所有数据应该都来自json，避免混合编辑改变excel的结构。普通表的数据都来自excel。
 
 ### 3.编辑器
+
 提供了一个简单的编辑器用来编辑复杂数据，特别对于嵌套层级深的情况，比如Ai数据，任务数据等。
 编辑器填写的数据最终会保存为json文件，文件名为 表名_主键id 形式。
 
@@ -166,3 +180,15 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 为了能在没有jre的环境下运行该项目，我们需要精简jre，去除不必要的模块，这里我们使用jlink工具来完成，执行下面的命令
 `jlink --module-path "%JAVA_HOME%\jmods" --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.naming,java.rmi,java.scripting,java.security.jgss,java.sql,java.xml,jdk.compiler,jdk.jfr,jdk.unsupported,jdk.charsets --output ".\sjre"`
 会生成一个简化的jre，大小只有90多M，而完整的jre有300多M的大小。
+
+打包出 jar 包之后 运行 ./sjr/java.exe -jar xxx.jar -l java -i ./cfgdefine -code ./temp -data ./temp/data -mode generator
+-root_dir . -l10n_lan en_US
+
+参数含义：
+* -l 生成的语言，目前支持java go ts cs
+* -i 配置定义根目录
+* -code 配置代码生成目录
+* -data 配置数据生成目录
+* -mode 工作模式 默认为 generator
+* -root_dir 资源路径校验的根目录
+* -l10n_lan 本地化输出语言

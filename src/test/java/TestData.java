@@ -1,3 +1,4 @@
+import cfg.CfgMgr;
 import com.google.gson.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -18,6 +19,7 @@ public class TestData {
         cfg.CfgMgr.setDir(".temp/data");
         cfg.CfgMgr.load();
         System.out.println("ok");
+        System.out.println(CfgMgr.ins.getAllTypeTestList().size());
     }
 
     @Test
