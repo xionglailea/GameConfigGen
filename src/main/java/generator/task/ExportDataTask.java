@@ -43,8 +43,7 @@ public class ExportDataTask extends AbsTask {
             } else {
                 try {
                     if (table.isSingle()) {
-                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                        Files.writeString(new File(".temp/" + table.getName() + ".json").toPath(), gson.toJson(table.getRecords().get(0)));
+                        Files.writeString(new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".txt").toPath(), table.getRecords().get(0).save().toString());
                     } else {
                         File file = new File(StringConst.OUTPUT_DATA_DIR + "/" + table.getName().toLowerCase() + ".txt");
                         FileWriter writer = new FileWriter(file);
