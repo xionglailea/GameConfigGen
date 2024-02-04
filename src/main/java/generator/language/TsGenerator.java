@@ -7,6 +7,10 @@ import generator.Context;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 @Slf4j
 public class TsGenerator extends AbsGenerator {
@@ -19,6 +23,16 @@ public class TsGenerator extends AbsGenerator {
             }
         });
         createFile(packageName + "/extension", getFileName(javaName), data, "extensions");
+        // datastream拷贝
+        try {
+            List<String> contents = Files.readAllLines(Path.of("./export/ts/Octets.ts"));
+            String path = packageName + "/datastream/" + "Octets.ts";
+            File file = new File(StringConst.OUTPUT_CODE_DIR, path);
+            FileUtil.writeUtf8Lines(contents, file);
+            log.info("write ts file :: {}", file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

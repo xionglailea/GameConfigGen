@@ -1,5 +1,5 @@
 <#list tables?values as table>
-import { ${table.name} } from './${table.moduleName}/${table.name}'
+import { ${table.name} } from './${table.moduleName}/${table.name}';
 </#list>
 import { Octets, WrapOctets } from './datastream/Octets';
 import * as extension from './extension/Extensions';
@@ -10,7 +10,7 @@ export class CfgMgr {
     static createOctets(file: string): Octets {
         let path = this._dir + "/" + file
         let data = fs.readFileSync(path);
-        return WrapOctets(data)
+        return WrapOctets(new Uint8Array(data.valueOf()))
     }
 
 <#list tables?values as table>
