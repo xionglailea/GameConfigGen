@@ -13,9 +13,7 @@ type I${structName} interface {
     </#if>
 </#list>
 }
-
 <#else>
-
 type ${structName} struct {
 <#list allFields as field>
     <#if field.canExport() == true>

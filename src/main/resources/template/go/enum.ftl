@@ -9,4 +9,4 @@ const ${field.name} = ${field.value} //${field.alias}
     <#assign  x = x + field.value + ", ">
 </#if>
 </#list>
-var enums = []int{${x}}
+var ${name}_Enums = []int{${x}}
