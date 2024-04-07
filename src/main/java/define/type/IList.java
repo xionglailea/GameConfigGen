@@ -54,6 +54,11 @@ public class IList extends AbsComplexType {
     }
 
     @Override
+    public String getUeType() {
+        return String.format("TArray<%s>", valueType.getUeType());
+    }
+
+    @Override
     public String toString() {
         return "list_" + valueType;
     }

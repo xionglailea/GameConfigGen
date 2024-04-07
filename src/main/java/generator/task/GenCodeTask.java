@@ -31,6 +31,9 @@ public class GenCodeTask extends AbsTask {
             case "ts":
                 codeGenerator = new TsGenerator();
                 break;
+            case "ue":
+                codeGenerator = new UeGenerator();
+                break;
             default:
                 throw new RuntimeException("unknown lan " + lan);
         }

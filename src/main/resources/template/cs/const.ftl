@@ -1,6 +1,6 @@
 
 /**
-* ${comment}
+* ${comment!""}
 */
 namespace ${packageName}
 {

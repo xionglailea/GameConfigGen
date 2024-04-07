@@ -61,6 +61,11 @@ public class IMap extends AbsComplexType {
     }
 
     @Override
+    public String getUeType() {
+        return String.format("TMap<%s, %s>", key.getUeType(), value.getUeType());
+    }
+
+    @Override
     public String toString() {
         return "map_" + key + "_" + value;
     }

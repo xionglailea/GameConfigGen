@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 
 /**
- * ${comment}
+ * ${comment!""}
  */
 namespace ${packageName}
 {

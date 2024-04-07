@@ -12,8 +12,8 @@ import define.data.type.IDataBean;
 import define.data.type.IDataList;
 import define.type.IBean;
 import define.type.IType;
-import define.visit.go.GoExtUnmarshal;
 import define.visit.ts.TsExtUnmarshal;
+import define.visit.ue.UeExtUnmarshal;
 import generator.Context;
 import generator.language.AbsGenerator;
 import lombok.Getter;
@@ -281,4 +281,13 @@ public class BeanDefine extends AbsClassDefine {
     public Set<String> getTsImportInfo() {
         return TsExtUnmarshal.getTsBeanImportInfo(this);
     }
+
+    public Set<String> getUeImportInfo() {
+        return UeExtUnmarshal.getUeBeanImportInfo(this);
+    }
+
+    public boolean getUeNeedIncludeExtensions() {
+        return UeExtUnmarshal.needExtensions(this);
+    }
+
 }

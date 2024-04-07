@@ -40,6 +40,11 @@ public class IInt extends AbsSimpleType {
     }
 
     @Override
+    public String getUeType() {
+        return "int32";
+    }
+
+    @Override
     public String getGoType() {
         return "int32";
     }

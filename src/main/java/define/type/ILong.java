@@ -51,6 +51,11 @@ public class ILong extends AbsSimpleType {
     }
 
     @Override
+    public String getUeType() {
+        return "int64";
+    }
+
+    @Override
     public String getConstValue(String origin) {
         return origin + "L";
     }

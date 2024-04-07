@@ -41,6 +41,11 @@ public class IFloat extends AbsSimpleType {
     }
 
     @Override
+    public String getUeType() {
+        return "float";
+    }
+
+    @Override
     public String getGoType() {
         return "float32";
     }

@@ -64,6 +64,11 @@ public class IBean extends AbsComplexType {
     }
 
     @Override
+    public String getUeType() {
+        return beanDefine.getRootPkg() + "::" + beanDefine.getModuleName() + "::" + beanDefine.getName() + "*";
+    }
+
+    @Override
     public String toString() {
         return beanDefine.getFullName().replace(".", "_");
     }

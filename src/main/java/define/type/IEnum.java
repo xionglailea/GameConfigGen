@@ -45,6 +45,11 @@ public class IEnum extends AbsSimpleType {
     }
 
     @Override
+    public String getUeType() {
+        return "int32";
+    }
+
+    @Override
     public String getJavaType() {
         return "int";
     }
@@ -90,7 +95,7 @@ public class IEnum extends AbsSimpleType {
 
     @Override
     public boolean simpleType() {
-        return false;
+        return true;
     }
 
 

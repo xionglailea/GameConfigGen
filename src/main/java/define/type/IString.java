@@ -51,6 +51,11 @@ public class IString extends AbsSimpleType {
     }
 
     @Override
+    public String getUeType() {
+        return "FString";
+    }
+
+    @Override
     public IData convert(List<String> values, String sep) {
         String value = values.remove(0);
         return value.equals(XlsxDataSource.EMPTY_STR) || value.equalsIgnoreCase(XlsxDataSource.NULL_STR) ? defaultString : buildData(value);

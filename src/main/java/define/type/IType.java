@@ -11,7 +11,10 @@ import define.visit.java.ExtUnmarshal;
 import define.visit.java.Unmarshal;
 import define.visit.ts.TsExtUnmarshal;
 import define.visit.ts.TsUnmarshal;
+import define.visit.ue.UeExtUnmarshal;
+import define.visit.ue.UeUnmarshal;
 import javafx.scene.Node;
+
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -47,6 +50,10 @@ public interface IType {
         return TsUnmarshal.INS.accept(this);
     }
 
+    default String getUeUnmarshal() {
+        return UeUnmarshal.INS.accept(this);
+    }
+
     // 扩展类型的读取生成代码
     default String getExtUnmarshal() {
         return ExtUnmarshal.INS.accept(this);
@@ -64,6 +71,11 @@ public interface IType {
         return TsExtUnmarshal.INS.accept(this);
     }
 
+    default String getUeExtUnmarshal() {
+        return UeExtUnmarshal.INS.accept(this);
+    }
+
+
     // 扩展类型的读取生成代码的方法名
     default String getUnmarshalMethodName() {
         return "unmarshal_" + this;
@@ -78,6 +90,10 @@ public interface IType {
     }
 
     default String getTsUnmarshalMethodName() {
+        return "Unmarshal_" + this;
+    }
+
+    default String getUeUnmarshalMethodName() {
         return "Unmarshal_" + this;
     }
 
@@ -118,4 +134,6 @@ public interface IType {
     String getGoType();
 
     String getTsType();
+
+    String getUeType();
 }
