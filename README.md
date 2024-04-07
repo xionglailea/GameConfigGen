@@ -1,6 +1,6 @@
 # GameConfigGen
 
-配置生成工具，支持java，c#，go，typescript代码生成。
+配置生成工具，支持java，c#，go，typescript，Unreal c++代码生成。
 
 有三种工作模式
 
@@ -185,7 +185,7 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 -root_dir . -l10n_lan en_US
 
 参数含义：
-* -l 生成的语言，目前支持java go ts cs
+* -l 生成的语言，目前支持java go ts cs ue
 * -i 配置定义根目录
 * -code 配置代码生成目录
 * -data 配置数据生成目录
