@@ -25,15 +25,17 @@ namespace ${getRootPackage()}
 <#list tables?values as table>
     <#if table.canExport() == true>
         <#if table.single = true>
-            ${table.readFileType.getUeType()} ${table.name?uncap_first};
+        ${table.readFileType.getUeType()} ${table.name?uncap_first};
         <#else >
-            ${table.readFileType.getUeType()} ${table.name?uncap_first}List;
-            TMap<${table.indexField.runType.getUeType()}, ${table.moduleName}::${table.name}*> ${table.name?uncap_first}Map;
+        ${table.readFileType.getUeType()} ${table.name?uncap_first}List;
+        TMap<${table.indexField.runType.getUeType()}, ${table.moduleName}::${table.name}*> ${table.name?uncap_first}Map;
         </#if>
     </#if>
 </#list>
-        CfgMgr()
+
+        CfgMgr(FString DataPath)
         {
+            Dir = DataPath;
             FOctets* os;
     <#list tables?values as table>
         <#if table.canExport() == true>
@@ -56,6 +58,11 @@ namespace ${getRootPackage()}
         </#if>
     </#list>
         }
+
+        CfgMgr() : CfgMgr(FPaths::ProjectContentDir())
+        {
+        }
+
         ~CfgMgr()
         {
         }
