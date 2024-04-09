@@ -12,7 +12,7 @@
 
 一个典型的xml定义文件结构如下
 
-``` xml
+``` xml 
 <module>
     <packageName>test5</packageName>
 

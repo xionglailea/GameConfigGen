@@ -4,7 +4,7 @@
 </#list>
 #include "Extensions.h"
 
-namespace cfg
+namespace ${getRootPackage()}
 {
     class CfgMgr
     {

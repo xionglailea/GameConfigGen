@@ -26,7 +26,7 @@ public class UeExtUnmarshal {
 //            }
 
         }
-        result.add("#include \"cfg/FOctets.h\"");
+        result.add(String.format("#include \"%s/FOctets.h\"", beanDefine.getRootPkg()));
         if (beanDefine.isHasParent()) {
             var parentName = beanDefine.getParent().getName();
             result.add(String.format("#include \"%s.h\"", parentName));
@@ -52,7 +52,7 @@ public class UeExtUnmarshal {
         } else if (target instanceof IBean) {
             var beanType = (IBean) target;
             if (!beanDefine.getPackageName().equals(beanType.getBeanDefine().getPackageName())) {
-                result.add(String.format("#include \"cfg/%s/%s.h\"", beanType.getBeanDefine().getModuleName(), beanType.getTypeName()));
+                result.add(String.format("#include \"%s/%s/%s.h\"", beanType.getBeanDefine().getRootPkg(), beanType.getBeanDefine().getModuleName(), beanType.getTypeName()));
             } else {
                 result.add(String.format("#include \"%s.h\"", beanType.getTypeName()));
             }

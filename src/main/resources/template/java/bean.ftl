@@ -38,7 +38,7 @@ public final class ${name} {
         <#if typeName == "list">
         <#else>
     public ${field.getRefType()} get${field.name?cap_first}Ref() {
-        return cfg.CfgMgr.ins.get${field.ref?cap_first}Map().get(${field.name});
+        return ${getRootPkg()}.CfgMgr.ins.get${field.ref?cap_first}Map().get(${field.name});
     }
         </#if>
     </#if>

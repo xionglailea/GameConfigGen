@@ -44,7 +44,7 @@ namespace ${packageName}
         <#else>
         public ${field.getRefType()} get${field.name?cap_first}Ref()
         {
-            return cfg.CfgMgr.ins.${field.ref?uncap_first}Map[${field.name}];
+            return ${getRootPkg()}.CfgMgr.ins.${field.ref?uncap_first}Map[${field.name}];
         }
         </#if>
     </#if>

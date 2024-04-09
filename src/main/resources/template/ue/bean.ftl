@@ -6,7 +6,7 @@ ${temp}
 /**
 * ${comment!""}
 */
-namespace cfg
+namespace ${getRootPkg()}
 {
     namespace ${moduleName}
     {

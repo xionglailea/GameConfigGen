@@ -1,11 +1,11 @@
 #pragma once
-#include "cfg/FOctets.h"
+#include "${rootPackage}/FOctets.h"
 
 /**
  * 解析工具类
  */
 
-namespace cfg
+namespace ${rootPackage}
 {
 ${getUeForwardDefine()}
     class Extensions

@@ -2,6 +2,7 @@ package define.visit.java;
 
 
 import define.type.*;
+import generator.Context;
 
 /**
  * 解析字段调用代码生成
@@ -13,7 +14,7 @@ public class Unmarshal {
     public static Unmarshal INS = new Unmarshal();
 
     protected String getExtension(IType t) {
-        return "cfg.Extensions" + "." + t.getUnmarshalMethodName() + "(os)";
+        return Context.getIns().getRootPackage() + ".Extensions" + "." + t.getUnmarshalMethodName() + "(os)";
     }
 
     public String accept(IType t) {

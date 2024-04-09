@@ -1,13 +1,13 @@
-#include "cfg/${moduleName}/${name}.h"
+#include "${getRootPkg()}/${moduleName}/${name}.h"
 <#if getUeNeedIncludeExtensions() == true>
-#include "cfg/Extensions.h"
+#include "${getRootPkg()}/Extensions.h"
 </#if>
 
 <#if hasParent == true>
-cfg::${moduleName}::${name}::${name}(FOctets* os) : ${parent.name}(os)
+${getRootPkg()}::${moduleName}::${name}::${name}(FOctets* os) : ${parent.name}(os)
 {
 <#else>
-cfg::${moduleName}::${name}::${name}(FOctets* os)
+${getRootPkg()}::${moduleName}::${name}::${name}(FOctets* os)
 {
 </#if>
 <#list fields as field>

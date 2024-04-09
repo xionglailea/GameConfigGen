@@ -1,6 +1,7 @@
 package define.visit.cs;
 
 import define.type.*;
+import generator.Context;
 
 /**
  * cs字段读取
@@ -13,7 +14,7 @@ public class CsUnmarshal {
     public static CsUnmarshal INS = new CsUnmarshal();
 
     protected String getExtension(IType t) {
-        return "cfg.Extensions" + "." + t.getCsUnmarshalMethodName() + "(os)";
+        return Context.getIns().getRootPackage() + ".Extensions" + "." + t.getCsUnmarshalMethodName() + "(os)";
     }
 
     public String accept(IType t) {
