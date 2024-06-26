@@ -8,10 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 public class UeGenerator extends AbsGenerator {
@@ -32,11 +33,12 @@ public class UeGenerator extends AbsGenerator {
         super.createExtensions(packageName, javaName, data);
         createFile(packageName, javaName, data, "extensionscpp");
         try {
-            List<String> contents = Files.readAllLines(Path.of("./export/ue/FOctets.h"));
+            URL resourceUrl = getClass().getResource("/export/ue/FOctets.h");
+            List<String> contents = Files.readAllLines(Paths.get(resourceUrl.toURI()));
             File file = new File(StringConst.OUTPUT_CODE_DIR, packageName + "/FOctets.h");
             FileUtil.writeUtf8Lines(contents, file);
             log.info("write ue file :: {}", file);
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }

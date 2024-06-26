@@ -1,6 +1,7 @@
 package generator.language;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.resource.ResourceUtil;
 import constdef.StringConst;
 import define.type.IBean;
 import generator.Context;
@@ -8,8 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
@@ -25,13 +29,14 @@ public class GoGenerator extends AbsGenerator {
         createFile(packageName, "extensions_" + getFileName(javaName), data, "extensions");
         // datastream拷贝
         try {
-            List<String> contents = Files.readAllLines(Path.of("./export/go/octets.go"));
+            URL resourceUrl = getClass().getResource("/export/go/octets.go");
+            List<String> contents = Files.readAllLines(Paths.get(resourceUrl.toURI()));
             contents.set(0, "package " + packageName);
             String path = getGoFilePath(packageName, "datastream");
             File file = new File(StringConst.OUTPUT_CODE_DIR, path);
             FileUtil.writeUtf8Lines(contents, file);
             log.info("write go file :: {}", file);
-        } catch (IOException e) {
+        } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
     }
