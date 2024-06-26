@@ -56,6 +56,9 @@ public class IDataString extends IData {
 
     @Override
     public JsonElement save() {
+        if (!isDefaultValue() && l10n) {
+            Context.getIns().getL10n(this);
+        }
         return new JsonPrimitive(value);
     }
 

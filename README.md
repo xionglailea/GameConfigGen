@@ -1,6 +1,7 @@
 # GameConfigGen
 
-配置生成工具，支持java，c#，go，typescript，Unreal c++代码生成。
+配置生成工具，支持java，c#，go，typescript，Unreal c++代码生成，运行时环境要求jdk 11+。
+采用面向对象的思想，生成的配置数据和代码基本上不需要二次处理，直接在项目中使用即可。
 
 有三种工作模式
 
@@ -192,3 +193,7 @@ json会使用JsonArray[{"key" mapkey, "value" mapValue}]来表示，其它的数
 * -mode 工作模式 默认为 generator
 * -root_dir 资源路径校验的根目录
 * -l10n_lan 本地化输出语言
+
+策划通常用来检查数据的正确性
+./sjr/java.exe -jar xxx.jar -l java -i ./cfgdefine -code ./temp -data ./temp/data -mode check
+-root_dir . -l10n_lan en_US
