@@ -136,7 +136,7 @@ public class XlsxDataSource extends AbsDataSource {
 
         if (multiRow) {
             int temp = rowIndex + 1;
-            while (temp <= sheet.getLastRowNum() && sheet.getRow(temp).getCell(0) == null) {
+            while (temp <= sheet.getLastRowNum() && (sheet.getRow(temp) != null && sheet.getRow(temp).getCell(0) == null)) {
                 for (int i = fieldInfo.startColumnIndex; i <= fieldInfo.endColumnIndex; i++) {
                     var cell = sheet.getRow(temp).getCell(i);
                     String cellValue = getCellValue(cell);
@@ -159,6 +159,9 @@ public class XlsxDataSource extends AbsDataSource {
             }
             var sheet = workbook.getSheetAt(sheetIndex);
             for (int i = rowIndex; i <= sheet.getLastRowNum(); i++) {
+                if (sheet.getRow(i) == null) {
+                    continue;
+                }
                 var firstCell = sheet.getRow(i).getCell(0);
                 if (firstCell != null) {
                     String cellValue = getCellValue(firstCell);

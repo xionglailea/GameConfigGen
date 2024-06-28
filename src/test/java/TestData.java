@@ -19,7 +19,7 @@ public class TestData {
         cfg.CfgMgr.setDir(".temp/data");
         cfg.CfgMgr.load();
         System.out.println("ok");
-        System.out.println(CfgMgr.ins.getAllTypeTestList().size());
+//        System.out.println(CfgMgr.ins.getAllTypeTestList().size());
     }
 
     @Test
