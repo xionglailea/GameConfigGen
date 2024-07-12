@@ -11,7 +11,7 @@ namespace ${getRootPkg()}
         {
         public:
         <#list fields as field>
-            inline static int32 ${field.name} = ${field.value}; //${field.alias}
+            inline static int32 ${field.name} = ${field.value?c}; //${field.alias}
         </#list>
         };
     }

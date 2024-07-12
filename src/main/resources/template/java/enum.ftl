@@ -7,11 +7,11 @@ import java.util.*;
 public final class ${name} {
   <#assign x = "">
   <#list fields as field>
-    public static final int ${field.name} = ${field.value}; //${field.alias};
+    public static final int ${field.name} = ${field.value?c}; //${field.alias};
     <#if field?is_last>
-        <#assign  x = x + field.value>
+        <#assign  x = x + field.value?c>
     <#else >
-        <#assign  x = x + field.value + ", ">
+        <#assign  x = x + field.value?c + ", ">
     </#if>
   </#list>
     public static final int[] enums = new int[]{${x}};
