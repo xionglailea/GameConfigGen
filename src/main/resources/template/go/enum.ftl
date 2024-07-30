@@ -2,7 +2,7 @@ package ${getRootPkg()}
 
 <#assign x = "">
 <#list fields as field>
-const ${field.name} = ${field.value?c} //${field.alias}
+const ${field.name} = ${field.value?c} // ${field.alias}
 <#if field?is_last>
     <#assign  x = x + field.value?c>
 <#else >
